@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/intro_bg"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.25"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <ImageButton
+            android:id="@+id/diary_btn_new"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/diary_btn_new" />
+
+        <ImageButton
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/diary_btn_old" />
+
+        <ImageButton
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/diary_btn_others" />
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="0dip"
+            android:layout_weight="0.25"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/title" />
+    </LinearLayout>
+
+<ScrollView 
+    	android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.5">
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:background="#FFFFFF"
+            android:orientation="vertical"
+            android:paddingBottom="40dip"
+            android:paddingLeft="12dip"
+            android:paddingRight="12dip"
+            android:paddingTop="15dip" >
+
+            <ImageView
+                android:id="@+id/newdiary_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="160dp"
+                android:adjustViewBounds="true"
+                android:paddingBottom="10dip"
+                android:scaleType="centerCrop" />
+
+            <EditText
+                android:id="@+id/newdiary_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#FFFFFF"
+                android:cursorVisible="false"
+                android:hint="點選此處開始寫日記" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/newdiary_show"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <Button
+            android:id="@+id/newdiary_btn_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="go" />
+    </LinearLayout>
+
+</ScrollView>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.125"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <ImageButton
+            android:id="@+id/main_btn_story"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_story" />
+
+        <ImageButton
+            android:id="@+id/main_btn_diary"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_diary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="0.125"
+        android:gravity="right"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <ImageButton
+            android:id="@+id/main_btn_recent"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_recent" />
+
+        <ImageButton
+            android:id="@+id/main_btn_life"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_life" />
+    </LinearLayout>
+
+</LinearLayout>
