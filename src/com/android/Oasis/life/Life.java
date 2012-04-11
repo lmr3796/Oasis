@@ -1,16 +1,12 @@
 package com.android.Oasis.life;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.android.Oasis.R;
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
@@ -30,6 +26,9 @@ public class Life extends Activity {
 		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
+				String uri = "facebook://facebook.com/yiping0928";
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+				startActivity(intent);
 				Life.this.finish();
 			}
 
@@ -46,37 +45,33 @@ public class Life extends Activity {
 			}
 		});
 
+		/*
 		String PAGE_ID = "108700782494847";
-
 		mAsyncRunner.request(PAGE_ID, new RequestListener() {
-
 			@Override
 			public void onIOException(IOException e, Object state) {
 				// TODO Auto-generated method stub
 			}
-
 			@Override
 			public void onFileNotFoundException(FileNotFoundException e,
 					Object state) {
 				// TODO Auto-generated method stub
 			}
-
 			@Override
 			public void onMalformedURLException(MalformedURLException e,
 					Object state) {
 				// TODO Auto-generated method stub
 			}
-
 			@Override
 			public void onFacebookError(FacebookError e, Object state) {
 				// TODO Auto-generated method stub
 			}
-
 			@Override
 			public void onComplete(String response, Object state) {
 				// TODO Auto-generated method stub
 			}
 		});
+		*/
 
 	}
 
