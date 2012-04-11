@@ -2,6 +2,7 @@ package com.android.Oasis.story;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import com.android.Oasis.R;
 
 public class Story extends Activity {
