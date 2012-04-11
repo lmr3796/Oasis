@@ -2,6 +2,7 @@ package com.android.Oasis.life;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.android.Oasis.R;
@@ -25,6 +26,9 @@ public class Life extends Activity {
 		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
+				String uri = "http://tinyurl.com/87s7he9";
+				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+				startActivity(intent);
 				Life.this.finish();
 			}
 
