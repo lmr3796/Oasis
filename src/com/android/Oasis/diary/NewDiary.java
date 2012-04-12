@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -57,9 +58,12 @@ public class NewDiary extends Activity {
 
 		imgview.setImageBitmap(img);
 
-
 		final ImageView imgv = (ImageView) findViewById(R.id.newdiary_show);
 		final EditText text = (EditText) findViewById(R.id.newdiary_text);
+		text.setMaxLines(3);
+		text.setTypeface(Typeface.createFromAsset(getAssets(),
+				"fonts/textfont.ttf"));
+
 		// text.buildDrawingCache();
 
 		ViewTreeObserver vto = text.getViewTreeObserver();
@@ -83,25 +87,29 @@ public class NewDiary extends Activity {
 			}
 		});
 
-
 	}
 
 	public void combineImages(Bitmap photo, Bitmap text) {
 
-		Bitmap result = null,resizePhoto = null;
+		Bitmap result = null, resizePhoto = null;
 
 		int width = 320, height = 450;
-		
-		resizePhoto = Bitmap.createScaledBitmap(photo, 300, photo.getHeight()*300/photo.getWidth(), true);
+
+		resizePhoto = Bitmap.createScaledBitmap(photo, 300, photo.getHeight()
+				* 300 / photo.getWidth(), true);
 		result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
 		Canvas comboImage = new Canvas(result);
 
-		comboImage.drawBitmap(((BitmapDrawable)(NewDiary.this.getResources().getDrawable(R.drawable.diary_photo_bg))).getBitmap(), 0f,0f,null);
+		comboImage.drawBitmap(((BitmapDrawable) (NewDiary.this.getResources()
+				.getDrawable(R.drawable.diary_photo_bg))).getBitmap(), 0f, 0f,
+				null);
 		comboImage.drawBitmap(resizePhoto, 10, 12, null);
-		comboImage.drawBitmap(
-				Bitmap.createScaledBitmap(((BitmapDrawable)(NewDiary.this.getResources().getDrawable(R.drawable.diary_photo_border))).getBitmap(), 300, resizePhoto.getHeight(), true) 
-				, 10,12,null);
+		comboImage.drawBitmap(Bitmap.createScaledBitmap(
+				((BitmapDrawable) (NewDiary.this.getResources()
+						.getDrawable(R.drawable.diary_photo_border)))
+						.getBitmap(), 300, resizePhoto.getHeight(), true), 10,
+				12, null);
 		comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
 		OutputStream os = null;
@@ -119,8 +127,9 @@ public class NewDiary extends Activity {
 		android.provider.MediaStore.Images.Media.insertImage(
 				getContentResolver(), result, "", "");
 
-		sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri
-				.parse("file://" + Environment.getExternalStorageDirectory())));
+		sendBroadcast(new Intent(
+				Intent.ACTION_MEDIA_MOUNTED,
+				Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
 		return;
 	}
