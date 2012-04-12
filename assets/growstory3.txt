@@ -1,4 +1,4 @@
-mood 0 mood 0
+grow 3 grow 3
 test 0 test 0
 test 0 test 0
 test 0 test 0

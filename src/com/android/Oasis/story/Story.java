@@ -24,9 +24,11 @@ import com.android.Oasis.R;
 public class Story extends Activity {
 	
 	String type;
+	private static int NUM_MOOD = 9;
+	private static int NUM_FAMILY = 2;
+	private static int NUM_GROW = 8;
 
 	private ViewPager viewPager;
-	private static int NUM_VIEWS = 20;
 	private Context cxt;
 	private pagerAdapter pageradapter;
 
@@ -75,7 +77,10 @@ public class Story extends Activity {
 
 		@Override
 		public int getCount() {
-			return NUM_VIEWS;
+			if(type.equals("mood")) return NUM_MOOD;
+			if(type.equals("family")) return NUM_FAMILY;
+			if(type.equals("grow")) return NUM_GROW;
+			return NUM_MOOD;
 		}
 
 		/**
@@ -95,7 +100,8 @@ public class Story extends Activity {
 		@Override
 		public Object instantiateItem(View collection, int position) {
 
-			String filename = type + "story" + "0" + ".txt";
+			String pos = String.valueOf(position);
+			String filename = type + "story" + pos + ".txt";
 			
 			ScrollView sv = new ScrollView(cxt);
 			

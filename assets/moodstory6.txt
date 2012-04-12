@@ -1,4 +1,4 @@
-mood 0 mood 0
+mood 6 mood 6
 test 0 test 0
 test 0 test 0
 test 0 test 0
