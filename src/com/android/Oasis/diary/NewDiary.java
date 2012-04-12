@@ -52,11 +52,13 @@ public class NewDiary extends Activity {
 		imgview.setImageBitmap(img);
 		//imgview.setVisibility(View.GONE);
 
-		Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+		final Bitmap bitmap = Bitmap.createBitmap(100, 500, Bitmap.Config.ARGB_8888);
 		Paint paint = new Paint();
 		paint.setTextSize(20);
 		paint.setColor(Color.BLACK);
 		Canvas canvas = new Canvas(bitmap);
+		//canvas.drawBitmap(bitmap, 0, 0, null);
+		canvas.drawColor(Color.WHITE);
 		canvas.drawText("TEXT", 0, 0, paint);
 
 		final ImageView img = (ImageView) findViewById(R.id.newdiary_show);
@@ -75,8 +77,9 @@ public class NewDiary extends Activity {
 		btn_go.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				img.setImageBitmap(text.getDrawingCache());
-				Log.d("DEBUG", text.getText().toString());
+				img.setImageBitmap(bitmap);
+				//img.setImageBitmap(text.getDrawingCache());
+				//Log.d("DEBUG", text.getText().toString());
 			}
 		});
 
