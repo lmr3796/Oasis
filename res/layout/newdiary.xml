@@ -63,18 +63,19 @@
         android:orientation="vertical" >
 
         <LinearLayout
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@drawable/diary_photo_bg"
             android:orientation="vertical"
             android:paddingBottom="40dip"
-            android:paddingLeft="12dip"
-            android:paddingRight="12dip"
+            android:paddingLeft="8dip"
+            android:paddingRight="8dip"
             android:paddingTop="15dip" >
 
             <ImageView
+                android:layout_gravity="center_horizontal"
                 android:id="@+id/newdiary_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,8 +94,8 @@
 
         <ImageView
             android:id="@+id/newdiary_show"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/newdiary_btn_go"
