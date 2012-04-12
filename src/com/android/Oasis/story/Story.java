@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.android.Oasis.R;
 
 public class Story extends Activity {
-	
+
 	String type;
 	private static int NUM_MOOD = 9;
 	private static int NUM_FAMILY = 2;
@@ -43,27 +43,27 @@ public class Story extends Activity {
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
-		
-		ImageButton btn_mood = (ImageButton)findViewById(R.id.story_btn_mood);
-		btn_mood.setOnClickListener(new OnClickListener(){
+
+		ImageButton btn_mood = (ImageButton) findViewById(R.id.story_btn_mood);
+		btn_mood.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "mood";
 				viewPager.setAdapter(pageradapter);
 			}
 		});
-		
-		ImageButton btn_family = (ImageButton)findViewById(R.id.story_btn_family);
-		btn_family.setOnClickListener(new OnClickListener(){
+
+		ImageButton btn_family = (ImageButton) findViewById(R.id.story_btn_family);
+		btn_family.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "family";
 				viewPager.setAdapter(pageradapter);
 			}
 		});
-		
-		ImageButton btn_grow = (ImageButton)findViewById(R.id.story_btn_grow);
-		btn_grow.setOnClickListener(new OnClickListener(){
+
+		ImageButton btn_grow = (ImageButton) findViewById(R.id.story_btn_grow);
+		btn_grow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "grow";
@@ -77,9 +77,12 @@ public class Story extends Activity {
 
 		@Override
 		public int getCount() {
-			if(type.equals("mood")) return NUM_MOOD;
-			if(type.equals("family")) return NUM_FAMILY;
-			if(type.equals("grow")) return NUM_GROW;
+			if (type.equals("mood"))
+				return NUM_MOOD;
+			if (type.equals("family"))
+				return NUM_FAMILY;
+			if (type.equals("grow"))
+				return NUM_GROW;
 			return NUM_MOOD;
 		}
 
@@ -102,19 +105,20 @@ public class Story extends Activity {
 
 			String pos = String.valueOf(position);
 			String filename = type + "story" + pos + ".txt";
-			
+			String contentStr = "";
+
 			ScrollView sv = new ScrollView(cxt);
-			
+
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
-			
+
 			TextView tv = new TextView(cxt);
 			tv.setText("This is page # " + position);
 			tv.setTextColor(Color.WHITE);
 			tv.setTextSize(30);
 
 			ll.addView(tv);
-			
+
 			InputStream input;
 			try {
 				input = getAssets().open(filename);
@@ -122,21 +126,17 @@ public class Story extends Activity {
 					// prepare the file for reading
 					InputStreamReader inputreader = new InputStreamReader(input);
 					BufferedReader buffreader = new BufferedReader(inputreader);
-
 					String line;
 
-					// read every line of the file into the line-variable, on
-					// line
-					// at the time
 					while ((line = buffreader.readLine()) != null) {
-						// do something with the settings from the file
-						TextView tv2 = new TextView(cxt);
-						tv2.setText(line);
-						tv2.setTextColor(Color.WHITE);
-						tv2.setTextSize(20);
-
-						ll.addView(tv2);	
+						contentStr += line + '\n';
 					}
+					
+					TextView cont = new TextView(cxt);
+					cont.setTextColor(Color.WHITE);
+					cont.setTextSize(20);
+					cont.setText(contentStr);
+					ll.addView(cont);
 
 				}
 				input.close();
