@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -61,6 +62,9 @@ public class NewDiary extends Activity {
 		final ImageView imgv = (ImageView) findViewById(R.id.newdiary_show);
 		final EditText text = (EditText) findViewById(R.id.newdiary_text);
 		text.setMaxLines(3);
+		text.setTextSize(16);
+		text.setWidth(300);
+		text.setTextColor(Color.BLACK);
 		text.setTypeface(Typeface.createFromAsset(getAssets(),
 				"fonts/textfont.ttf"));
 
