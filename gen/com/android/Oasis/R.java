@@ -66,7 +66,10 @@ public final class R {
         public static final int recent_btn_rain=0x7f05000c;
         public static final int recent_btn_sick=0x7f05000f;
         public static final int recent_btn_worm=0x7f05000d;
-        public static final int ui_contextmenu_headertextview=0x7f050010;
+        public static final int story_btn_family=0x7f050011;
+        public static final int story_btn_grow=0x7f050012;
+        public static final int story_btn_mood=0x7f050010;
+        public static final int ui_contextmenu_headertextview=0x7f050013;
     }
     public static final class layout {
         public static final int index=0x7f030000;
