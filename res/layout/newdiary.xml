@@ -101,6 +101,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="go" />
+        
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+           	<ImageButton
+            	android:layout_width="wrap_content"
+            	android:layout_height="30dip"
+            	android:adjustViewBounds="true"
+            	android:background="@android:color/transparent"
+            	android:scaleType="fitCenter"
+            	android:src="@drawable/diary_btn_save" />
+           	
+           	<ImageButton
+            	android:layout_width="wrap_content"
+            	android:layout_height="30dip"
+           	 	android:adjustViewBounds="true"
+            	android:background="@android:color/transparent"
+            	android:scaleType="fitCenter"
+            	android:src="@drawable/diary_btn_post" />
+            
+        </LinearLayout>
+        
     </LinearLayout>
 
 </ScrollView>
