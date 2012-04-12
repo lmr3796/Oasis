@@ -52,14 +52,14 @@ public class NewDiary extends Activity {
 		imgview.setImageBitmap(img);
 		//imgview.setVisibility(View.GONE);
 
-		final Bitmap bitmap = Bitmap.createBitmap(100, 500, Bitmap.Config.ARGB_8888);
-		Paint paint = new Paint();
-		paint.setTextSize(20);
-		paint.setColor(Color.BLACK);
-		Canvas canvas = new Canvas(bitmap);
+		//Bitmap bitmap = Bitmap.createBitmap(100, 500, Bitmap.Config.ARGB_8888);
+		//Paint paint = new Paint();
+		//paint.setTextSize(20);
+		//paint.setColor(Color.BLACK);
+		//Canvas canvas = new Canvas(bitmap);
 		//canvas.drawBitmap(bitmap, 0, 0, null);
-		canvas.drawColor(Color.WHITE);
-		canvas.drawText("TEXT", 0, 0, paint);
+		//canvas.drawColor(Color.WHITE);
+		//canvas.drawText("TEXT", 0, 0, paint);
 
 		final ImageView img = (ImageView) findViewById(R.id.newdiary_show);
 		final EditText text = (EditText) findViewById(R.id.newdiary_text);
@@ -69,7 +69,9 @@ public class NewDiary extends Activity {
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
+				text.setCursorVisible(false);
 				text.buildDrawingCache();
+				text.setCursorVisible(true);
 			}
 		});
 
@@ -77,6 +79,7 @@ public class NewDiary extends Activity {
 		btn_go.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				Bitmap bitmap = text.getDrawingCache();
 				img.setImageBitmap(bitmap);
 				//img.setImageBitmap(text.getDrawingCache());
 				//Log.d("DEBUG", text.getText().toString());

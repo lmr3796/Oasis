@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,7 +15,7 @@ import android.widget.Gallery;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import com.android.Oasis.diary.Diary;
+import com.android.Oasis.diary.OldDiary;
 import com.android.Oasis.life.Life;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
@@ -57,7 +56,7 @@ public class Main extends Activity {
 			@Override
 			public void onClick(View v) {
 				intent.putExtras(bundle);
-				intent.setClass(Main.this, Diary.class);
+				intent.setClass(Main.this, OldDiary.class);
 				startActivity(intent);
 			}
 		});

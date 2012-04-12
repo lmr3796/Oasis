@@ -14,7 +14,7 @@ import com.android.Oasis.R;
 
 public class Recent extends Activity {
 
-	private ViewPager awesomePager;
+	private ViewPager viewPager;
 	private static int NUM_VIEWS = 20;
 	private Context cxt;
 	private pagerAdapter pageradapter;
@@ -27,8 +27,8 @@ public class Recent extends Activity {
 		cxt = this;
 
 		pageradapter = new pagerAdapter();
-		awesomePager = (ViewPager) findViewById(R.id.pager);
-		awesomePager.setAdapter(pageradapter);
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(pageradapter);
 
 	}
 

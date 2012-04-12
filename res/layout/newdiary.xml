@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
-            android:background="#FFFFFF"
+            android:background="@drawable/diary_photo_bg"
             android:orientation="vertical"
             android:paddingBottom="40dip"
             android:paddingLeft="12dip"
@@ -87,8 +87,7 @@
                 android:id="@+id/newdiary_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#FFFFFF"
-                android:cursorVisible="false"
+                android:background="@android:color/transparent"
                 android:hint="點選此處開始寫日記" />
         </LinearLayout>
 
