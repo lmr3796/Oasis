@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.Oasis.R;
@@ -238,14 +240,28 @@ public class OldDiary extends Activity {
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
+			
+			LinearLayout ll = new LinearLayout(cxt);
+			ll.setOrientation(LinearLayout.VERTICAL);
+			
 			TextView tv = new TextView(cxt);
 			tv.setText("This is page # " + position);
 			tv.setTextColor(Color.WHITE);
 			tv.setTextSize(30);
+			
+			ImageView iv1 = new ImageView(cxt);
+			ImageView iv2 = new ImageView(cxt);
+			
+			iv1.setImageDrawable(OldDiary.this.getResources().getDrawable(R.drawable.diary_rope_top));
+			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(R.drawable.diary_rope_bottom));
+			
+			ll.addView(tv);
+			ll.addView(iv1);
+			ll.addView(iv2);
 
-			((ViewPager) collection).addView(tv, 0);
+			((ViewPager) collection).addView(ll, 0);
 
-			return tv;
+			return ll;
 		}
 
 		/**
@@ -263,12 +279,12 @@ public class OldDiary extends Activity {
 		 */
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
-			((ViewPager) collection).removeView((TextView) view);
+			((ViewPager) collection).removeView((LinearLayout) view);
 		}
 
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
-			return view == ((TextView) object);
+			return view == ((LinearLayout) object);
 		}
 
 		/**
