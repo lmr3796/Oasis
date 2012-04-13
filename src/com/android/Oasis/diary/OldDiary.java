@@ -24,6 +24,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -284,9 +285,9 @@ public class OldDiary extends Activity {
 
 			int i;
 			LinearLayout photoropeup = new LinearLayout(cxt);
-			photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
+			//photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 			LinearLayout photoropebottom = new LinearLayout(cxt);
-			photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+			//photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			for (i = 0; i < 4; i++) {
 
@@ -340,6 +341,10 @@ public class OldDiary extends Activity {
 				photoropebottom.addView(myImageView);
 
 			}
+			//if(photoropeup.getChildCount()<4)
+			//	ll.setGravity(Gravity.LEFT);
+			//if(photoropebottom.getChildCount()<4)
+			//	ll.setGravity(Gravity.LEFT);
 			ll.addView(photoropeup);
 			ll.addView(iv2);
 			ll.addView(photoropebottom);
@@ -403,6 +408,8 @@ public class OldDiary extends Activity {
 
 	private void loadFromDb() {
 
+		array.clear();
+		
 		int db_id = 0;
 		int plant = 0;
 		String path = "";
@@ -431,6 +438,15 @@ public class OldDiary extends Activity {
 		}
 		cursor.close();
 		db.close();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		loadFromDb();
+		pageradapter = new pagerAdapter();
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(pageradapter);
 	}
 
 }

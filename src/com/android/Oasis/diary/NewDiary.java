@@ -118,10 +118,10 @@ public class NewDiary extends Activity {
 					bitmap = null;
 				else
 					bitmap = text.getDrawingCache();
+				
 				combineImages(finalImg, bitmap);
-
 				saveToDb();
-
+				NewDiary.this.finish();
 			}
 		});
 
