@@ -187,7 +187,7 @@ public class NewDiary extends Activity {
 
 	public void saveToDb() {
 
-		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy/MM/dd",
+		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyyMMdd",
 				Locale.TAIWAN);
 		String posttime = sdfDateTime.format(new Date(System
 				.currentTimeMillis()));

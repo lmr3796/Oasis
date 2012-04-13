@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -312,11 +313,6 @@ public class OldDiary extends Activity {
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
 
-			TextView tv = new TextView(cxt);
-			tv.setText("This is page # " + position);
-			tv.setTextColor(Color.WHITE);
-			tv.setTextSize(30);
-
 			ImageView iv1 = new ImageView(cxt);
 			ImageView iv2 = new ImageView(cxt);
 
@@ -325,13 +321,14 @@ public class OldDiary extends Activity {
 			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(
 					R.drawable.diary_rope_bottom));
 
-			//ll.addView(tv);
 			ll.addView(iv1);
 
 			int i;
 			LinearLayout photoropeup = new LinearLayout(cxt);
+			LinearLayout photodateup = new LinearLayout(cxt);
 			//photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 			LinearLayout photoropebottom = new LinearLayout(cxt);
+			LinearLayout photodatebottom = new LinearLayout(cxt);
 			//photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			for (i = 0; i < 4; i++) {
@@ -359,6 +356,14 @@ public class OldDiary extends Activity {
 				myImageView.setMaxWidth(width/4-8);
 				myImageView.setPadding(2, 0, 2, 0);
 				
+				TextView myTextView = new TextView(cxt);
+				myTextView.setText(map.get("date").toString());
+				myTextView.setTextColor(Color.BLACK);
+				myTextView.setTextSize(13);
+				myTextView.setWidth(width/4-8);
+				myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+				myTextView.setPadding(2, 0, 2, 0);
+				
 				final int id = Integer.parseInt(map.get("db_id").toString());
 				
 				myImageView.setOnClickListener(new OnClickListener(){
@@ -376,9 +381,15 @@ public class OldDiary extends Activity {
 					}	
 				});
 				photoropeup.addView(myImageView);
+				photodateup.addView(myTextView);
 			}
 			if(i==4){
 				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
+				photodateup.setGravity(Gravity.CENTER_HORIZONTAL);
+			}
+			else{
+				photoropeup.setPadding(10, 0, 0, 0);
+				photodateup.setPadding(10, 0, 0, 0);
 			}
 			for (i = 4; i < 8; i++) {
 
@@ -405,6 +416,14 @@ public class OldDiary extends Activity {
 				myImageView.setMaxWidth(width/4-8);
 				myImageView.setPadding(2, 0, 2, 0);
 				
+				TextView myTextView = new TextView(cxt);
+				myTextView.setText(map.get("date").toString());
+				myTextView.setTextColor(Color.BLACK);
+				myTextView.setTextSize(13);
+				myTextView.setWidth(width/4-8);
+				myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+				myTextView.setPadding(3, 0, 3, 0);
+				
 				myImageView.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
@@ -418,17 +437,25 @@ public class OldDiary extends Activity {
 					}	
 				});
 				photoropebottom.addView(myImageView);
+				photodatebottom.addView(myTextView);
 			}
 			if(i==8){
 				photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+				photodatebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+			}
+			else{
+				photoropebottom.setPadding(10, 0, 0, 0);
+				photodatebottom.setPadding(10, 0, 0, 0);
 			}
 			//if(photoropeup.getChildCount()<4)
 			//	ll.setGravity(Gravity.LEFT);
 			//if(photoropebottom.getChildCount()<4)
 			//	ll.setGravity(Gravity.LEFT);
 			ll.addView(photoropeup);
+			ll.addView(photodateup);
 			ll.addView(iv2);
 			ll.addView(photoropebottom);
+			ll.addView(photodatebottom);
 			sv.addView(ll);
 			((ViewPager) collection).addView(sv, 0);
 			// ((ViewPager) collection).addView(ll, 0);
