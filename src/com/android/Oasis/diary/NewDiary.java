@@ -31,6 +31,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.android.Oasis.MySQLite;
@@ -82,20 +83,19 @@ public class NewDiary extends Activity {
 					img.getHeight() / 2 + img.getWidth() / 2);
 		}
 
+		imgview.setAdjustViewBounds(true);
+		imgview.setScaleType(ScaleType.CENTER_CROP);
+		imgview.setMaxHeight(320);
+		imgview.setMaxWidth(320);
 		imgview.setImageBitmap(finalBitmap);
 
 		final EditText text = (EditText) findViewById(R.id.newdiary_text);
 		text.setMaxLines(3);
-		text.setTextSize(16);
-		text.setWidth(300);
+		text.setTextSize(15);
+		text.setWidth(320);
 		text.setTextColor(Color.BLACK);
 		text.setTypeface(Typeface.createFromAsset(getAssets(),
 				"fonts/textfont.ttf"));
-
-		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
-				finalBitmap.getWidth() + 20, finalBitmap.getHeight() + 102);
-		LinearLayout ll = (LinearLayout) findViewById(R.id.newdiary_ll);
-		ll.setLayoutParams(mParams);
 
 		ViewTreeObserver vto = text.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
@@ -154,10 +154,10 @@ public class NewDiary extends Activity {
 
 		Bitmap resizePhoto = null;
 
-		int width = 320, height = 420;
+		int width = 358, height = 480;
 
-		resizePhoto = Bitmap.createScaledBitmap(photo, 300, photo.getHeight()
-				* 300 / photo.getWidth(), true);
+		resizePhoto = Bitmap.createScaledBitmap(photo, 338, photo.getHeight()
+				* 338 / photo.getWidth(), true);
 		result = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 
 		Canvas comboImage = new Canvas(result);
@@ -169,7 +169,7 @@ public class NewDiary extends Activity {
 		comboImage.drawBitmap(Bitmap.createScaledBitmap(
 				((BitmapDrawable) (NewDiary.this.getResources()
 						.getDrawable(R.drawable.diary_photo_border)))
-						.getBitmap(), 300, resizePhoto.getHeight(), true), 10,
+						.getBitmap(), 338, resizePhoto.getHeight(), true), 10,
 				12, null);
 		if (text != null)
 			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);

@@ -51,71 +51,62 @@
             android:scaleType="fitCenter"
             android:src="@drawable/title" />
     </LinearLayout>
-    
+
     <LinearLayout
-        android:gravity="center_horizontal"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.64"
-        android:layout_width="fill_parent"
+        android:id="@+id/newdiary_ll"
+        android:layout_width="wrap_content"
         android:layout_height="0dip"
-        android:orientation="vertical" >
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.55"
+        android:background="@drawable/diary_photo_bg"
+        android:orientation="vertical"
+        android:paddingBottom="8dip"
+        android:paddingLeft="8dip"
+        android:paddingRight="8dip"
+        android:paddingTop="5dip" >
 
-        <LinearLayout
-            android:id="@+id/newdiary_ll"
-            android:layout_gravity="center_horizontal"
+        <ImageView
+            android:id="@+id/newdiary_pic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/diary_photo_bg"
-            android:orientation="vertical"
-            android:paddingBottom="8dip"
-            android:paddingLeft="8dip"
-            android:paddingRight="8dip"
-            android:paddingTop="5dip" >
-
-            <ImageView
-                android:layout_gravity="center_horizontal"
-                android:id="@+id/newdiary_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:paddingBottom="4dip"
-                android:scaleType="centerCrop" />
-
-            <EditText
-                android:id="@+id/newdiary_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="點選此處開始寫日記" />
-        </LinearLayout>
-        
-        <LinearLayout
             android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:paddingBottom="4dip"
+            android:scaleType="centerCrop" />
+
+        <EditText
+            android:id="@+id/newdiary_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
-           	<ImageButton
-           	    android:id="@+id/diary_btn_save"
-            	android:layout_width="wrap_content"
-            	android:layout_height="30dip"
-            	android:adjustViewBounds="true"
-            	android:background="@android:color/transparent"
-            	android:scaleType="fitCenter"
-            	android:src="@drawable/diary_btn_save" />
-           	
-           	<ImageButton
-            	android:layout_width="wrap_content"
-            	android:layout_height="30dip"
-           	 	android:adjustViewBounds="true"
-            	android:background="@android:color/transparent"
-            	android:scaleType="fitCenter"
-            	android:src="@drawable/diary_btn_post" />
-            
-        </LinearLayout>
-        
+            android:background="@android:color/transparent"
+            android:hint="點選此處開始寫日記" />
     </LinearLayout>
-    
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dip"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.09"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/diary_btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="30dip"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/diary_btn_save" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dip"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/diary_btn_post" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"

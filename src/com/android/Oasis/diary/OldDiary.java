@@ -24,7 +24,6 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -297,7 +296,7 @@ public class OldDiary extends Activity {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map = array.get(position * 8 + i);
 
-				Uri uri = Uri.parse(map.get("path").toString());
+				final Uri uri = Uri.parse(map.get("path").toString());
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
@@ -312,8 +311,23 @@ public class OldDiary extends Activity {
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width/4-8);
 				myImageView.setPadding(2, 0, 2, 0);
+				
+				myImageView.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Bundle bundle = new Bundle();
+						bundle.putBoolean("isMine", true);
+						bundle.putString("path", uri.toString());
+						Intent intent = new Intent();
+						intent.putExtras(bundle);
+						intent.setClass(OldDiary.this, BrowseDiary.class);
+						startActivity(intent);
+					}	
+				});
 				photoropeup.addView(myImageView);
-
+			}
+			if(i==4){
+				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 			}
 			for (i = 4; i < 8; i++) {
 
@@ -323,7 +337,7 @@ public class OldDiary extends Activity {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map = array.get(position * 8 + i);
 
-				Uri uri = Uri.parse(map.get("path").toString());
+				final Uri uri = Uri.parse(map.get("path").toString());
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
@@ -338,8 +352,23 @@ public class OldDiary extends Activity {
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width/4-8);
 				myImageView.setPadding(2, 0, 2, 0);
+				
+				myImageView.setOnClickListener(new OnClickListener(){
+					@Override
+					public void onClick(View v) {
+						Bundle bundle = new Bundle();
+						bundle.putBoolean("isMine", true);
+						bundle.putString("path", uri.toString());
+						Intent intent = new Intent();
+						intent.putExtras(bundle);
+						intent.setClass(OldDiary.this, BrowseDiary.class);
+						startActivity(intent);
+					}	
+				});
 				photoropebottom.addView(myImageView);
-
+			}
+			if(i==8){
+				photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
 			}
 			//if(photoropeup.getChildCount()<4)
 			//	ll.setGravity(Gravity.LEFT);
