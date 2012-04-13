@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -36,6 +39,8 @@ public class NewDiary extends Activity {
 	Uri uri;
 	Bitmap bmp;
 	Bitmap img = null;
+	Bitmap result = null;
+	String finalLoc = "";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -79,10 +84,11 @@ public class NewDiary extends Activity {
 		text.setTypeface(Typeface.createFromAsset(getAssets(),
 				"fonts/textfont.ttf"));
 
-		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(finalBitmap.getWidth()+20,finalBitmap.getHeight()+102);
-		LinearLayout ll = (LinearLayout)findViewById(R.id.newdiary_ll);
+		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
+				finalBitmap.getWidth() + 20, finalBitmap.getHeight() + 102);
+		LinearLayout ll = (LinearLayout) findViewById(R.id.newdiary_ll);
 		ll.setLayoutParams(mParams);
-		
+
 		ViewTreeObserver vto = text.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -94,25 +100,37 @@ public class NewDiary extends Activity {
 		});
 
 		final Bitmap finalImg = finalBitmap;
-		
+
 		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
 		btn_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Bitmap bitmap;
-				if(text.getText().toString().equals(""))
+				if (text.getText().toString().equals(""))
 					bitmap = null;
 				else
 					bitmap = text.getDrawingCache();
 				combineImages(finalImg, bitmap);
+
+				saveToDb();
+
 			}
 		});
 
 	}
 
+	public void saveToDb() {
+
+		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy/MM/dd",
+				Locale.TAIWAN);
+		String newtime = sdfDateTime
+				.format(new Date(System.currentTimeMillis()));
+
+	}
+
 	public void combineImages(Bitmap photo, Bitmap text) {
 
-		Bitmap result = null, resizePhoto = null;
+		Bitmap resizePhoto = null;
 
 		int width = 320, height = 420;
 
@@ -131,27 +149,30 @@ public class NewDiary extends Activity {
 						.getDrawable(R.drawable.diary_photo_border)))
 						.getBitmap(), 300, resizePhoto.getHeight(), true), 10,
 				12, null);
-		if(text!=null)
+		if (text != null)
 			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
-		OutputStream os = null;
 		File cacheDir = getCacheDir(); // get cache dir
-		File picture = new File(cacheDir.getAbsolutePath() + File.separator
-				+ System.currentTimeMillis() + ".png"); // new file
+		File dir = new File (Environment.getExternalStorageDirectory() + "/Oasis");
+		dir.mkdirs();
+		String currentTimeStr = String.valueOf(System.currentTimeMillis());
+		File picture = new File(dir, currentTimeStr + ".png"); // new file
 		try {
-			os = new FileOutputStream(picture);
+			OutputStream os = new FileOutputStream(picture);
 			result.compress(CompressFormat.PNG, 100, os);
 			os.close();
+			finalLoc = Uri.fromFile(picture).toString();
 		} catch (IOException e) {
 			Log.e("combineImages", "problem combining images", e);
 		}
 
-		android.provider.MediaStore.Images.Media.insertImage(
-				getContentResolver(), result, "", "");
+		//android.provider.MediaStore.Images.Media.insertImage(
+		//		getContentResolver(), result, "", "");
 
-		sendBroadcast(new Intent(
-				Intent.ACTION_MEDIA_MOUNTED,
-				Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+		Log.d("DEBUG", finalLoc);
+
+		//sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+		//		Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
 		return;
 	}
