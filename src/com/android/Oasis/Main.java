@@ -75,6 +75,7 @@ public class Main extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				intent.putExtras(bundle);
 				intent.setClass(Main.this, Life.class);
 				startActivity(intent);
 			}

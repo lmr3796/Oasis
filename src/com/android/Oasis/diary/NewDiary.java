@@ -12,6 +12,7 @@ import java.util.Locale;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -32,23 +33,28 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
+import com.android.Oasis.life.Life;
+import com.android.Oasis.recent.Recent;
+import com.android.Oasis.story.Story;
 
 public class NewDiary extends Activity {
-	
+
 	private SQLiteDatabase db;
 	MySQLite mySQLite;
 
 	int PLANT = 0;
-	
+
 	Uri uri;
 	Bitmap bmp;
 	Bitmap img = null;
 	Bitmap result = null;
 	String finalLoc = "";
+
+	Intent intent = new Intent();
+	Bundle bundle = new Bundle();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -56,7 +62,7 @@ public class NewDiary extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newdiary);
 
-		Bundle bundle;
+		// Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		uri = Uri.parse(bundle.getString("uri"));
 		PLANT = bundle.getInt("plant");
@@ -108,6 +114,7 @@ public class NewDiary extends Activity {
 		});
 
 		final Bitmap finalImg = finalBitmap;
+		//finalBitmap.recycle();
 
 		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
 		btn_save.setOnClickListener(new OnClickListener() {
@@ -118,9 +125,60 @@ public class NewDiary extends Activity {
 					bitmap = null;
 				else
 					bitmap = text.getDrawingCache();
-				
+
 				combineImages(finalImg, bitmap);
 				saveToDb();
+				//bitmap.recycle();
+				//finalImg.recycle();
+				System.gc();
+				NewDiary.this.finish();
+			}
+		});
+
+		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
+		btn_story.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(NewDiary.this, Story.class);
+				startActivity(intent);
+				System.gc();
+				NewDiary.this.finish();
+			}
+		});
+
+		ImageButton btn_diary = (ImageButton) findViewById(R.id.main_btn_diary);
+		btn_diary.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(NewDiary.this, OldDiary.class);
+				startActivity(intent);
+				System.gc();
+				NewDiary.this.finish();
+			}
+		});
+
+		ImageButton btn_recent = (ImageButton) findViewById(R.id.main_btn_recent);
+		btn_recent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(NewDiary.this, Recent.class);
+				startActivity(intent);
+				System.gc();
+				NewDiary.this.finish();
+			}
+		});
+
+		ImageButton btn_life = (ImageButton) findViewById(R.id.main_btn_life);
+		btn_life.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(NewDiary.this, Life.class);
+				startActivity(intent);
+				System.gc();
 				NewDiary.this.finish();
 			}
 		});
@@ -131,10 +189,11 @@ public class NewDiary extends Activity {
 
 		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy/MM/dd",
 				Locale.TAIWAN);
-		String posttime = sdfDateTime.format(new Date(System.currentTimeMillis()));
-		
+		String posttime = sdfDateTime.format(new Date(System
+				.currentTimeMillis()));
+
 		// finalLoc newtime plant
-		
+
 		mySQLite = new MySQLite(NewDiary.this);
 		db = mySQLite.getWritableDatabase();
 
@@ -143,11 +202,11 @@ public class NewDiary extends Activity {
 		values.put("PLANT_TYPE", PLANT);
 		values.put("FILE_PATH", finalLoc);
 		values.put("DATE", posttime);
-		
+
 		db.insert(mySQLite.TB_NAME, null, values);
-		
+
 		db.close();
-		
+
 	}
 
 	public void combineImages(Bitmap photo, Bitmap text) {
@@ -174,8 +233,10 @@ public class NewDiary extends Activity {
 		if (text != null)
 			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
-		//File cacheDir = getCacheDir(); // get cache dir
-		File dir = new File (Environment.getExternalStorageDirectory() + "/Oasis");
+		resizePhoto.recycle();
+		// File cacheDir = getCacheDir(); // get cache dir
+		File dir = new File(Environment.getExternalStorageDirectory()
+				+ "/Oasis");
 		dir.mkdirs();
 		String currentTimeStr = String.valueOf(System.currentTimeMillis());
 		File picture = new File(dir, currentTimeStr + ".png"); // new file
@@ -188,13 +249,19 @@ public class NewDiary extends Activity {
 			Log.e("combineImages", "problem combining images", e);
 		}
 
-		//android.provider.MediaStore.Images.Media.insertImage(
-		//		getContentResolver(), result, "", "");
+		// android.provider.MediaStore.Images.Media.insertImage(
+		// getContentResolver(), result, "", "");
 
-		//Log.d("DEBUG", finalLoc);
+		// Log.d("DEBUG", finalLoc);
 
-		//sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-		//		Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+		// sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+		// Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+
+		//bmp.recycle();
+		//img.recycle();
+		//result.recycle();
+
+		System.gc();
 
 		return;
 	}

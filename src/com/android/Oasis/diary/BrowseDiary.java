@@ -38,6 +38,7 @@ public class BrowseDiary extends Activity {
 			@Override
 			public void onClick(View v) {
 				BrowseDiary.this.finish();
+				System.gc();
 			}
 			
 		});
@@ -52,16 +53,16 @@ public class BrowseDiary extends Activity {
 
 		myImageView.setAdjustViewBounds(true);
 		myImageView.setImageBitmap(img);
+		//img.recycle();
 		
 		LinearLayout ll_mine = (LinearLayout)findViewById(R.id.browsediary_ll_mine);
 		LinearLayout ll_others = (LinearLayout)findViewById(R.id.browsediary_ll_others);
-		
-		final MySQLite db = new MySQLite(BrowseDiary.this);
 		
 		ImageButton btn_delete = (ImageButton)findViewById(R.id.diary_btn_delete);
 		btn_delete.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
+				MySQLite db = new MySQLite(BrowseDiary.this);
 				db.delete(id);
 				db.close();
 				BrowseDiary.this.finish();

@@ -38,8 +38,12 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
+import com.android.Oasis.life.Life;
+import com.android.Oasis.recent.Recent;
+import com.android.Oasis.story.Story;
 
 public class OldDiary extends Activity {
 
@@ -57,6 +61,9 @@ public class OldDiary extends Activity {
 	private ViewPager viewPager;
 	private Context cxt;
 	private pagerAdapter pageradapter;
+	
+	Intent intent = new Intent();
+	Bundle bundle = new Bundle();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -65,7 +72,6 @@ public class OldDiary extends Activity {
 		setContentView(R.layout.olddiary);
 		cxt = this;
 
-		Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		PLANT = bundle.getInt("plant");
 
@@ -81,6 +87,42 @@ public class OldDiary extends Activity {
 			public void onClick(View arg0) {
 				registerForContextMenu(arg0);
 				openContextMenu(arg0);
+			}
+		});
+		
+		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
+		btn_story.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(OldDiary.this, Story.class);
+				startActivity(intent);
+				System.gc();
+				OldDiary.this.finish();
+			}
+		});
+		
+		ImageButton btn_recent = (ImageButton) findViewById(R.id.main_btn_recent);
+		btn_recent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(OldDiary.this, Recent.class);
+				startActivity(intent);
+				System.gc();
+				OldDiary.this.finish();
+			}
+		});
+		
+		ImageButton btn_life = (ImageButton) findViewById(R.id.main_btn_life);
+		btn_life.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(OldDiary.this, Life.class);
+				startActivity(intent);
+				System.gc();
+				OldDiary.this.finish();
 			}
 		});
 
@@ -152,6 +194,7 @@ public class OldDiary extends Activity {
 		// }
 		FileOutputStream fos = new FileOutputStream(picture);
 		bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
+		bmp.recycle();
 
 		is.close();
 		fos.close();
@@ -170,7 +213,7 @@ public class OldDiary extends Activity {
 
 	void check() {
 		if (pictureUri != null) {
-			Bundle bundle = new Bundle();
+			//Bundle bundle = new Bundle();
 			String tmp = pictureUri.toString();
 			bundle.putString("uri", tmp);
 			bundle.putInt("plant", PLANT);
@@ -190,14 +233,16 @@ public class OldDiary extends Activity {
 				Uri selectedImage = imageUri;
 				getContentResolver().notifyChange(selectedImage, null);
 				isFromAlbum = false;
-				System.gc(); // run gc for sure that there's enough memory to
+				System.gc(); // run gc for sure that there's enough memory
 				try {
 					if (tmpPhoto.length() > 0l) {
 						pictureUri = imageUri;
 						makeDuplicatePicture(imageUri);
 						tmpPhoto.delete();
+						System.gc();
 					} else {
 						makeDuplicatePicture(data.getData());
+						System.gc();
 					}
 				} catch (Exception e) {
 					// Toast.makeText(this, R.string.toast_failedtoload,
@@ -212,9 +257,10 @@ public class OldDiary extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 
 				isFromAlbum = true;
-				System.gc(); // run gc for sure that there's enough memory to
+				System.gc(); // run gc for sure that there's enough memory
 				try {
 					makeDuplicatePicture(data.getData());
+					System.gc();
 				} catch (IOException e) {
 					break;
 				} catch (URISyntaxException e) {
@@ -307,6 +353,7 @@ public class OldDiary extends Activity {
 				}
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
+				//img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width/4-8);
@@ -317,13 +364,14 @@ public class OldDiary extends Activity {
 				myImageView.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
-						Bundle bundle = new Bundle();
+						//Bundle bundle = new Bundle();
 						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
 						bundle.putInt("db_id", id);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
+						System.gc();
 						startActivity(intent);
 					}	
 				});
@@ -351,6 +399,7 @@ public class OldDiary extends Activity {
 				}
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
+				//img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width/4-8);
@@ -359,7 +408,7 @@ public class OldDiary extends Activity {
 				myImageView.setOnClickListener(new OnClickListener(){
 					@Override
 					public void onClick(View v) {
-						Bundle bundle = new Bundle();
+						//Bundle bundle = new Bundle();
 						bundle.putBoolean("isMine", true);
 						bundle.putString("path", uri.toString());
 						Intent intent = new Intent();

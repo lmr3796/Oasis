@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -20,6 +21,9 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.Oasis.R;
+import com.android.Oasis.diary.OldDiary;
+import com.android.Oasis.life.Life;
+import com.android.Oasis.recent.Recent;
 
 public class Story extends Activity {
 
@@ -32,6 +36,9 @@ public class Story extends Activity {
 	private Context cxt;
 	private pagerAdapter pageradapter;
 
+	Intent intent = new Intent();
+	Bundle bundle = new Bundle();
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,8 @@ public class Story extends Activity {
 		cxt = this;
 		type = "mood";
 
+		bundle = this.getIntent().getExtras();
+		
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
@@ -68,6 +77,42 @@ public class Story extends Activity {
 			public void onClick(View v) {
 				type = "grow";
 				viewPager.setAdapter(pageradapter);
+			}
+		});
+		
+		ImageButton btn_diary = (ImageButton) findViewById(R.id.main_btn_diary);
+		btn_diary.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Story.this, OldDiary.class);
+				startActivity(intent);
+				System.gc();
+				Story.this.finish();
+			}
+		});
+		
+		ImageButton btn_recent = (ImageButton) findViewById(R.id.main_btn_recent);
+		btn_recent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Story.this, Recent.class);
+				startActivity(intent);
+				System.gc();
+				Story.this.finish();
+			}
+		});
+		
+		ImageButton btn_life = (ImageButton) findViewById(R.id.main_btn_life);
+		btn_life.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Story.this, Life.class);
+				startActivity(intent);
+				System.gc();
+				Story.this.finish();
 			}
 		});
 

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,7 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.Oasis.Main;
 import com.android.Oasis.R;
+import com.android.Oasis.diary.OldDiary;
+import com.android.Oasis.life.Life;
+import com.android.Oasis.story.Story;
 
 public class Recent extends Activity {
 
@@ -32,6 +37,9 @@ public class Recent extends Activity {
 	private ViewPager viewPager;
 	private Context cxt;
 	private pagerAdapter pageradapter;
+	
+	Intent intent = new Intent();
+	Bundle bundle = new Bundle();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,6 +48,8 @@ public class Recent extends Activity {
 		setContentView(R.layout.recent);
 		cxt = this;
 		type = "rain";
+		
+		bundle = this.getIntent().getExtras();
 
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
@@ -78,6 +88,54 @@ public class Recent extends Activity {
 			public void onClick(View v) {
 				type = "sick";
 				viewPager.setAdapter(pageradapter);
+			}
+		});
+		
+		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
+		btn_story.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Recent.this, Story.class);
+				startActivity(intent);
+				System.gc();
+				Recent.this.finish();
+			}
+		});
+		
+		ImageButton btn_diary = (ImageButton) findViewById(R.id.main_btn_diary);
+		btn_diary.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Recent.this, OldDiary.class);
+				startActivity(intent);
+				System.gc();
+				Recent.this.finish();
+			}
+		});
+		
+		ImageButton btn_recent = (ImageButton) findViewById(R.id.main_btn_recent);
+		btn_recent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Recent.this, Recent.class);
+				startActivity(intent);
+				System.gc();
+				Recent.this.finish();
+			}
+		});
+		
+		ImageButton btn_life = (ImageButton) findViewById(R.id.main_btn_life);
+		btn_life.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				intent.putExtras(bundle);
+				intent.setClass(Recent.this, Life.class);
+				startActivity(intent);
+				System.gc();
+				Recent.this.finish();
 			}
 		});
 
