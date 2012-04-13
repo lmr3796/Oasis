@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -62,6 +63,9 @@ public class Story extends Activity {
 		
 		tv_letter = (TextView)findViewById(R.id.tv_letter);
 		tv_letter.setText("您有一封來自" + "乙女心" + "的訊息");
+		tv_letter.setTextSize(20);
+		tv_letter.setTypeface(Typeface.createFromAsset(getAssets(),
+				"fonts/textfont.ttf"));
 		img_letter = (ImageView)findViewById(R.id.img_letter);
 		img_letter.setOnClickListener(new OnClickListener(){
 			@Override
@@ -196,8 +200,10 @@ public class Story extends Activity {
 					}
 					
 					TextView cont = new TextView(cxt);
-					cont.setTextColor(Color.WHITE);
+					cont.setTextColor(Color.BLACK);
 					cont.setTextSize(20);
+					cont.setTypeface(Typeface.createFromAsset(getAssets(),
+							"fonts/textfont.ttf"));
 					cont.setText(contentStr);
 					ll.addView(cont);
 
