@@ -1,14 +1,19 @@
 package com.android.Oasis.diary;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -29,21 +34,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 
 public class OldDiary extends Activity {
 
+	ArrayList<HashMap<String, Object>> array = new ArrayList<HashMap<String, Object>>();
+
 	int PLANT = 0;
-	
+
 	final int TAKE_PICTURE = 12345;
 	final int SELECT_PICTURE = 54321;
 	private Uri imageUri = null;
 	private File tmpPhoto;
 	private Uri pictureUri = null;
 	boolean isFromAlbum = false;
-	
+
 	private ViewPager viewPager;
-	private static int NUM_VIEWS = 20;
 	private Context cxt;
 	private pagerAdapter pageradapter;
 
@@ -53,14 +60,16 @@ public class OldDiary extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.olddiary);
 		cxt = this;
-		
-		pageradapter = new pagerAdapter();
-		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(pageradapter);
-		
+
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		PLANT = bundle.getInt("plant");
+
+		loadFromDb();
+
+		pageradapter = new pagerAdapter();
+		viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager.setAdapter(pageradapter);
 
 		ImageButton btn_new = (ImageButton) findViewById(R.id.diary_btn_new);
 		btn_new.setOnClickListener(new OnClickListener() {
@@ -218,13 +227,13 @@ public class OldDiary extends Activity {
 
 		}
 	}
-	
-	
+
 	private class pagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
-			return NUM_VIEWS;
+			// return NUM_VIEWS;
+			return (int) Math.ceil((double) array.size() / 8.0);
 		}
 
 		/**
@@ -243,24 +252,54 @@ public class OldDiary extends Activity {
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
-			
+
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
-			
+
 			TextView tv = new TextView(cxt);
 			tv.setText("This is page # " + position);
 			tv.setTextColor(Color.WHITE);
 			tv.setTextSize(30);
-			
+
 			ImageView iv1 = new ImageView(cxt);
 			ImageView iv2 = new ImageView(cxt);
-			
-			iv1.setImageDrawable(OldDiary.this.getResources().getDrawable(R.drawable.diary_rope_top));
-			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(R.drawable.diary_rope_bottom));
-			
+
+			iv1.setImageDrawable(OldDiary.this.getResources().getDrawable(
+					R.drawable.diary_rope_top));
+			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(
+					R.drawable.diary_rope_bottom));
+
 			ll.addView(tv);
 			ll.addView(iv1);
+
+			int i;
+			LinearLayout photorope = new LinearLayout(cxt);
+			for (i = 0; i < 8; i++) {
+
+				if (position * 8 + i >= array.size())
+					break;
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map = array.get(position * 8 + i);
+
+				Uri uri = Uri.parse(map.get("path").toString());
+				Bitmap img = null;
+				ContentResolver vContentResolver = getContentResolver();
+				try {
+					img = BitmapFactory.decodeStream(vContentResolver
+							.openInputStream(uri));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				ImageView myImageView = new ImageView(cxt);
+				myImageView.setImageBitmap(img);
+				photorope.addView(myImageView);
+
+			}
+			
+			ll.addView(photorope);
 			ll.addView(iv2);
+			
 
 			((ViewPager) collection).addView(ll, 0);
 
@@ -316,6 +355,38 @@ public class OldDiary extends Activity {
 		public void startUpdate(View arg0) {
 		}
 
+	}
+
+	private void loadFromDb() {
+
+		int db_id = 0;
+		int plant = 0;
+		String path = "";
+		String date = "";
+
+		MySQLite db = new MySQLite(OldDiary.this);
+		Cursor cursor = db.getPlant(PLANT);
+		int rows_num = cursor.getCount();
+
+		// cursor.moveToFirst();
+		cursor.moveToLast();
+		for (int i = 0; i < rows_num; i++) {
+			db_id = cursor.getInt(0);
+			plant = cursor.getInt(1);
+			path = cursor.getString(2);
+			date = cursor.getString(3);
+
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("db_id", db_id);
+			map.put("plant", plant);
+			map.put("path", path);
+			map.put("date", date);
+			array.add(map);
+
+			cursor.moveToPrevious();
+		}
+		cursor.close();
+		db.close();
 	}
 
 }
