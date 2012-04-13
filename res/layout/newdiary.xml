@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:layout_weight="0.25"
+        android:layout_weight="0.15"
         android:orientation="horizontal"
         android:weightSum="1" >
 
@@ -51,37 +51,34 @@
             android:scaleType="fitCenter"
             android:src="@drawable/title" />
     </LinearLayout>
-
-<ScrollView 
-    	android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.54">
     
     <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.64"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
         android:orientation="vertical" >
 
         <LinearLayout
+            android:id="@+id/newdiary_ll"
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
             android:background="@drawable/diary_photo_bg"
             android:orientation="vertical"
-            android:paddingBottom="40dip"
+            android:paddingBottom="8dip"
             android:paddingLeft="8dip"
             android:paddingRight="8dip"
-            android:paddingTop="15dip" >
+            android:paddingTop="5dip" >
 
             <ImageView
                 android:layout_gravity="center_horizontal"
                 android:id="@+id/newdiary_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="160dp"
                 android:adjustViewBounds="true"
-                android:paddingBottom="10dip"
+                android:paddingBottom="4dip"
                 android:scaleType="centerCrop" />
 
             <EditText
@@ -91,17 +88,6 @@
                 android:background="@android:color/transparent"
                 android:hint="點選此處開始寫日記" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/newdiary_show"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/newdiary_btn_go"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="go" />
         
         <LinearLayout
             android:layout_gravity="center_horizontal"
@@ -110,6 +96,7 @@
             android:orientation="horizontal" >
 
            	<ImageButton
+           	    android:id="@+id/diary_btn_save"
             	android:layout_width="wrap_content"
             	android:layout_height="30dip"
             	android:adjustViewBounds="true"
@@ -128,8 +115,6 @@
         </LinearLayout>
         
     </LinearLayout>
-
-</ScrollView>
     
     <LinearLayout
         android:layout_width="fill_parent"

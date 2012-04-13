@@ -57,16 +57,16 @@ public final class R {
     }
     public static final class id {
         public static final int diary_btn_new=0x7f050006;
+        public static final int diary_btn_save=0x7f05000a;
         public static final int gallery=0x7f050001;
         public static final int index_bg=0x7f050000;
         public static final int main_btn_diary=0x7f050003;
         public static final int main_btn_life=0x7f050005;
         public static final int main_btn_recent=0x7f050004;
         public static final int main_btn_story=0x7f050002;
-        public static final int newdiary_btn_go=0x7f05000a;
-        public static final int newdiary_pic=0x7f050007;
-        public static final int newdiary_show=0x7f050009;
-        public static final int newdiary_text=0x7f050008;
+        public static final int newdiary_ll=0x7f050007;
+        public static final int newdiary_pic=0x7f050008;
+        public static final int newdiary_text=0x7f050009;
         public static final int pager=0x7f05000b;
         public static final int recent_btn_leaf=0x7f05000e;
         public static final int recent_btn_rain=0x7f05000c;

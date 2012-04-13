@@ -24,9 +24,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.Oasis.R;
 
@@ -57,9 +58,19 @@ public class NewDiary extends Activity {
 			e.printStackTrace();
 		}
 
-		imgview.setImageBitmap(img);
+		Bitmap finalBitmap = null;
+		if (img.getWidth() > img.getHeight()) {
+			finalBitmap = Bitmap.createBitmap(img,
+					img.getWidth() / 2 - img.getHeight() / 2, 0, img.getWidth()
+							/ 2 + img.getHeight() / 2, img.getHeight());
+		} else {
+			finalBitmap = Bitmap.createBitmap(img, 0,
+					img.getHeight() / 2 - img.getWidth() / 2, img.getWidth(),
+					img.getHeight() / 2 + img.getWidth() / 2);
+		}
 
-		final ImageView imgv = (ImageView) findViewById(R.id.newdiary_show);
+		imgview.setImageBitmap(finalBitmap);
+
 		final EditText text = (EditText) findViewById(R.id.newdiary_text);
 		text.setMaxLines(3);
 		text.setTextSize(16);
@@ -68,8 +79,10 @@ public class NewDiary extends Activity {
 		text.setTypeface(Typeface.createFromAsset(getAssets(),
 				"fonts/textfont.ttf"));
 
-		// text.buildDrawingCache();
-
+		LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(finalBitmap.getWidth()+20,finalBitmap.getHeight()+102);
+		LinearLayout ll = (LinearLayout)findViewById(R.id.newdiary_ll);
+		ll.setLayoutParams(mParams);
+		
 		ViewTreeObserver vto = text.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 			@Override
@@ -80,14 +93,18 @@ public class NewDiary extends Activity {
 			}
 		});
 
-		Button btn_go = (Button) findViewById(R.id.newdiary_btn_go);
-		btn_go.setOnClickListener(new OnClickListener() {
+		final Bitmap finalImg = finalBitmap;
+		
+		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
+		btn_save.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Bitmap bitmap = text.getDrawingCache();
-				imgv.setImageBitmap(bitmap);
-				// img.setImageBitmap(text.getDrawingCache());
-				combineImages(img, bitmap);
+				Bitmap bitmap;
+				if(text.getText().toString().equals(""))
+					bitmap = null;
+				else
+					bitmap = text.getDrawingCache();
+				combineImages(finalImg, bitmap);
 			}
 		});
 
@@ -97,7 +114,7 @@ public class NewDiary extends Activity {
 
 		Bitmap result = null, resizePhoto = null;
 
-		int width = 320, height = 450;
+		int width = 320, height = 420;
 
 		resizePhoto = Bitmap.createScaledBitmap(photo, 300, photo.getHeight()
 				* 300 / photo.getWidth(), true);
@@ -114,7 +131,8 @@ public class NewDiary extends Activity {
 						.getDrawable(R.drawable.diary_photo_border)))
 						.getBitmap(), 300, resizePhoto.getHeight(), true), 10,
 				12, null);
-		comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
+		if(text!=null)
+			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
 		OutputStream os = null;
 		File cacheDir = getCacheDir(); // get cache dir
