@@ -62,6 +62,7 @@ public class NewDiary extends Activity {
 	Bitmap img = null;
 	Bitmap result = null;
 	String finalLoc = "";
+	String finalLocThumb = "";
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
@@ -231,6 +232,7 @@ public class NewDiary extends Activity {
 		values.put("PLANT_TYPE", PLANT);
 		values.put("FILE_PATH", finalLoc);
 		values.put("DATE", posttime);
+		values.put("THUMB_PATH", finalLocThumb);
 
 		db.insert(mySQLite.TB_NAME, null, values);
 
@@ -334,7 +336,20 @@ public class NewDiary extends Activity {
 		} catch (IOException e) {
 			Log.e("combineImages", "problem combining images", e);
 		}
-
+		
+		
+		Bitmap thumb = Bitmap.createScaledBitmap(result, 120, result.getHeight()*120/result.getWidth(), true);
+		File dir2 = new File(Environment.getExternalStorageDirectory() + "/Oasis/thumb");
+		dir2.mkdirs();
+		String currentTimeStr2 = String.valueOf(System.currentTimeMillis())+"tb";
+		File picture2 = new File(dir2, currentTimeStr2 + ".png"); // new file
+		try {
+			OutputStream os = new FileOutputStream(picture2);
+			thumb.compress(CompressFormat.PNG, 100, os);
+			os.close();
+			finalLocThumb = Uri.fromFile(picture2).toString();
+		} catch (IOException e) {}
+		
 		// android.provider.MediaStore.Images.Media.insertImage(
 		// getContentResolver(), result, "", "");
 

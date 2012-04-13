@@ -341,14 +341,17 @@ public class OldDiary extends Activity {
 				map = array.get(position * 8 + i);
 
 				final Uri uri = Uri.parse(map.get("path").toString());
+				
+				Uri uri_t = Uri.parse(map.get("thumb").toString());
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
 					img = BitmapFactory.decodeStream(vContentResolver
-							.openInputStream(uri));
+							.openInputStream(uri_t));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
+				
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
 				//img.recycle();
@@ -401,11 +404,14 @@ public class OldDiary extends Activity {
 				map = array.get(position * 8 + i);
 
 				final Uri uri = Uri.parse(map.get("path").toString());
+				
+				Uri uri_t = Uri.parse(map.get("thumb").toString());
+				
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
 					img = BitmapFactory.decodeStream(vContentResolver
-							.openInputStream(uri));
+							.openInputStream(uri_t));
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
@@ -523,6 +529,7 @@ public class OldDiary extends Activity {
 		int plant = 0;
 		String path = "";
 		String date = "";
+		String thumb ="";
 
 		MySQLite db = new MySQLite(OldDiary.this);
 		Cursor cursor = db.getPlant(PLANT);
@@ -535,12 +542,14 @@ public class OldDiary extends Activity {
 			plant = cursor.getInt(1);
 			path = cursor.getString(2);
 			date = cursor.getString(3);
+			thumb = cursor.getString(4);
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("db_id", db_id);
 			map.put("plant", plant);
 			map.put("path", path);
 			map.put("date", date);
+			map.put("thumb", thumb);
 			array.add(map);
 
 			cursor.moveToPrevious();
