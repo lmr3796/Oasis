@@ -23,15 +23,19 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.Oasis.MySQLite;
@@ -252,7 +256,13 @@ public class OldDiary extends Activity {
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
+			
+			DisplayMetrics displaymetrics = new DisplayMetrics();
+	        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+	        //int height = displaymetrics.heightPixels;
+	        int width = displaymetrics.widthPixels;
 
+			ScrollView sv = new ScrollView(cxt);
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
 
@@ -269,12 +279,16 @@ public class OldDiary extends Activity {
 			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(
 					R.drawable.diary_rope_bottom));
 
-			ll.addView(tv);
+			//ll.addView(tv);
 			ll.addView(iv1);
 
 			int i;
-			LinearLayout photorope = new LinearLayout(cxt);
-			for (i = 0; i < 8; i++) {
+			LinearLayout photoropeup = new LinearLayout(cxt);
+			photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
+			LinearLayout photoropebottom = new LinearLayout(cxt);
+			photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+			
+			for (i = 0; i < 4; i++) {
 
 				if (position * 8 + i >= array.size())
 					break;
@@ -293,17 +307,47 @@ public class OldDiary extends Activity {
 				}
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
-				photorope.addView(myImageView);
+				myImageView.setAdjustViewBounds(true);
+				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
+				myImageView.setMaxWidth(width/4-8);
+				myImageView.setPadding(2, 0, 2, 0);
+				photoropeup.addView(myImageView);
 
 			}
-			
-			ll.addView(photorope);
+			for (i = 4; i < 8; i++) {
+
+				if (position * 8 + i >= array.size())
+					break;
+
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map = array.get(position * 8 + i);
+
+				Uri uri = Uri.parse(map.get("path").toString());
+				Bitmap img = null;
+				ContentResolver vContentResolver = getContentResolver();
+				try {
+					img = BitmapFactory.decodeStream(vContentResolver
+							.openInputStream(uri));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
+				ImageView myImageView = new ImageView(cxt);
+				myImageView.setImageBitmap(img);
+				myImageView.setAdjustViewBounds(true);
+				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
+				myImageView.setMaxWidth(width/4-8);
+				myImageView.setPadding(2, 0, 2, 0);
+				photoropebottom.addView(myImageView);
+
+			}
+			ll.addView(photoropeup);
 			ll.addView(iv2);
-			
+			ll.addView(photoropebottom);
+			sv.addView(ll);
+			((ViewPager) collection).addView(sv, 0);
+			// ((ViewPager) collection).addView(ll, 0);
 
-			((ViewPager) collection).addView(ll, 0);
-
-			return ll;
+			return sv;
 		}
 
 		/**
@@ -321,12 +365,12 @@ public class OldDiary extends Activity {
 		 */
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
-			((ViewPager) collection).removeView((LinearLayout) view);
+			((ViewPager) collection).removeView((ScrollView) view);
 		}
 
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
-			return view == ((LinearLayout) object);
+			return view == ((ScrollView) object);
 		}
 
 		/**
