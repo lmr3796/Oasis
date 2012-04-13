@@ -33,6 +33,8 @@ import com.android.Oasis.R;
 
 public class OldDiary extends Activity {
 
+	int PLANT = 0;
+	
 	final int TAKE_PICTURE = 12345;
 	final int SELECT_PICTURE = 54321;
 	private Uri imageUri = null;
@@ -58,7 +60,7 @@ public class OldDiary extends Activity {
 		
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
-		int plant = bundle.getInt("plant");
+		PLANT = bundle.getInt("plant");
 
 		ImageButton btn_new = (ImageButton) findViewById(R.id.diary_btn_new);
 		btn_new.setOnClickListener(new OnClickListener() {
@@ -158,6 +160,7 @@ public class OldDiary extends Activity {
 			Bundle bundle = new Bundle();
 			String tmp = pictureUri.toString();
 			bundle.putString("uri", tmp);
+			bundle.putInt("plant", PLANT);
 			Intent intent = new Intent();
 			intent.putExtras(bundle);
 			intent.setClass(OldDiary.this, NewDiary.class);

@@ -11,7 +11,8 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.Intent;
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
@@ -32,10 +33,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 
 public class NewDiary extends Activity {
+	
+	private SQLiteDatabase db;
+	MySQLite mySQLite;
 
+	int PLANT = 0;
+	
 	Uri uri;
 	Bitmap bmp;
 	Bitmap img = null;
@@ -51,6 +58,7 @@ public class NewDiary extends Activity {
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		uri = Uri.parse(bundle.getString("uri"));
+		PLANT = bundle.getInt("plant");
 		ImageView imgview = (ImageView) findViewById(R.id.newdiary_pic);
 
 		uri = Uri.parse(bundle.getString("uri"));
@@ -123,9 +131,23 @@ public class NewDiary extends Activity {
 
 		SimpleDateFormat sdfDateTime = new SimpleDateFormat("yyyy/MM/dd",
 				Locale.TAIWAN);
-		String newtime = sdfDateTime
-				.format(new Date(System.currentTimeMillis()));
+		String posttime = sdfDateTime.format(new Date(System.currentTimeMillis()));
+		
+		// finalLoc newtime plant
+		
+		mySQLite = new MySQLite(NewDiary.this);
+		db = mySQLite.getWritableDatabase();
 
+		ContentValues values = new ContentValues();
+
+		values.put("PLANT_TYPE", PLANT);
+		values.put("FILE_PATH", finalLoc);
+		values.put("DATE", posttime);
+		
+		db.insert(mySQLite.TB_NAME, null, values);
+		
+		db.close();
+		
 	}
 
 	public void combineImages(Bitmap photo, Bitmap text) {
@@ -152,7 +174,7 @@ public class NewDiary extends Activity {
 		if (text != null)
 			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
-		File cacheDir = getCacheDir(); // get cache dir
+		//File cacheDir = getCacheDir(); // get cache dir
 		File dir = new File (Environment.getExternalStorageDirectory() + "/Oasis");
 		dir.mkdirs();
 		String currentTimeStr = String.valueOf(System.currentTimeMillis());
@@ -169,7 +191,7 @@ public class NewDiary extends Activity {
 		//android.provider.MediaStore.Images.Media.insertImage(
 		//		getContentResolver(), result, "", "");
 
-		Log.d("DEBUG", finalLoc);
+		//Log.d("DEBUG", finalLoc);
 
 		//sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
 		//		Uri.parse("file://" + Environment.getExternalStorageDirectory())));
