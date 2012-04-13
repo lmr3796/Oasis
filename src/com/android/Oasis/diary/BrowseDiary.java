@@ -10,9 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 
 public class BrowseDiary extends Activity {
@@ -26,6 +28,7 @@ public class BrowseDiary extends Activity {
 		bundle = this.getIntent().getExtras();
 		boolean isMine = bundle.getBoolean("ismine");
 		Uri path = Uri.parse(bundle.getString("path"));
+		final int id = bundle.getInt("db_id");
 		Bitmap img = null;
 		ImageView myImageView = (ImageView)findViewById(R.id.browsediary_img);
 		LinearLayout ll = (LinearLayout)findViewById(R.id.browsediary_ll);
@@ -50,6 +53,29 @@ public class BrowseDiary extends Activity {
 		myImageView.setAdjustViewBounds(true);
 		myImageView.setImageBitmap(img);
 		
+		LinearLayout ll_mine = (LinearLayout)findViewById(R.id.browsediary_ll_mine);
+		LinearLayout ll_others = (LinearLayout)findViewById(R.id.browsediary_ll_others);
+		
+		final MySQLite db = new MySQLite(BrowseDiary.this);
+		
+		ImageButton btn_delete = (ImageButton)findViewById(R.id.diary_btn_delete);
+		btn_delete.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				db.delete(id);
+				db.close();
+				BrowseDiary.this.finish();
+			}
+		});
+		
+		if(isMine==true){
+			ll_mine.setVisibility(View.VISIBLE);
+			ll_others.setVisibility(View.GONE);
+		}
+		else{
+			ll_mine.setVisibility(View.GONE);
+			ll_others.setVisibility(View.VISIBLE);
+		}
 
 	}
 }

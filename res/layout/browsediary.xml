@@ -3,6 +3,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
+	android:orientation="vertical"
 	android:gravity="center_horizontal|center_vertical"
 	android:id="@+id/browsediary_ll"
 	android:background="@drawable/bg_black">
@@ -11,6 +12,40 @@
 	    android:id="@+id/browsediary_img"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"/>
+	
+	<LinearLayout
+	    android:id="@+id/browsediary_ll_mine"
+	    android:orientation="horizontal"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content" >
+	    
+	    <ImageButton
+	        android:id="@+id/diary_btn_delete"
+	        android:src="@drawable/diary_btn_delete"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="10dip"
+	        android:background="@android:color/transparent" />
+	    
+	    <ImageButton
+	        android:id="@+id/diary_btn_share"
+	        android:src="@drawable/diary_btn_share"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:padding="10dip"
+	        android:background="@android:color/transparent" />
+	    
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:id="@+id/browsediary_ll_others"
+	    android:orientation="horizontal"
+	    android:layout_height="wrap_content"
+	    android:layout_width="wrap_content"
+	    android:visibility="gone" >
+	    
+	    
+	</LinearLayout>
 	
 	
 </LinearLayout>
