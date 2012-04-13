@@ -10,12 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -37,6 +40,8 @@ public class Recent extends Activity {
 	private ViewPager viewPager;
 	private Context cxt;
 	private pagerAdapter pageradapter;
+	TextView tv_letter;
+	ImageView img_letter;
 	
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
@@ -54,6 +59,17 @@ public class Recent extends Activity {
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
+		
+		tv_letter = (TextView)findViewById(R.id.tv_letter);
+		tv_letter.setText("您有一封來自" + "乙女心" + "的訊息");
+		img_letter = (ImageView)findViewById(R.id.img_letter);
+		img_letter.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				img_letter.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.letter_open));
+				handler.sendEmptyMessageDelayed(1, 1500);
+			}
+		});
 
 		ImageButton btn_rain = (ImageButton) findViewById(R.id.recent_btn_rain);
 		btn_rain.setOnClickListener(new OnClickListener() {
@@ -269,5 +285,20 @@ public class Recent extends Activity {
 		}
 
 	}
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			switch (msg.what) {
+			case 1:
+				tv_letter.setVisibility(View.GONE);
+				img_letter.setVisibility(View.GONE);
+				viewPager.setVisibility(View.VISIBLE);
+				break;
+			}
+		}
+	};
+
 
 }

@@ -70,12 +70,26 @@
         android:layout_weight="0.59" 
         android:layout_width="fill_parent"
         android:layout_height="0dip"
+        android:orientation="vertical"
+        android:gravity="center_vertical|center_horizontal"
         android:background="@drawable/bg_yellow" >
+        
+        <ImageView 
+            android:id="@+id/img_letter"
+            android:src="@drawable/letter_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        
+        <TextView
+            android:id="@+id/tv_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         
         <android.support.v4.view.ViewPager
     		android:layout_width="fill_parent" 
     		android:layout_height="fill_parent" 
-    		android:id="@+id/pager"/>
+    		android:id="@+id/pager"
+    		android:visibility="gone"/>
         
     </LinearLayout>
 	
