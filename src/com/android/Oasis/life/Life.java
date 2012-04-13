@@ -26,7 +26,7 @@ public class Life extends Activity {
 		facebook.authorize(this, new DialogListener() {
 			@Override
 			public void onComplete(Bundle values) {
-				String uri = "http://tinyurl.com/87s7he9";
+				String uri = "http://m.facebook.com/lmr3796";
 				Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 				startActivity(intent);
 				Life.this.finish();

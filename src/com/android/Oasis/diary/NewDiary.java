@@ -1,5 +1,6 @@
 package com.android.Oasis.diary;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,13 +35,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
+import com.android.Oasis.BaseRequestListener;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 import com.android.Oasis.life.Life;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
+import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 
 public class NewDiary extends Activity {
+
+	Facebook facebook = new Facebook("285141848231182");
+	AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
 
 	private SQLiteDatabase db;
 	MySQLite mySQLite;
@@ -114,7 +124,7 @@ public class NewDiary extends Activity {
 		});
 
 		final Bitmap finalImg = finalBitmap;
-		//finalBitmap.recycle();
+		// finalBitmap.recycle();
 
 		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
 		btn_save.setOnClickListener(new OnClickListener() {
@@ -128,8 +138,27 @@ public class NewDiary extends Activity {
 
 				combineImages(finalImg, bitmap);
 				saveToDb();
-				//bitmap.recycle();
-				//finalImg.recycle();
+				// bitmap.recycle();
+				// finalImg.recycle();
+				System.gc();
+				NewDiary.this.finish();
+			}
+		});
+
+		ImageButton btn_post = (ImageButton) findViewById(R.id.diary_btn_post);
+		btn_post.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Bitmap bitmap;
+				if (text.getText().toString().equals(""))
+					bitmap = null;
+				else
+					bitmap = text.getDrawingCache();
+
+				combineImages(finalImg, bitmap);
+				saveToDb();
+				// postToWall();
+				//fbCheck();
 				System.gc();
 				NewDiary.this.finish();
 			}
@@ -209,6 +238,63 @@ public class NewDiary extends Activity {
 
 	}
 
+	private void fbCheck() {
+
+		facebook.authorize(this, new String[] { "publish_stream" },
+				new DialogListener() {
+
+					@Override
+					public void onFacebookError(FacebookError e) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onError(DialogError dialogError) {
+						// TODO Auto-generated method stub
+					}
+
+					@Override
+					public void onComplete(Bundle values) {
+						postToWall(values.getString(Facebook.TOKEN));
+					}
+
+					@Override
+					public void onCancel() {
+					}
+				});
+	}
+
+	private void postToWall(String accessToken) {
+
+		AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(facebook);
+
+		// Bundle params = new Bundle();
+		// params.putString(Facebook.TOKEN, accessToken);
+
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		result.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		byte[] byteArray = stream.toByteArray();
+
+		// params.putByteArray("picture", byteArray);
+
+		Bundle bundlefb = new Bundle();
+		bundlefb.putByteArray("picture", byteArray);
+		bundlefb.putString(Facebook.TOKEN, accessToken);
+
+		mAsyncFbRunner.request("me/photos", bundlefb, "POST",
+				new WallPostListener(), null);
+
+	}
+
+	private final class WallPostListener extends BaseRequestListener {
+
+		@Override
+		public void onComplete(String response, Object state) {
+			// TODO Auto-generated method stub
+
+		}
+	}
+
 	public void combineImages(Bitmap photo, Bitmap text) {
 
 		Bitmap resizePhoto = null;
@@ -257,9 +343,9 @@ public class NewDiary extends Activity {
 		// sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
 		// Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
-		//bmp.recycle();
-		//img.recycle();
-		//result.recycle();
+		// bmp.recycle();
+		// img.recycle();
+		// result.recycle();
 
 		System.gc();
 

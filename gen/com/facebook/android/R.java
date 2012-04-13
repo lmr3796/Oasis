@@ -67,10 +67,11 @@ public final class R {
         public static final int browsediary_ll_others=0x7f050005;
         public static final int diary_btn_delete=0x7f050003;
         public static final int diary_btn_new=0x7f05000c;
+        public static final int diary_btn_post=0x7f050011;
         public static final int diary_btn_save=0x7f050010;
         public static final int diary_btn_share=0x7f050004;
         public static final int gallery=0x7f050007;
-        public static final int img_letter=0x7f050016;
+        public static final int img_letter=0x7f050017;
         public static final int index_bg=0x7f050006;
         public static final int main_btn_diary=0x7f050009;
         public static final int main_btn_life=0x7f05000b;
@@ -79,16 +80,16 @@ public final class R {
         public static final int newdiary_ll=0x7f05000d;
         public static final int newdiary_pic=0x7f05000e;
         public static final int newdiary_text=0x7f05000f;
-        public static final int pager=0x7f050011;
-        public static final int recent_btn_leaf=0x7f050014;
-        public static final int recent_btn_rain=0x7f050012;
-        public static final int recent_btn_sick=0x7f050015;
-        public static final int recent_btn_worm=0x7f050013;
-        public static final int story_btn_family=0x7f050019;
-        public static final int story_btn_grow=0x7f05001a;
-        public static final int story_btn_mood=0x7f050018;
-        public static final int tv_letter=0x7f050017;
-        public static final int ui_contextmenu_headertextview=0x7f05001b;
+        public static final int pager=0x7f050012;
+        public static final int recent_btn_leaf=0x7f050015;
+        public static final int recent_btn_rain=0x7f050013;
+        public static final int recent_btn_sick=0x7f050016;
+        public static final int recent_btn_worm=0x7f050014;
+        public static final int story_btn_family=0x7f05001a;
+        public static final int story_btn_grow=0x7f05001b;
+        public static final int story_btn_mood=0x7f050019;
+        public static final int tv_letter=0x7f050018;
+        public static final int ui_contextmenu_headertextview=0x7f05001c;
     }
     public static final class layout {
         public static final int browsediary=0x7f030000;
