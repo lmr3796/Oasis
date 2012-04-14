@@ -27,13 +27,14 @@
 	        android:padding="10dip"
 	        android:background="@android:color/transparent" />
 	    
-	    <ImageButton
-	        android:id="@+id/diary_btn_share"
-	        android:src="@drawable/diary_btn_share"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	    <com.android.Oasis.LoginButton
+        	android:id="@+id/login"
+        	android:src="@drawable/login_button"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
 	        android:padding="10dip"
-	        android:background="@android:color/transparent" />
+	        android:background="@android:color/transparent"
+        />
 	    
 	</LinearLayout>
 	

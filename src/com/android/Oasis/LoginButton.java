@@ -27,8 +27,8 @@ import android.widget.ImageButton;
 
 import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
+import com.android.Oasis.diary.BrowseDiary;
 import com.android.Oasis.diary.NewDiary;
-import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
@@ -94,6 +94,9 @@ public class LoginButton extends ImageButton {
 			}
 			if (FROMWHERE == 1) {
 				((NewDiary) LoginButton.this.getContext()).sendPost();
+			}
+			if (FROMWHERE == 2) {
+				((BrowseDiary) LoginButton.this.getContext()).sendPost();
 			}
 		}
 	}

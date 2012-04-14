@@ -63,7 +63,6 @@ import com.facebook.android.Util;
 public class NewDiary extends Activity {
 
 	public static final String APP_ID = "285141848231182";
-	
 	private Facebook mFacebook;
     private AsyncFacebookRunner mAsyncRunner;
 
