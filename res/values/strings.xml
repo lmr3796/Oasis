@@ -3,5 +3,61 @@
 
     <string name="hello">Hello World, OasisActivity!</string>
     <string name="app_name">Oasis</string>
+    
+    <string-array name="storymood">
+        <item>mood0</item>
+        <item>mood1</item>
+        <item>mood2</item>
+        <item>mood3</item>
+        <item>mood4</item>
+    </string-array>
+    
+    <string-array name="storyfamily">
+        <item>family0</item>
+        <item>family1</item>
+        <item>family2</item>
+        <item>family3</item>
+        <item>family4</item>
+    </string-array>
+    
+    <string-array name="storygrow">
+        <item>grow0</item>
+        <item>grow1</item>
+        <item>grow2</item>
+        <item>grow3</item>
+        <item>grow4</item>
+    </string-array>
+    
+    <string-array name="recentrain">
+        <item>rain0</item>
+        <item>rain1</item>
+        <item>rain2</item>
+        <item>rain3</item>
+        <item>rain4</item>
+    </string-array>
+    
+    <string-array name="recentworm">
+        <item>worm0</item>
+        <item>worm1</item>
+        <item>worm2</item>
+        <item>worm3</item>
+        <item>worm4</item>
+    </string-array>
+    
+    <string-array name="recentleaf">
+        <item>leaf0</item>
+        <item>leaf1</item>
+        <item>leaf2</item>
+        <item>leaf3</item>
+        <item>leaf4</item>
+    </string-array>
+    
+    <string-array name="recentsick">
+        <item>sick0</item>
+        <item>sick1</item>
+        <item>sick2</item>
+        <item>sick3</item>
+        <item>sick4</item>
+    </string-array>
 
 </resources>

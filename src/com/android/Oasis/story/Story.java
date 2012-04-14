@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -32,9 +33,6 @@ import com.android.Oasis.recent.Recent;
 public class Story extends Activity {
 
 	String type;
-	private static int NUM_MOOD = 9;
-	private static int NUM_FAMILY = 2;
-	private static int NUM_GROW = 8;
 
 	private ViewPager viewPager;
 	private Context cxt;
@@ -45,6 +43,10 @@ public class Story extends Activity {
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
 	
+	String[] moodstrs;
+	String[] familystrs;
+	String[] growstrs;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class Story extends Activity {
 		setContentView(R.layout.story);
 		cxt = this;
 		type = "mood";
+		
+		readString();
 
 		bundle = this.getIntent().getExtras();
 		
@@ -69,7 +73,7 @@ public class Story extends Activity {
 			@Override
 			public void onClick(View v) {
 				img_letter.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.letter_open));
-				handler.sendEmptyMessageDelayed(1, 1500);
+				handler.sendEmptyMessageDelayed(1, 1000);
 			}
 		});
 
@@ -137,18 +141,25 @@ public class Story extends Activity {
 		});
 
 	}
+	
+	private void readString(){
+		Resources res = Story.this.getResources();
+		moodstrs = res.getStringArray(R.array.storymood);
+		familystrs = res.getStringArray(R.array.storyfamily);
+		growstrs = res.getStringArray(R.array.storygrow);
+	}
 
 	private class pagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
 			if (type.equals("mood"))
-				return NUM_MOOD;
+				return moodstrs.length;
 			if (type.equals("family"))
-				return NUM_FAMILY;
+				return familystrs.length;
 			if (type.equals("grow"))
-				return NUM_GROW;
-			return NUM_MOOD;
+				return growstrs.length;
+			return 0;
 		}
 
 		/**
@@ -169,8 +180,8 @@ public class Story extends Activity {
 		public Object instantiateItem(View collection, int position) {
 
 			String pos = String.valueOf(position);
-			String filename = type + "story" + pos + ".txt";
-			String contentStr = "";
+			//String filename = type + "story" + pos + ".txt";
+			//String contentStr = "";
 
 			ScrollView sv = new ScrollView(cxt);
 
@@ -184,6 +195,7 @@ public class Story extends Activity {
 
 			ll.addView(tv);
 
+			/*
 			InputStream input;
 			try {
 				input = getAssets().open(filename);
@@ -210,6 +222,22 @@ public class Story extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			*/
+			
+			TextView cont = new TextView(cxt);
+			cont.setTextColor(Color.BLACK);
+			cont.setTextSize(20);
+			cont.setTypeface(Typeface.createFromAsset(getAssets(),
+					"fonts/textfont.ttf"));
+			
+			if (type.equals("mood"))
+				cont.setText(moodstrs[position]);
+			else if (type.equals("family"))
+				cont.setText(familystrs[position]);
+			else if (type.equals("grow"))
+				cont.setText(growstrs[position]);
+			
+			ll.addView(cont);
 
 			sv.addView(ll);
 			((ViewPager) collection).addView(sv);

@@ -8,6 +8,15 @@
 package com.android.Oasis;
 
 public final class R {
+    public static final class array {
+        public static final int recentleaf=0x7f050005;
+        public static final int recentrain=0x7f050003;
+        public static final int recentsick=0x7f050006;
+        public static final int recentworm=0x7f050004;
+        public static final int storyfamily=0x7f050001;
+        public static final int storygrow=0x7f050002;
+        public static final int storymood=0x7f050000;
+    }
     public static final class attr {
     }
     public static final class drawable {
@@ -67,34 +76,34 @@ public final class R {
         public static final int title=0x7f020035;
     }
     public static final class id {
-        public static final int browsediary_img=0x7f050001;
-        public static final int browsediary_ll=0x7f050000;
-        public static final int browsediary_ll_mine=0x7f050002;
-        public static final int browsediary_ll_others=0x7f050005;
-        public static final int diary_btn_delete=0x7f050003;
-        public static final int diary_btn_new=0x7f05000c;
-        public static final int diary_btn_save=0x7f050010;
-        public static final int gallery=0x7f050007;
-        public static final int img_letter=0x7f050016;
-        public static final int index_bg=0x7f050006;
-        public static final int login=0x7f050004;
-        public static final int main_btn_diary=0x7f050009;
-        public static final int main_btn_life=0x7f05000b;
-        public static final int main_btn_recent=0x7f05000a;
-        public static final int main_btn_story=0x7f050008;
-        public static final int newdiary_ll=0x7f05000d;
-        public static final int newdiary_pic=0x7f05000e;
-        public static final int newdiary_text=0x7f05000f;
-        public static final int pager=0x7f050011;
-        public static final int recent_btn_leaf=0x7f050014;
-        public static final int recent_btn_rain=0x7f050012;
-        public static final int recent_btn_sick=0x7f050015;
-        public static final int recent_btn_worm=0x7f050013;
-        public static final int story_btn_family=0x7f050019;
-        public static final int story_btn_grow=0x7f05001a;
-        public static final int story_btn_mood=0x7f050018;
-        public static final int tv_letter=0x7f050017;
-        public static final int ui_contextmenu_headertextview=0x7f05001b;
+        public static final int browsediary_img=0x7f060001;
+        public static final int browsediary_ll=0x7f060000;
+        public static final int browsediary_ll_mine=0x7f060002;
+        public static final int browsediary_ll_others=0x7f060005;
+        public static final int diary_btn_delete=0x7f060003;
+        public static final int diary_btn_new=0x7f06000c;
+        public static final int diary_btn_save=0x7f060010;
+        public static final int gallery=0x7f060007;
+        public static final int img_letter=0x7f060016;
+        public static final int index_bg=0x7f060006;
+        public static final int login=0x7f060004;
+        public static final int main_btn_diary=0x7f060009;
+        public static final int main_btn_life=0x7f06000b;
+        public static final int main_btn_recent=0x7f06000a;
+        public static final int main_btn_story=0x7f060008;
+        public static final int newdiary_ll=0x7f06000d;
+        public static final int newdiary_pic=0x7f06000e;
+        public static final int newdiary_text=0x7f06000f;
+        public static final int pager=0x7f060011;
+        public static final int recent_btn_leaf=0x7f060014;
+        public static final int recent_btn_rain=0x7f060012;
+        public static final int recent_btn_sick=0x7f060015;
+        public static final int recent_btn_worm=0x7f060013;
+        public static final int story_btn_family=0x7f060019;
+        public static final int story_btn_grow=0x7f06001a;
+        public static final int story_btn_mood=0x7f060018;
+        public static final int tv_letter=0x7f060017;
+        public static final int ui_contextmenu_headertextview=0x7f06001b;
     }
     public static final class layout {
         public static final int browsediary=0x7f030000;

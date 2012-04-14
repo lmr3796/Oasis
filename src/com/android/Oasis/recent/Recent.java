@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -45,6 +46,11 @@ public class Recent extends Activity {
 	
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+	
+	String[] rainstrs;
+	String[] wormstrs;
+	String[] leafstrs;
+	String[] sickstrs;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -53,6 +59,8 @@ public class Recent extends Activity {
 		setContentView(R.layout.recent);
 		cxt = this;
 		type = "rain";
+		
+		readString();
 		
 		bundle = this.getIntent().getExtras();
 
@@ -70,7 +78,7 @@ public class Recent extends Activity {
 			@Override
 			public void onClick(View v) {
 				img_letter.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.letter_open));
-				handler.sendEmptyMessageDelayed(1, 1500);
+				handler.sendEmptyMessageDelayed(1, 1000);
 			}
 		});
 
@@ -159,20 +167,28 @@ public class Recent extends Activity {
 		});
 
 	}
+	
+	private void readString(){
+		Resources res = Recent.this.getResources();
+		rainstrs = res.getStringArray(R.array.recentrain);
+		wormstrs = res.getStringArray(R.array.recentworm);
+		leafstrs = res.getStringArray(R.array.recentleaf);
+		sickstrs = res.getStringArray(R.array.recentsick);
+	}
 
 	private class pagerAdapter extends PagerAdapter {
 
 		@Override
 		public int getCount() {
 			if (type.equals("rain"))
-				return NUM_RAIN;
+				return rainstrs.length;
 			if (type.equals("worm"))
-				return NUM_WORM;
+				return wormstrs.length;
 			if (type.equals("leaf"))
-				return NUM_LEAF;
+				return leafstrs.length;
 			if (type.equals("sick"))
-				return NUM_SICK;
-			return NUM_RAIN;
+				return sickstrs.length;
+			return 0;
 		}
 
 		/**
@@ -193,8 +209,8 @@ public class Recent extends Activity {
 		public Object instantiateItem(View collection, int position) {
 
 			String pos = String.valueOf(position);
-			String filename = type + pos + ".txt";
-			String contentStr = "";
+			//String filename = type + pos + ".txt";
+			//String contentStr = "";
 
 			ScrollView sv = new ScrollView(cxt);
 
@@ -208,6 +224,7 @@ public class Recent extends Activity {
 
 			ll.addView(tv);
 
+			/*
 			InputStream input;
 			try {
 				input = getAssets().open(filename);
@@ -234,6 +251,24 @@ public class Recent extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			*/
+			
+			TextView cont = new TextView(cxt);
+			cont.setTextColor(Color.BLACK);
+			cont.setTextSize(20);
+			cont.setTypeface(Typeface.createFromAsset(getAssets(),
+					"fonts/textfont.ttf"));
+			
+			if (type.equals("rain"))
+				cont.setText(rainstrs[position]);
+			else if (type.equals("worm"))
+				cont.setText(wormstrs[position]);
+			else if (type.equals("leaf"))
+				cont.setText(leafstrs[position]);
+			else if (type.equals("sick"))
+				cont.setText(sickstrs[position]);
+			
+			ll.addView(cont);
 
 			sv.addView(ll);
 			((ViewPager) collection).addView(sv);
