@@ -24,7 +24,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.android.Oasis.Main;
 import com.android.Oasis.R;
 import com.android.Oasis.diary.OldDiary;
 import com.android.Oasis.life.Life;

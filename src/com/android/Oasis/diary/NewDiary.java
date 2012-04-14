@@ -5,10 +5,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -25,6 +32,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,21 +45,27 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.android.Oasis.BaseRequestListener;
+import com.android.Oasis.LoginButton;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
+import com.android.Oasis.SessionEvents;
+import com.android.Oasis.SessionEvents.AuthListener;
+import com.android.Oasis.SessionEvents.LogoutListener;
+import com.android.Oasis.SessionStore;
 import com.android.Oasis.life.Life;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
+import com.facebook.android.Util;
 
 public class NewDiary extends Activity {
 
-	Facebook facebook = new Facebook("285141848231182");
-	AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
+	public static final String APP_ID = "285141848231182";
+	
+	private Facebook mFacebook;
+    private AsyncFacebookRunner mAsyncRunner;
 
 	private SQLiteDatabase db;
 	MySQLite mySQLite;
@@ -66,12 +81,27 @@ public class NewDiary extends Activity {
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+	
+	private LoginButton mLoginButton;
+	EditText text;
+	Bitmap finalImg;
 
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newdiary);
+		
+		mLoginButton = (LoginButton) findViewById(R.id.login);
+		mLoginButton.setImageResource(R.drawable.diary_btn_post);
+		
+		mFacebook = new Facebook(APP_ID);
+       	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
+       	
+       	SessionStore.restore(mFacebook, this);
+        SessionEvents.addAuthListener(new SampleAuthListener());
+        SessionEvents.addLogoutListener(new SampleLogoutListener());
+        mLoginButton.init(this, mFacebook, 1);
 
 		// Bundle bundle;
 		bundle = this.getIntent().getExtras();
@@ -106,7 +136,7 @@ public class NewDiary extends Activity {
 		imgview.setMaxWidth(320);
 		imgview.setImageBitmap(finalBitmap);
 
-		final EditText text = (EditText) findViewById(R.id.newdiary_text);
+		text = (EditText) findViewById(R.id.newdiary_text);
 		text.setMaxLines(3);
 		text.setTextSize(15);
 		text.setWidth(320);
@@ -124,7 +154,7 @@ public class NewDiary extends Activity {
 			}
 		});
 
-		final Bitmap finalImg = finalBitmap;
+		finalImg = finalBitmap;
 		// finalBitmap.recycle();
 
 		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
@@ -146,6 +176,7 @@ public class NewDiary extends Activity {
 			}
 		});
 
+		/*
 		ImageButton btn_post = (ImageButton) findViewById(R.id.diary_btn_post);
 		btn_post.setOnClickListener(new OnClickListener() {
 			@Override
@@ -158,12 +189,12 @@ public class NewDiary extends Activity {
 
 				combineImages(finalImg, bitmap);
 				saveToDb();
-				// postToWall();
-				//fbCheck();
+				postToWall();
 				System.gc();
 				NewDiary.this.finish();
 			}
 		});
+		*/
 
 		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
 		btn_story.setOnClickListener(new OnClickListener() {
@@ -214,6 +245,22 @@ public class NewDiary extends Activity {
 		});
 
 	}
+	
+	public void sendPost()
+	{
+		Bitmap bitmap;
+		if (text.getText().toString().equals(""))
+			bitmap = null;
+		else
+			bitmap = text.getDrawingCache();
+
+		combineImages(finalImg, bitmap);
+		saveToDb();
+		postToWall();
+		System.gc();
+		NewDiary.this.finish();
+		
+	}
 
 	public void saveToDb() {
 
@@ -221,8 +268,6 @@ public class NewDiary extends Activity {
 				Locale.TAIWAN);
 		String posttime = sdfDateTime.format(new Date(System
 				.currentTimeMillis()));
-
-		// finalLoc newtime plant
 
 		mySQLite = new MySQLite(NewDiary.this);
 		db = mySQLite.getWritableDatabase();
@@ -240,53 +285,44 @@ public class NewDiary extends Activity {
 
 	}
 
-	private void fbCheck() {
+	private void postToWall() {
 
-		facebook.authorize(this, new String[] { "publish_stream" },
-				new DialogListener() {
+		final Handler handler = new Handler() {
+			public void handleMessage(Message what) {
+				finish();
+			}
+		};
+		Thread thread = new Thread() {
+			public void run() {
+				publishToWall();
+				handler.sendEmptyMessage(0);
+			}
+		};
+		thread.start();
 
-					@Override
-					public void onFacebookError(FacebookError e) {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void onError(DialogError dialogError) {
-						// TODO Auto-generated method stub
-					}
-
-					@Override
-					public void onComplete(Bundle values) {
-						postToWall(values.getString(Facebook.TOKEN));
-					}
-
-					@Override
-					public void onCancel() {
-					}
-				});
 	}
 
-	private void postToWall(String accessToken) {
+	private void publishToWall() {
 
-		AsyncFacebookRunner mAsyncFbRunner = new AsyncFacebookRunner(facebook);
-
-		// Bundle params = new Bundle();
-		// params.putString(Facebook.TOKEN, accessToken);
-
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		Bundle params = new Bundle();
+        params.putString("method", "photos.upload");
+        
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		result.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] byteArray = stream.toByteArray();
+        
+        params.putByteArray("picture", byteArray);
 
-		// params.putByteArray("picture", byteArray);
-
-		Bundle bundlefb = new Bundle();
-		bundlefb.putByteArray("picture", byteArray);
-		bundlefb.putString(Facebook.TOKEN, accessToken);
-
-		mAsyncFbRunner.request("me/photos", bundlefb, "POST",
-				new WallPostListener(), null);
+        mAsyncRunner.request(null, params, "POST",
+                new SampleUploadListener(), null);
 
 	}
+	
+	@Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data) {
+        mFacebook.authorizeCallback(requestCode, resultCode, data);
+    }
 
 	private final class WallPostListener extends BaseRequestListener {
 
@@ -296,6 +332,53 @@ public class NewDiary extends Activity {
 
 		}
 	}
+	
+	public class SampleAuthListener implements AuthListener {
+
+        public void onAuthSucceed() {
+            
+        }
+
+        public void onAuthFail(String error) {
+            
+        }
+    }
+
+    public class SampleLogoutListener implements LogoutListener {
+        public void onLogoutBegin() {
+            
+        }
+
+        public void onLogoutFinish() {
+            
+        }
+    }
+    
+    public class SampleUploadListener extends BaseRequestListener {
+
+        public void onComplete(final String response, final Object state) {
+            try {
+                // process the response here: (executed in background thread)
+                Log.d("Facebook-Example", "Response: " + response.toString());
+                JSONObject json = Util.parseJson(response);
+                final String src = json.getString("src");
+
+                // then post the processed result back to the UI thread
+                // if we do not do this, an runtime exception will be generated
+                // e.g. "CalledFromWrongThreadException: Only the original
+                // thread that created a view hierarchy can touch its views."
+                //NewDiary.this.runOnUiThread(new Runnable() {
+                //   public void run() {
+                //        mText.setText("Hello there, photo has been uploaded at \n" + src);
+                //    }
+                //});
+            } catch (JSONException e) {
+                Log.w("Facebook-Example", "JSON Error in response");
+            } catch (FacebookError e) {
+                Log.w("Facebook-Example", "Facebook Error: " + e.getMessage());
+            }
+        }
+    }
 
 	public void combineImages(Bitmap photo, Bitmap text) {
 
@@ -336,20 +419,23 @@ public class NewDiary extends Activity {
 		} catch (IOException e) {
 			Log.e("combineImages", "problem combining images", e);
 		}
-		
-		
-		Bitmap thumb = Bitmap.createScaledBitmap(result, 120, result.getHeight()*120/result.getWidth(), true);
-		File dir2 = new File(Environment.getExternalStorageDirectory() + "/Oasis/thumb");
+
+		Bitmap thumb = Bitmap.createScaledBitmap(result, 120,
+				result.getHeight() * 120 / result.getWidth(), true);
+		File dir2 = new File(Environment.getExternalStorageDirectory()
+				+ "/Oasis/thumb");
 		dir2.mkdirs();
-		String currentTimeStr2 = String.valueOf(System.currentTimeMillis())+"tb";
+		String currentTimeStr2 = String.valueOf(System.currentTimeMillis())
+				+ "tb";
 		File picture2 = new File(dir2, currentTimeStr2 + ".png"); // new file
 		try {
 			OutputStream os = new FileOutputStream(picture2);
 			thumb.compress(CompressFormat.PNG, 100, os);
 			os.close();
 			finalLocThumb = Uri.fromFile(picture2).toString();
-		} catch (IOException e) {}
-		
+		} catch (IOException e) {
+		}
+
 		// android.provider.MediaStore.Images.Media.insertImage(
 		// getContentResolver(), result, "", "");
 
