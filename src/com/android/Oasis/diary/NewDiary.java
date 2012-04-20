@@ -140,8 +140,8 @@ public class NewDiary extends Activity {
 		text.setTextSize(15);
 		text.setWidth(320);
 		text.setTextColor(Color.BLACK);
-		text.setTypeface(Typeface.createFromAsset(getAssets(),
-				"fonts/textfont.ttf"));
+		//text.setTypeface(Typeface.createFromAsset(getAssets(),
+		//		"fonts/fontw3.ttc"));
 
 		ViewTreeObserver vto = text.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {

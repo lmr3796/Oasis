@@ -56,7 +56,7 @@ public class LoginButton extends ImageButton {
 	}
 
 	public void init(final Activity activity, final Facebook fb, int from) {
-		init(activity, fb, new String[] {}, from);
+		init(activity, fb, new String[] {"manage_pages","publish_stream"}, from);
 	}
 
 	public void init(final Activity activity, final Facebook fb,

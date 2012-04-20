@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:orientation="horizontal"
-        android:layout_weight="0.2"
+        android:layout_weight="0.15"
         android:weightSum="1">
         
         <ImageButton
@@ -22,7 +22,8 @@
 	    	android:layout_width="0dip"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/recent_btn_rain"
-	    	android:background="@android:color/transparent"/>
+	    	android:background="@android:color/transparent"
+	    	android:layout_gravity="center_vertical"/>
         
         <ImageButton
             android:id="@+id/recent_btn_worm"
@@ -32,7 +33,8 @@
 	    	android:layout_width="0dip"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/recent_btn_worm"
-	    	android:background="@android:color/transparent" />
+	    	android:background="@android:color/transparent"
+	    	android:layout_gravity="center_vertical" />
         
         <ImageButton
             android:id="@+id/recent_btn_leaf"
@@ -42,7 +44,8 @@
 	    	android:layout_width="0dip"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/recent_btn_leaf"
-	    	android:background="@android:color/transparent" />
+	    	android:background="@android:color/transparent"
+	    	android:layout_gravity="center_vertical" />
         
         <ImageButton
             android:id="@+id/recent_btn_sick"
@@ -52,7 +55,8 @@
 	    	android:layout_width="0dip"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/recent_btn_sick"
-	    	android:background="@android:color/transparent" />
+	    	android:background="@android:color/transparent"
+	    	android:layout_gravity="center_vertical" />
 
     	<ImageView
     	    android:adjustViewBounds="true"
@@ -67,7 +71,7 @@
 	</LinearLayout>
 	
     <LinearLayout
-        android:layout_weight="0.59" 
+        android:layout_weight="0.64" 
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:orientation="vertical"

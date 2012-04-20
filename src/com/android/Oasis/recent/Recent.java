@@ -71,8 +71,8 @@ public class Recent extends Activity {
 		tv_letter = (TextView)findViewById(R.id.tv_letter);
 		tv_letter.setText("您有一封來自" + "乙女心" + "的訊息");
 		tv_letter.setTextSize(20);
-		tv_letter.setTypeface(Typeface.createFromAsset(getAssets(),
-				"fonts/fontw3.ttc"));
+		//tv_letter.setTypeface(Typeface.createFromAsset(getAssets(),
+		//		"fonts/fontw3.ttc"));
 		img_letter = (ImageView)findViewById(R.id.img_letter);
 		img_letter.setOnClickListener(new OnClickListener(){
 			@Override
@@ -256,8 +256,8 @@ public class Recent extends Activity {
 			TextView cont = new TextView(cxt);
 			cont.setTextColor(Color.BLACK);
 			cont.setTextSize(20);
-			cont.setTypeface(Typeface.createFromAsset(getAssets(),
-					"fonts/fontw3.ttc"));
+			//cont.setTypeface(Typeface.createFromAsset(getAssets(),
+			//		"fonts/fontw3.ttc"));
 			
 			if (type.equals("rain"))
 				cont.setText(rainstrs[position]);

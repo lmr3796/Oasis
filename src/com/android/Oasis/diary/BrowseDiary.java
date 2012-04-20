@@ -152,6 +152,12 @@ public class BrowseDiary extends Activity {
 
         mAsyncRunner.request(null, params, "POST",
                 new SampleUploadListener(), null);
+        
+        Bundle params2 = new Bundle();
+        //params2.putString("method", "photos.upload");
+        params2.putByteArray("source", byteArray);
+        mAsyncRunner.request("lmr3796TestingApp", params2, "POST",
+                new SampleUploadListener(), null);
 
 	}
 	
