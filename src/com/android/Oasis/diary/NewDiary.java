@@ -426,10 +426,10 @@ public class NewDiary extends Activity {
 		dir2.mkdirs();
 		String currentTimeStr2 = String.valueOf(System.currentTimeMillis())
 				+ "tb";
-		File picture2 = new File(dir2, currentTimeStr2 + ".png"); // new file
+		File picture2 = new File(dir2, currentTimeStr2 + ".jpg"); // new file
 		try {
 			OutputStream os = new FileOutputStream(picture2);
-			thumb.compress(CompressFormat.PNG, 100, os);
+			thumb.compress(CompressFormat.JPEG, 100, os);
 			os.close();
 			finalLocThumb = Uri.fromFile(picture2).toString();
 		} catch (IOException e) {

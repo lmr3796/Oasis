@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, OasisActivity!</string>
-    <string name="app_name">Oasis</string>
+    <string name="app_name">小綠洲</string>
     
     <string-array name="storymood">
         <item>mood0</item>
