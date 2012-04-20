@@ -1,16 +1,10 @@
 package com.android.Oasis.story;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -77,29 +71,42 @@ public class Story extends Activity {
 			}
 		});
 
-		ImageButton btn_mood = (ImageButton) findViewById(R.id.story_btn_mood);
+		final ImageButton btn_mood = (ImageButton) findViewById(R.id.story_btn_mood);
+		final ImageButton btn_family = (ImageButton) findViewById(R.id.story_btn_family);
+		final ImageButton btn_grow = (ImageButton) findViewById(R.id.story_btn_grow);
+		btn_mood.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_mood_y));
+		//btn_family.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_family));
+		//btn_grow.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_grow));
+		
 		btn_mood.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "mood";
+				btn_mood.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_mood_y));
+				btn_family.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_family));
+				btn_grow.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_grow));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
 
-		ImageButton btn_family = (ImageButton) findViewById(R.id.story_btn_family);
 		btn_family.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "family";
+				btn_mood.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_mood));
+				btn_family.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_family_y));
+				btn_grow.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_grow));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
 
-		ImageButton btn_grow = (ImageButton) findViewById(R.id.story_btn_grow);
 		btn_grow.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "grow";
+				btn_mood.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_mood));
+				btn_family.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_family));
+				btn_grow.setImageDrawable(Story.this.getResources().getDrawable(R.drawable.story_btn_grow_y));
 				viewPager.setAdapter(pageradapter);
 			}
 		});

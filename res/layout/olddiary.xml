@@ -30,7 +30,7 @@
 			android:layout_weight="0.25"
 	    	android:layout_width="0dip"
 	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/diary_btn_old"
+	    	android:src="@drawable/diary_btn_old_y"
 	    	android:background="@android:color/transparent" 
 	    	android:layout_gravity="center_vertical" />
         

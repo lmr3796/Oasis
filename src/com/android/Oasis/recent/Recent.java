@@ -82,38 +82,56 @@ public class Recent extends Activity {
 			}
 		});
 
-		ImageButton btn_rain = (ImageButton) findViewById(R.id.recent_btn_rain);
+		final ImageButton btn_rain = (ImageButton) findViewById(R.id.recent_btn_rain);
+		final ImageButton btn_worm = (ImageButton) findViewById(R.id.recent_btn_worm);
+		final ImageButton btn_leaf = (ImageButton) findViewById(R.id.recent_btn_leaf);
+		final ImageButton btn_sick = (ImageButton) findViewById(R.id.recent_btn_sick);
+		btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain_y));
+		
 		btn_rain.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "rain";
+				btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain_y));
+				btn_worm.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_worm));
+				btn_leaf.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_leaf));
+				btn_sick.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_sick));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
 
-		ImageButton btn_worm = (ImageButton) findViewById(R.id.recent_btn_worm);
 		btn_worm.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "worm";
+				btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain));
+				btn_worm.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_worm_y));
+				btn_leaf.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_leaf));
+				btn_sick.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_sick));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
 		
-		ImageButton btn_leaf = (ImageButton) findViewById(R.id.recent_btn_leaf);
 		btn_leaf.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "leaf";
+				btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain));
+				btn_worm.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_worm));
+				btn_leaf.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_leaf_y));
+				btn_sick.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_sick));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
 		
-		ImageButton btn_sick = (ImageButton) findViewById(R.id.recent_btn_sick);
 		btn_sick.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				type = "sick";
+				btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain));
+				btn_worm.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_worm));
+				btn_leaf.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_leaf));
+				btn_sick.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_sick_y));
 				viewPager.setAdapter(pageradapter);
 			}
 		});
