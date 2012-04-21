@@ -16,12 +16,16 @@
 
 package com.android.Oasis;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -35,6 +39,8 @@ import com.facebook.android.Facebook.DialogListener;
 import com.facebook.android.FacebookError;
 
 public class LoginButton extends ImageButton {
+
+	private String TAG = "mLoginButton";
 
 	private Facebook mFb;
 	private Handler mHandler;
@@ -56,11 +62,15 @@ public class LoginButton extends ImageButton {
 	}
 
 	public void init(final Activity activity, final Facebook fb, int from) {
-		init(activity, fb, new String[] {"manage_pages","publish_stream"}, from);
+		init(activity, fb, new String[] { "manage_pages", "publish_stream" },
+				from);
 	}
 
 	public void init(final Activity activity, final Facebook fb,
 			final String[] permissions, int from) {
+
+		Log.e(TAG, "LoginButton init");
+
 		mActivity = activity;
 		mFb = fb;
 		mPermissions = permissions;
@@ -82,39 +92,81 @@ public class LoginButton extends ImageButton {
 	private final class ButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View arg0) {
-			if (mFb.isSessionValid()) {
-				// SessionEvents.onLogoutBegin();
-				// AsyncFacebookRunner asyncRunner = new
-				// AsyncFacebookRunner(mFb);
-				// asyncRunner.logout(getContext(), new
-				// LogoutRequestListener());
-			} else {
-				mFb.authorize(mActivity, mPermissions,
-						new LoginDialogListener());
+			for (String s : mPermissions) {
+				Log.e(TAG, "permissons " + s);
 			}
-			if (FROMWHERE == 1) {
-				((NewDiary) LoginButton.this.getContext()).sendPost();
-			}
-			if (FROMWHERE == 2) {
-				((BrowseDiary) LoginButton.this.getContext()).sendPost();
-			}
+
+			Log.e(TAG, "onClick ");
+
+			/*
+			 * if (mFb.isSessionValid()) { // SessionEvents.onLogoutBegin(); //
+			 * AsyncFacebookRunner asyncRunner = new //
+			 * AsyncFacebookRunner(mFb); // asyncRunner.logout(getContext(), new
+			 * // LogoutRequestListener()); } else { mFb.authorize(mActivity,
+			 * mPermissions, new LoginDialogListener()); }
+			 */
+
+			mFb.authorize(mActivity, new String[] { "manage_pages", "read_stream",
+					"publish_stream" , "photo_upload"}, new DialogListener() {
+				@Override
+				public void onComplete(Bundle values) {
+
+					String access_token = (String) values.get("access_token");
+					mFb.setAccessToken(access_token);
+					Log.d(TAG, values.toString());
+					Log.d(TAG, "access_token = " + access_token);
+
+					if (FROMWHERE == 1) {
+						((NewDiary) LoginButton.this.getContext()).sendPost();
+					}
+					if (FROMWHERE == 2) {
+						((BrowseDiary) LoginButton.this.getContext())
+								.sendPost();
+					}
+
+				}
+
+				@Override
+				public void onFacebookError(FacebookError error) {
+					Log.d(TAG, "FB onFacebookError" + error.toString());
+				}
+
+				@Override
+				public void onError(DialogError e) {
+					Log.d(TAG, "FB on Error" + e.toString());
+
+				}
+
+				@Override
+				public void onCancel() {
+					Log.d(TAG, "FB onCancel");
+
+				}
+			});
+
+			// mFb.authorize(mActivity, mPermissions,
+			// new LoginDialogListener());
 		}
 	}
 
 	private final class LoginDialogListener implements DialogListener {
 		public void onComplete(Bundle values) {
+			Log.e(TAG, "onComplete");
 			SessionEvents.onLoginSuccess();
 		}
 
 		public void onFacebookError(FacebookError error) {
+			Log.e(TAG, "onFacebookError" + error.toString());
 			SessionEvents.onLoginError(error.getMessage());
 		}
 
 		public void onError(DialogError error) {
+			Log.e(TAG, "DialogError" + error.toString());
 			SessionEvents.onLoginError(error.getMessage());
 		}
 
 		public void onCancel() {
+			Log.e(TAG, "onCancel");
 			SessionEvents.onLoginError("Action Canceled");
 		}
 	}
