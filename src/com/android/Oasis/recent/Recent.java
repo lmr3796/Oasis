@@ -33,7 +33,12 @@ public class Recent extends Activity {
 	
 	String[] recentstrs;
 	
-	private int[] recentarray = {R.array.recent0};
+	private int[] recentarray = {
+			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
+			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
+			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
+			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0
+	};
 	
 	/** Called when the activity is first created. */
 	@Override
