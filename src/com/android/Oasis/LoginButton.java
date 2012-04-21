@@ -82,7 +82,7 @@ public class LoginButton extends ImageButton {
 	private final class ButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View arg0) {
-			if (mFb.isSessionValid()) {
+			/*if (mFb.isSessionValid()) {
 				// SessionEvents.onLogoutBegin();
 				// AsyncFacebookRunner asyncRunner = new
 				// AsyncFacebookRunner(mFb);
@@ -91,7 +91,9 @@ public class LoginButton extends ImageButton {
 			} else {
 				mFb.authorize(mActivity, mPermissions,
 						new LoginDialogListener());
-			}
+			}*/
+			mFb.authorize(mActivity, mPermissions,
+					new LoginDialogListener());
 			if (FROMWHERE == 1) {
 				((NewDiary) LoginButton.this.getContext()).sendPost();
 			}
