@@ -36,10 +36,13 @@ public class Story extends Activity {
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+	int PLANT = 0;
 	
 	String[] moodstrs;
 	String[] familystrs;
 	String[] growstrs;
+	
+	String[] plantstrs;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -52,6 +55,10 @@ public class Story extends Activity {
 		readString();
 
 		bundle = this.getIntent().getExtras();
+		PLANT = bundle.getInt("plant");
+		
+		Resources res = Story.this.getResources();
+		plantstrs = res.getStringArray(R.array.plantname);
 		
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);

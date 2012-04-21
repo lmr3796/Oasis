@@ -26,8 +26,13 @@ public class Main extends Activity {
 	
 	// original images of gallery
 	private Integer[] mThumbIds = { 
-			R.drawable.p_00, R.drawable.p_00, R.drawable.p_00,
-			R.drawable.p_00, R.drawable.p_00, R.drawable.p_00
+			R.drawable.gallery_selector_0, R.drawable.gallery_selector_1, R.drawable.gallery_selector_2,
+			R.drawable.gallery_selector_3, R.drawable.gallery_selector_4, R.drawable.gallery_selector_5,
+			R.drawable.gallery_selector_6, R.drawable.gallery_selector_7, R.drawable.gallery_selector_8,
+			R.drawable.gallery_selector_9, R.drawable.gallery_selector_10, R.drawable.gallery_selector_11,
+			R.drawable.gallery_selector_12, R.drawable.gallery_selector_13, R.drawable.gallery_selector_14,
+			R.drawable.gallery_selector_15, R.drawable.gallery_selector_16, R.drawable.gallery_selector_17,
+			R.drawable.gallery_selector_18, R.drawable.gallery_selector_19
 			};
 	
 	/** Called when the activity is first created. */
@@ -132,8 +137,11 @@ public class Main extends Activity {
 			} else {
 				imageView = (ImageView) convertView;
 			}
-			imageView.setImageResource(R.drawable.gallery_selector_0);
-			//imageView.setImageResource(mThumbIds[position]);
+			//if(position==0)
+			//	imageView.setImageResource(Main.this.getResources().getIdentifier("gallery_selector_" + position, "drawable", getPackageName()));
+			//else
+			//	imageView.setImageResource(R.drawable.gallery_selector_0);
+			imageView.setImageResource(mThumbIds[position]);
 			return imageView;
 		}
 	}
