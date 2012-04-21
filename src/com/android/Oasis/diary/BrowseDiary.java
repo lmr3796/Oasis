@@ -30,6 +30,7 @@ import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.SessionStore;
 import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
@@ -148,15 +149,15 @@ public class BrowseDiary extends Activity {
 		img.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] byteArray = stream.toByteArray();
         
-        params.putByteArray("picture", byteArray);
+        params.putByteArray("source", byteArray);
 
-        mAsyncRunner.request(null, params, "POST",
-                new SampleUploadListener(), null);
+//        mAsyncRunner.request(null, params, "POST",
+//                new SampleUploadListener(), null);
         
-        Bundle params2 = new Bundle();
+        //Bundle params2 = new Bundle();
         //params2.putString("method", "photos.upload");
-        params2.putByteArray("source", byteArray);
-        mAsyncRunner.request("lmr3796TestingApp", params2, "POST",
+        //params2.putByteArray("picture", byteArray);
+        mAsyncRunner.request("lmr3796TestingApp/feed", params, "POST",
                 new SampleUploadListener(), null);
 
 	}
@@ -185,8 +186,9 @@ public class BrowseDiary extends Activity {
     public class SampleUploadListener extends BaseRequestListener {
 
         public void onComplete(final String response, final Object state) {
-            
+            Log.e("BrowseDiary", response);
         }
+
     }
 	
 }
