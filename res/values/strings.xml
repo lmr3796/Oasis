@@ -5,26 +5,26 @@
     <string name="app_name">小綠洲</string>
     
     <string-array name="plantname">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
+        <item>乙女心</item>
+        <item>夕映</item>
+        <item>子持蓮華</item>
+        <item>子寶草</item>
+        <item>天章</item>
+        <item>月兔耳</item>
+        <item>火祭</item>
+        <item>史瑞克耳朵</item>
+        <item>玉露</item>
+        <item>白烏帽子</item>
+        <item>唐印</item>
+        <item>特葉玉蝶</item>
+        <item>脆冠玉</item>
+        <item>兜</item>
+        <item>莎薇娜</item>
+        <item>貴青玉</item>
+        <item>黑王子</item>
+        <item>熊童子</item>
+        <item>綠之鈴</item>
+        <item>銀杏木</item>
     </string-array>
     
     <string-array name="storymood">

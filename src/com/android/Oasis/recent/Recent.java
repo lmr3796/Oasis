@@ -46,12 +46,15 @@ public class Recent extends Activity {
 	
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+	int PLANT = 0;
 	
 	String[] rainstrs;
 	String[] wormstrs;
 	String[] leafstrs;
 	String[] sickstrs;
 
+	String[] plantstrs;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,13 +66,17 @@ public class Recent extends Activity {
 		readString();
 		
 		bundle = this.getIntent().getExtras();
+		PLANT = bundle.getInt("plant");
+		
+		Resources res = Recent.this.getResources();
+		plantstrs = res.getStringArray(R.array.plantname);
 
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
 		
 		tv_letter = (TextView)findViewById(R.id.tv_letter);
-		tv_letter.setText("您有一封來自" + "乙女心" + "的訊息");
+		tv_letter.setText("您有一封來自" + plantstrs[PLANT] + "的訊息");
 		tv_letter.setTextSize(20);
 		//tv_letter.setTypeface(Typeface.createFromAsset(getAssets(),
 		//		"fonts/fontw3.ttc"));

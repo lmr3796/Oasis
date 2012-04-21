@@ -65,7 +65,7 @@ public class Story extends Activity {
 		viewPager.setAdapter(pageradapter);
 		
 		tv_letter = (TextView)findViewById(R.id.tv_letter);
-		tv_letter.setText("您有一封來自" + "乙女心" + "的訊息");
+		tv_letter.setText("您有一封來自" + plantstrs[PLANT] + "的訊息");
 		tv_letter.setTextSize(20);
 		//tv_letter.setTypeface(Typeface.createFromAsset(getAssets(),
 		//		"fonts/fontw3.ttc"));
