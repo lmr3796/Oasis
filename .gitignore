@@ -1,3 +1,4 @@
-.DS_Store
-gen/*
-bin/*
+*bin/
+*gen/
+*.DS_Store
+*.swap

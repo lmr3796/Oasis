@@ -6,8 +6,8 @@
 	android:orientation="vertical"
 	android:gravity="center_horizontal|center_vertical"
 	android:id="@+id/browsediary_ll"
-	android:background="@drawable/bg_black">
-
+	android:background="#CC000000">
+	
 	<ImageView
 	    android:id="@+id/browsediary_img"
 	    android:layout_width="wrap_content"
