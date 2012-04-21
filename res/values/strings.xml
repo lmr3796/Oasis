@@ -27,60 +27,284 @@
         <item>銀杏木</item>
     </string-array>
     
-    <string-array name="storymood">
-        <item>mood0</item>
-        <item>mood1</item>
-        <item>mood2</item>
-        <item>mood3</item>
-        <item>mood4</item>
-    </string-array>
-    
-    <string-array name="storyfamily">
+    <string-array name="story0">
+        <item>
+親愛的：\n\n
+
+又一次\n
+妳為了生活上的繁瑣而落下了淚\n
+帶著淡淡的淚痕沉沉睡去\n\n
+
+但妳仍然相信\n
+每次的悲傷都是下一次成長的力量\n\n
+
+就像從我身上落下的每一滴淚型葉片\n
+都能在原地重新美麗的茁壯\n\n
+
+妳的每一滴淚\n
+也總是讓妳如此\n
+開出一株更美的花\n\n\n
+
+
+with love\n
+乙女心
+</item>
         <item>family0</item>
-        <item>family1</item>
-        <item>family2</item>
-        <item>family3</item>
-        <item>family4</item>
-    </string-array>
-    
-    <string-array name="storygrow">
         <item>grow0</item>
-        <item>grow1</item>
-        <item>grow2</item>
-        <item>grow3</item>
-        <item>grow4</item>
     </string-array>
     
-    <string-array name="recentrain">
+    <string-array name="story1">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story2">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story3">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story4">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story5">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story6">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story7">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story8">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story9">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story10">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story11">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story12">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story13">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story14">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story15">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story16">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story17">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story18">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="story19">
+        <item>mood0</item>
+        <item>family0</item>
+        <item>grow0</item>
+    </string-array>
+    
+    <string-array name="recent0">
         <item>rain0</item>
-        <item>rain1</item>
-        <item>rain2</item>
-        <item>rain3</item>
-        <item>rain4</item>
-    </string-array>
-    
-    <string-array name="recentworm">
         <item>worm0</item>
-        <item>worm1</item>
-        <item>worm2</item>
-        <item>worm3</item>
-        <item>worm4</item>
-    </string-array>
-    
-    <string-array name="recentleaf">
         <item>leaf0</item>
-        <item>leaf1</item>
-        <item>leaf2</item>
-        <item>leaf3</item>
-        <item>leaf4</item>
+        <item>sick0</item>
     </string-array>
     
-    <string-array name="recentsick">
+    <string-array name="recent1">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
         <item>sick0</item>
-        <item>sick1</item>
-        <item>sick2</item>
-        <item>sick3</item>
-        <item>sick4</item>
+    </string-array>
+    
+    <string-array name="recent2">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent3">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent4">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent5">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent6">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent7">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent8">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent9">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent10">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent11">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent12">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent13">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent14">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent15">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent16">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent17">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent18">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
+    </string-array>
+    
+    <string-array name="recent19">
+        <item>rain0</item>
+        <item>worm0</item>
+        <item>leaf0</item>
+        <item>sick0</item>
     </string-array>
 
 </resources>

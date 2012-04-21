@@ -1,153 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:background="@drawable/intro_bg"
-	android:orientation="vertical"
-	android:weightSum="1">
-	
-    <LinearLayout 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/intro_bg"
+    android:orientation="vertical"
+    android:weightSum="1" >
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:orientation="horizontal"
         android:layout_weight="0.15"
-        android:weightSum="1">
-        
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
         <ImageButton
             android:id="@+id/recent_btn_rain"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.2"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/recent_btn_rain"
-	    	android:background="@android:color/transparent"
-	    	android:layout_gravity="center_vertical"/>
-        
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recent_btn_rain" />
+
         <ImageButton
             android:id="@+id/recent_btn_worm"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.2"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/recent_btn_worm"
-	    	android:background="@android:color/transparent"
-	    	android:layout_gravity="center_vertical" />
-        
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recent_btn_worm" />
+
         <ImageButton
             android:id="@+id/recent_btn_leaf"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.2"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/recent_btn_leaf"
-	    	android:background="@android:color/transparent"
-	    	android:layout_gravity="center_vertical" />
-        
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recent_btn_leaf" />
+
         <ImageButton
             android:id="@+id/recent_btn_sick"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.2"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/recent_btn_sick"
-	    	android:background="@android:color/transparent"
-	    	android:layout_gravity="center_vertical" />
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/recent_btn_sick" />
 
-    	<ImageView
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-    	    android:layout_width="0dip"
-    	    android:layout_height="wrap_content"
-    	    android:layout_weight="0.2"
-    	    android:layout_gravity="right"
-    	    android:layout_marginRight="0dip"
-    	    android:src="@drawable/title" />
-
-	</LinearLayout>
-	
-    <LinearLayout
-        android:layout_weight="0.64" 
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:orientation="vertical"
-        android:gravity="center_vertical|center_horizontal"
-        android:background="@drawable/bg_yellow" >
-        
-        <ImageView 
-            android:id="@+id/img_letter"
-            android:src="@drawable/letter_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <TextView
-            android:id="@+id/tv_letter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        
-        <android.support.v4.view.ViewPager
-    		android:layout_width="fill_parent" 
-    		android:layout_height="fill_parent" 
-    		android:id="@+id/pager"
-    		android:visibility="gone"/>
-        
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="0dip"
+            android:layout_weight="0.2"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/title" />
     </LinearLayout>
-	
-	
-	<LinearLayout 
+
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="0dip"
-        android:orientation="horizontal"
+        android:layout_weight="0.64"
+        android:background="@drawable/bg_yellow"
+        android:gravity="center_vertical|center_horizontal" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/letter_close" />
+
+            <TextView
+                android:id="@+id/tv_letter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
         android:layout_weight="0.09"
-        android:weightSum="1">
-    	<ImageButton
-    	    android:id="@+id/main_btn_story"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.45"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/main_btn_story"
-	    	android:background="@android:color/transparent" />
-    	<ImageButton
-    	    android:id="@+id/main_btn_diary"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.5"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/main_btn_diary"
-	    	android:background="@android:color/transparent" />
-	</LinearLayout>
-	<LinearLayout 
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <ImageButton
+            android:id="@+id/main_btn_story"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_story" />
+
+        <ImageButton
+            android:id="@+id/main_btn_diary"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_diary" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="0.12"
-        android:orientation="horizontal"
         android:gravity="right"
-        android:weightSum="1">
-    	<ImageButton
-    	    android:id="@+id/main_btn_recent"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.45"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/main_btn_recent"
-	    	android:background="@android:color/transparent" />
-    	<ImageButton
-    	    android:id="@+id/main_btn_life"
-    	    android:adjustViewBounds="true"
-			android:scaleType="fitCenter"
-			android:layout_weight="0.45"
-	    	android:layout_width="0dip"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/main_btn_life"
-	    	android:background="@android:color/transparent" />
-	</LinearLayout>
-    	
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <ImageButton
+            android:id="@+id/main_btn_recent"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_recent" />
+
+        <ImageButton
+            android:id="@+id/main_btn_life"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.45"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/main_btn_life" />
+    </LinearLayout>
+
 </LinearLayout>
