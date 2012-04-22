@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.android.Oasis.BaseRequestListener;
@@ -20,11 +19,14 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.Util;
 
 public class DiaryPoster {
+	private static final String TAG="DiaryPoster";
 	private final String from;
 	private final Facebook mFacebook;
 	private final AsyncFacebookRunner mAsyncRunner;
 	private final BaseRequestListener requestListener;
-	private static final String MY_TESTING_APP_ID="390500010961729";
+	private static final String OASIS_ID="362681917086995";	/* My testing app*/
+	private static final String MY_TESTING_APP_ID="390500010961729";	/* My testing app*/
+	private static final String MY_FIRST_APP_ID="351680818212041";	/* Mary's first app*/
 	private static final String MY_TESTING_APP_PAGE_ID="lmr3796TestingApp";
 	private static final String B97902049_ID="100003735938104";
 	public DiaryPoster(String activityName, Facebook fb){
@@ -68,31 +70,91 @@ public class DiaryPoster {
 		String timeStamp = (c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+"-"+
 							c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND);
 		String token = mFacebook.getAccessToken();
+		HTTPPost post;
 		HttpResponse response;
-		/*
+		String responseStr, fbid="", photoURL="";
+		JSONObject jsonResponse = new JSONObject();
+		
+		// For release
+		timeStamp = "";
+		
+		// Upload photo
 		graphPath = "me/photos";
-		HTTPPost post = new HTTPPost("https://graph.facebook.com/"+ graphPath + "?access_token="+token);
+		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
-			post.addString("message", diaryText+"\n"+timeStamp);
+			post.addString("message",diaryText+"\n"+timeStamp);
+			post.addByte("source",byteArray);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		response = post.send();
-		Log.e(from,"1:"+HTTPPost.getResponseString(response));
-		*/
-		
-		graphPath = MY_TESTING_APP_PAGE_ID+"/photos";
-		HTTPPost post2 = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
+		responseStr = HTTPPost.getResponseString(response);
+		Log.e(from,"1:"+ responseStr);
 		try {
-			post2.addString("message",diaryText+"\n"+timeStamp);
-			post2.addByte("source",byteArray);
+			jsonResponse = new JSONObject(responseStr);
+			fbid = jsonResponse.getString("id");
+			Log.d(TAG, "fbid: " + fbid);
+		} catch (JSONException e){
+			Log.e(TAG, "Response json error");
+		} catch (NullPointerException e){
+			Log.e(TAG, "NullPointerException");
+			e.printStackTrace();
+			return;
+		}
+		photoURL = "http://www.facebook.com/photo.php?fbid="+fbid;
+		
+		
+		// To wall
+		graphPath = "me/feed";
+		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
+		try {
+			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
+			post.addString("link", photoURL);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		response = post2.send();
-		Log.e(from,"2:"+HTTPPost.getResponseString(response));
+		response = post.send();
+		responseStr = HTTPPost.getResponseString(response);
+		Log.e(from,"2:"+ responseStr);
+		try {
+			jsonResponse = new JSONObject(responseStr);
+			fbid = jsonResponse.getString("id");
+			Log.d(TAG, "fbid: " + fbid);
+		} catch (JSONException e){
+			Log.e(TAG, "Response json error");
+		} catch (NullPointerException e){
+			Log.e(TAG, "NullPointerException");
+			e.printStackTrace();
+			return;
+		}
 		
+		
+		// To fan page
+		graphPath = OASIS_ID+"/feed";
+		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
+		try {
+			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
+			post.addString("link", photoURL);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response = post.send();
+		responseStr = HTTPPost.getResponseString(response);
+		Log.e(from,"3:"+ responseStr);
+		try{
+			jsonResponse = new JSONObject(responseStr);
+			fbid = jsonResponse.getString("id");
+			Log.d(TAG, "fbid: " + fbid);
+		} catch (JSONException e){
+			Log.e(TAG, "Response json error");
+		} catch (NullPointerException e){
+			Log.e(TAG, "NullPointerException");
+			e.printStackTrace();
+			return;
+		}
+	
 	}
 }

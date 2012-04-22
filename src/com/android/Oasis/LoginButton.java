@@ -68,8 +68,6 @@ public class LoginButton extends ImageButton {
 	public void init(final Activity activity, final Facebook fb,
 			final String[] permissions, int from) {
 
-		Log.e(TAG, "LoginButton init");
-
 		mActivity = activity;
 		mFb = fb;
 		mPermissions = permissions;
@@ -91,20 +89,8 @@ public class LoginButton extends ImageButton {
 	private final class ButtonOnClickListener implements OnClickListener {
 
 		public void onClick(View arg0) {
-			for (String s : mPermissions) {
-				Log.e(TAG, "permissons " + s);
-			}
 
-			Log.e(TAG, "onClick ");
-
-			/*
-			 * if (mFb.isSessionValid()) { // SessionEvents.onLogoutBegin(); //
-			 * AsyncFacebookRunner asyncRunner = new //
-			 * AsyncFacebookRunner(mFb); // asyncRunner.logout(getContext(), new
-			 * // LogoutRequestListener()); } else { mFb.authorize(mActivity,
-			 * mPermissions, new LoginDialogListener()); }
-			 */
-
+			// Authorize no matter what
 			mFb.authorize(mActivity, new String[] { "manage_pages", "read_stream",
 					"publish_stream" , "photo_upload"}, new DialogListener() {
 				@Override
@@ -116,11 +102,9 @@ public class LoginButton extends ImageButton {
 					Log.d(TAG, "access_token = " + access_token);
 
 					if (FROMWHERE == 1) {
-						Log.e(TAG + " onComplete", "NewDiary before post");
 						((NewDiary) LoginButton.this.getContext()).sendPost();
 					}
 					else if (FROMWHERE == 2) {
-						Log.e(TAG + " onComplete", "BrowseDiary before post");
 						((BrowseDiary) LoginButton.this.getContext()).sendPost();
 					}
 
@@ -143,9 +127,6 @@ public class LoginButton extends ImageButton {
 
 				}
 			});
-			Log.e(TAG, "after mFb.authorize()");
-			// mFb.authorize(mActivity, mPermissions,
-			// new LoginDialogListener());
 		}
 	}
 
