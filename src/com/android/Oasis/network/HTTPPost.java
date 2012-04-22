@@ -29,11 +29,11 @@ public class HTTPPost {
 	MultipartEntity entity;
 	
 	public HTTPPost(String url) {
-	    httpClient = new DefaultHttpClient();
-	    localContext = new BasicHttpContext();
-	    httpPost = new HttpPost(url);
+		httpClient = new DefaultHttpClient();
+		localContext = new BasicHttpContext();
+		httpPost = new HttpPost(url);
 
-	    entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
+		entity = new MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE);
 	}
 	
 	public void addString(String key, String value) throws UnsupportedEncodingException {
@@ -58,8 +58,8 @@ public class HTTPPost {
 	public HttpResponse send() {
 		
 		httpPost.setEntity(entity);
-        HttpResponse response = null;
-        
+		HttpResponse response = null;
+		
 		try {
 			Log.d("TimeTuning", "Send Post...");
 			response = httpClient.execute(httpPost, localContext);
@@ -69,19 +69,19 @@ public class HTTPPost {
 			e.printStackTrace();
 		}
 		
-        return response;
+		return response;
 	}
 	
 	public static String getResponseString(HttpResponse response) {
 		String res = null;
 		if(response.getStatusLine().getStatusCode()==200) {   
-        	try {
+			try {
 				res = EntityUtils.toString(response.getEntity());
 			} catch (Exception e) {
 				Log.d("Post", "Error: " + e);
 				e.printStackTrace();
 			}
-        }
+		}
 		return res;
 	}	
 	

@@ -24,6 +24,7 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Gravity;
@@ -292,20 +293,20 @@ public class OldDiary extends Activity {
 		 * {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *            The containing View in which the page will be shown.
+		 *			The containing View in which the page will be shown.
 		 * @param position
-		 *            The page position to be instantiated.
+		 *			The page position to be instantiated.
 		 * @return Returns an Object representing the new page. This does not
-		 *         need to be a View, but can be some other container of the
-		 *         page.
+		 *		 need to be a View, but can be some other container of the
+		 *		 page.
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
 			
 			DisplayMetrics displaymetrics = new DisplayMetrics();
-	        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-	        //int height = displaymetrics.heightPixels;
-	        int width = displaymetrics.widthPixels;
+			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			//int height = displaymetrics.heightPixels;
+			int width = displaymetrics.widthPixels;
 
 			ScrollView sv = new ScrollView(cxt);
 			LinearLayout ll = new LinearLayout(cxt);
@@ -330,7 +331,7 @@ public class OldDiary extends Activity {
 			//photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
 			
 			for (i = 0; i < 4; i++) {
-
+				Log.wtf("jizz", "i have big belly!");
 				if (position * 8 + i >= array.size())
 					break;
 
@@ -473,12 +474,12 @@ public class OldDiary extends Activity {
 		 * this is done by the time it returns from {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *            The containing View from which the page will be removed.
+		 *			The containing View from which the page will be removed.
 		 * @param position
-		 *            The page position to be removed.
+		 *			The page position to be removed.
 		 * @param object
-		 *            The same object that was returned by
-		 *            {@link #instantiateItem(View, int)}.
+		 *			The same object that was returned by
+		 *			{@link #instantiateItem(View, int)}.
 		 */
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
@@ -496,8 +497,8 @@ public class OldDiary extends Activity {
 		 * added or removed from the container as appropriate.
 		 * 
 		 * @param container
-		 *            The containing View which is displaying this adapter's
-		 *            page views.
+		 *			The containing View which is displaying this adapter's
+		 *			page views.
 		 */
 		@Override
 		public void finishUpdate(View arg0) {

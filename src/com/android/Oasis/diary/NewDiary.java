@@ -5,19 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -29,7 +23,6 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,7 +39,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
-import com.android.Oasis.BaseRequestListener;
 import com.android.Oasis.LoginButton;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
@@ -54,21 +46,18 @@ import com.android.Oasis.SessionEvents;
 import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.SessionStore;
-import com.android.Oasis.diary.BrowseDiary.SampleUploadListener;
 import com.android.Oasis.life.Life;
 import com.android.Oasis.network.HTTPPost;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Util;
 
 public class NewDiary extends Activity {
 
 	public static final String APP_ID = "285141848231182";
 	private Facebook mFacebook;
-    private AsyncFacebookRunner mAsyncRunner;
+	private AsyncFacebookRunner mAsyncRunner;
 
 	private SQLiteDatabase db;
 	MySQLite mySQLite;
@@ -99,12 +88,36 @@ public class NewDiary extends Activity {
 		mLoginButton.setImageResource(R.drawable.diary_btn_post);
 		
 		mFacebook = new Facebook(APP_ID);
-       	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
-       	
-       	SessionStore.restore(mFacebook, this);
-        SessionEvents.addAuthListener(new SampleAuthListener());
-        SessionEvents.addLogoutListener(new SampleLogoutListener());
-        mLoginButton.init(this, mFacebook, 1);
+	   	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
+	   	
+	   	SessionStore.restore(mFacebook, this);
+		SessionEvents.addAuthListener(new AuthListener(){
+
+			@Override
+			public void onAuthSucceed() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onAuthFail(String error) {
+				// TODO Auto-generated method stub
+				
+			}});
+		SessionEvents.addLogoutListener(new LogoutListener(){
+
+			@Override
+			public void onLogoutBegin() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onLogoutFinish() {
+				// TODO Auto-generated method stub
+				
+			}});
+		mLoginButton.init(this, mFacebook, 1);
 
 		// Bundle bundle;
 		bundle = this.getIntent().getExtras();
@@ -297,122 +310,19 @@ public class NewDiary extends Activity {
 		};
 		Thread thread = new Thread() {
 			public void run() {
-				publishToWall();
+				(new DiaryPoster("NewDiary", mFacebook)).publishToWall(img, "");
 				handler.sendEmptyMessage(0);
 			}
 		};
 		thread.start();
 
 	}
-
-	private void publishToWall() {
-
-		Bundle params = new Bundle();
-        //params.putString("method", "photos.upload");
-        
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		img.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		byte[] byteArray = stream.toByteArray();
-        
-		String token = mFacebook.getAccessToken();
-		
-		HTTPPost post = new HTTPPost("https://graph.facebook.com/390500010961729/feed?access_token="+token);
-		try {
-			post.addString("message","fuck");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		HttpResponse response = post.send();
-		Log.e("NewDiary","1:"+HTTPPost.getResponseString(response));
-		
-		HTTPPost post2 = new HTTPPost("https://graph.facebook.com/416393828372347/photos?access_token="+token);
-		try {
-			post2.addString("message","jizzz");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		post2.addByte("source",byteArray);
-		response = post2.send();
-		Log.e("NewDiary","2:"+HTTPPost.getResponseString(response));
-		
-//        params.putByteArray("source", byteArray);
-//		params.putString("message","gggg");
-//		params.putString("link","https://www.facebook.com/photo.php?fbid=323124557702694&set=a.323123434369473.102174.100000154563058&type=3&theater");
-
-//        mAsyncRunner.request(null, params, "POST",
-//                new SampleUploadListener(), null);
-        
-        //Bundle params2 = new Bundle();
-        //params2.putString("method", "photos.upload");
-        //params2.putByteArray("picture", byteArray);
-//        mAsyncRunner.request("lmr3796TestingApp/feed", params, "POST",
-//                new SampleUploadListener(), null);
-
-	}
 	
 	@Override
-    protected void onActivityResult(int requestCode, int resultCode,
-                                    Intent data) {
-        mFacebook.authorizeCallback(requestCode, resultCode, data);
-    }
-
-	private final class WallPostListener extends BaseRequestListener {
-
-		@Override
-		public void onComplete(String response, Object state) {
-			// TODO Auto-generated method stub
-
-		}
+	protected void onActivityResult(int requestCode, int resultCode,
+									Intent data) {
+		mFacebook.authorizeCallback(requestCode, resultCode, data);
 	}
-	
-	public class SampleAuthListener implements AuthListener {
-
-        public void onAuthSucceed() {
-            
-        }
-
-        public void onAuthFail(String error) {
-            
-        }
-    }
-
-    public class SampleLogoutListener implements LogoutListener {
-        public void onLogoutBegin() {
-            
-        }
-
-        public void onLogoutFinish() {
-            
-        }
-    }
-    
-    public class SampleUploadListener extends BaseRequestListener {
-
-        public void onComplete(final String response, final Object state) {
-            try {
-                // process the response here: (executed in background thread)
-                Log.d("Facebook-Example", "Response: " + response.toString());
-                JSONObject json = Util.parseJson(response);
-                final String src = json.getString("src");
-
-                // then post the processed result back to the UI thread
-                // if we do not do this, an runtime exception will be generated
-                // e.g. "CalledFromWrongThreadException: Only the original
-                // thread that created a view hierarchy can touch its views."
-                //NewDiary.this.runOnUiThread(new Runnable() {
-                //   public void run() {
-                //        mText.setText("Hello there, photo has been uploaded at \n" + src);
-                //    }
-                //});
-            } catch (JSONException e) {
-                Log.w("Facebook-Example", "JSON Error in response");
-            } catch (FacebookError e) {
-                Log.w("Facebook-Example", "Facebook Error: " + e.getMessage());
-            }
-        }
-    }
 
 	public void combineImages(Bitmap photo, Bitmap text) {
 

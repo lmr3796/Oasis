@@ -1,10 +1,6 @@
 package com.android.Oasis.diary;
 
-import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -21,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.android.Oasis.BaseRequestListener;
 import com.android.Oasis.LoginButton;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
@@ -30,16 +25,13 @@ import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.SessionStore;
 import com.facebook.android.AsyncFacebookRunner;
-import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
-import com.facebook.android.FacebookError;
-import com.facebook.android.Util;
 
 public class BrowseDiary extends Activity {
 	
 	public static final String APP_ID = "285141848231182";
 	private Facebook mFacebook;
-    private AsyncFacebookRunner mAsyncRunner;
+	private AsyncFacebookRunner mAsyncRunner;
 	private LoginButton mLoginButton;
 	
 	Bitmap img = null;
@@ -54,12 +46,40 @@ public class BrowseDiary extends Activity {
 		mLoginButton.setImageResource(R.drawable.diary_btn_share);
 		
 		mFacebook = new Facebook(APP_ID);
-       	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
-       	
-       	SessionStore.restore(mFacebook, this);
-        SessionEvents.addAuthListener(new SampleAuthListener());
-        SessionEvents.addLogoutListener(new SampleLogoutListener());
-        mLoginButton.init(this, mFacebook, 2);
+	   	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
+	   	
+	   	SessionStore.restore(mFacebook, this);
+		SessionEvents.addAuthListener(new AuthListener(){
+
+			@Override
+			public void onAuthSucceed() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onAuthFail(String error) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		SessionEvents.addLogoutListener(new LogoutListener(){
+
+			@Override
+			public void onLogoutBegin() {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onLogoutFinish() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		mLoginButton.init(this, mFacebook, 2);
 		
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
@@ -120,6 +140,7 @@ public class BrowseDiary extends Activity {
 	{
 		postToWall();
 		System.gc();
+		Log.e("BrowseDiary:sendPost", "Before finish.");
 		BrowseDiary.this.finish();
 	}
 	
@@ -127,68 +148,18 @@ public class BrowseDiary extends Activity {
 
 		final Handler handler = new Handler() {
 			public void handleMessage(Message what) {
+				Log.e("BrowseDiary:postToWall", "Before finish.");
 				finish();
 			}
 		};
 		Thread thread = new Thread() {
 			public void run() {
-				publishToWall();
+				(new DiaryPoster("BrowseDiary", mFacebook)).publishToWall(img, "");
 				handler.sendEmptyMessage(0);
 			}
 		};
 		thread.start();
 
 	}
-
-	private void publishToWall() {
-
-		Bundle params = new Bundle();
-        params.putString("method", "photos.upload");
-        
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		img.compress(Bitmap.CompressFormat.PNG, 100, stream);
-		byte[] byteArray = stream.toByteArray();
-        
-        params.putByteArray("source", byteArray);
-
-//        mAsyncRunner.request(null, params, "POST",
-//                new SampleUploadListener(), null);
-        
-        //Bundle params2 = new Bundle();
-        //params2.putString("method", "photos.upload");
-        //params2.putByteArray("picture", byteArray);
-        mAsyncRunner.request("lmr3796TestingApp/feed", params, "POST",
-                new SampleUploadListener(), null);
-
-	}
-	
-	public class SampleAuthListener implements AuthListener {
-
-        public void onAuthSucceed() {
-            
-        }
-
-        public void onAuthFail(String error) {
-            
-        }
-    }
-
-    public class SampleLogoutListener implements LogoutListener {
-        public void onLogoutBegin() {
-            
-        }
-
-        public void onLogoutFinish() {
-            
-        }
-    }
-    
-    public class SampleUploadListener extends BaseRequestListener {
-
-        public void onComplete(final String response, final Object state) {
-            Log.e("BrowseDiary", response);
-        }
-
-    }
 	
 }

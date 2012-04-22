@@ -183,12 +183,12 @@ public class Story_d extends Activity {
 		 * {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *            The containing View in which the page will be shown.
+		 *			The containing View in which the page will be shown.
 		 * @param position
-		 *            The page position to be instantiated.
+		 *			The page position to be instantiated.
 		 * @return Returns an Object representing the new page. This does not
-		 *         need to be a View, but can be some other container of the
-		 *         page.
+		 *		 need to be a View, but can be some other container of the
+		 *		 page.
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
@@ -264,12 +264,12 @@ public class Story_d extends Activity {
 		 * this is done by the time it returns from {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *            The containing View from which the page will be removed.
+		 *			The containing View from which the page will be removed.
 		 * @param position
-		 *            The page position to be removed.
+		 *			The page position to be removed.
 		 * @param object
-		 *            The same object that was returned by
-		 *            {@link #instantiateItem(View, int)}.
+		 *			The same object that was returned by
+		 *			{@link #instantiateItem(View, int)}.
 		 */
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
@@ -287,8 +287,8 @@ public class Story_d extends Activity {
 		 * added or removed from the container as appropriate.
 		 * 
 		 * @param container
-		 *            The containing View which is displaying this adapter's
-		 *            page views.
+		 *			The containing View which is displaying this adapter's
+		 *			page views.
 		 */
 		@Override
 		public void finishUpdate(View arg0) {

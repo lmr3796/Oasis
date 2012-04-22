@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *	http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -62,8 +62,7 @@ public class LoginButton extends ImageButton {
 	}
 
 	public void init(final Activity activity, final Facebook fb, int from) {
-		init(activity, fb, new String[] { "manage_pages", "publish_stream" },
-				from);
+		init(activity, fb, new String[] { "manage_pages", "publish_stream" }, from);
 	}
 
 	public void init(final Activity activity, final Facebook fb,
@@ -117,11 +116,12 @@ public class LoginButton extends ImageButton {
 					Log.d(TAG, "access_token = " + access_token);
 
 					if (FROMWHERE == 1) {
+						Log.e(TAG + " onComplete", "NewDiary before post");
 						((NewDiary) LoginButton.this.getContext()).sendPost();
 					}
-					if (FROMWHERE == 2) {
-						((BrowseDiary) LoginButton.this.getContext())
-								.sendPost();
+					else if (FROMWHERE == 2) {
+						Log.e(TAG + " onComplete", "BrowseDiary before post");
+						((BrowseDiary) LoginButton.this.getContext()).sendPost();
 					}
 
 				}
@@ -133,7 +133,7 @@ public class LoginButton extends ImageButton {
 
 				@Override
 				public void onError(DialogError e) {
-					Log.d(TAG, "FB on Error" + e.toString());
+					Log.d(TAG, "FB onError" + e.toString());
 
 				}
 
