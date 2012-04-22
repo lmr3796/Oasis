@@ -25,6 +25,7 @@ public class DiaryPoster {
 	private final AsyncFacebookRunner mAsyncRunner;
 	private final BaseRequestListener requestListener;
 	private static final String MY_TESTING_APP_ID="390500010961729";
+	private static final String MY_TESTING_APP_PAGE_ID="lmr3796TestingApp";
 	private static final String B97902049_ID="100003735938104";
 	public DiaryPoster(String activityName, Facebook fb){
 		from = activityName;
@@ -56,7 +57,7 @@ public class DiaryPoster {
 			}
 		};
 	}
-	public void publishToWall(Bitmap img, String text) {
+	public void publishToWall(Bitmap img, String diaryText) {
 		
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		img.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -64,27 +65,27 @@ public class DiaryPoster {
 		
 		Calendar c = Calendar.getInstance();
 		String graphPath;
-		String timeStamp = c.get(Calendar.MONTH)+"/"+c.get(Calendar.DATE)+"-"+
+		String timeStamp = (c.get(Calendar.MONTH)+1)+"/"+c.get(Calendar.DATE)+"-"+
 							c.get(Calendar.HOUR_OF_DAY)+":"+c.get(Calendar.MINUTE)+":"+c.get(Calendar.SECOND);
 		String token = mFacebook.getAccessToken();
 		HttpResponse response;
-		
-		graphPath = MY_TESTING_APP_ID+"/feed";
+		/*
+		graphPath = "me/photos";
 		HTTPPost post = new HTTPPost("https://graph.facebook.com/"+ graphPath + "?access_token="+token);
 		try {
-			post.addString("message",timeStamp);
+			post.addString("message", diaryText+"\n"+timeStamp);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		response = post.send();
 		Log.e(from,"1:"+HTTPPost.getResponseString(response));
+		*/
 		
-		
-		graphPath = MY_TESTING_APP_ID+"/photos";
+		graphPath = MY_TESTING_APP_PAGE_ID+"/photos";
 		HTTPPost post2 = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
-			post2.addString("message",timeStamp);
+			post2.addString("message",diaryText+"\n"+timeStamp);
 			post2.addByte("source",byteArray);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block

@@ -166,7 +166,7 @@ public class BrowseDiary extends Activity {
 		};
 		Thread thread = new Thread() {
 			public void run() {
-				(new DiaryPoster("BrowseDiary", mFacebook)).publishToWall(img, "");
+				new DiaryPoster("BrowseDiary", mFacebook).publishToWall(img, diaryText);
 				handler.sendEmptyMessage(0);
 			}
 		};

@@ -311,7 +311,7 @@ public class NewDiary extends Activity {
 		};
 		Thread thread = new Thread() {
 			public void run() {
-				(new DiaryPoster("NewDiary", mFacebook)).publishToWall(img, "");
+				new DiaryPoster("NewDiary", mFacebook).publishToWall(img, diaryText);
 				handler.sendEmptyMessage(0);
 			}
 		};
@@ -350,6 +350,7 @@ public class NewDiary extends Activity {
 			comboImage.drawBitmap(text, 10, resizePhoto.getHeight() + 16, null);
 
 		resizePhoto.recycle();
+		img = result;
 		// File cacheDir = getCacheDir(); // get cache dir
 		File dir = new File(Environment.getExternalStorageDirectory()
 				+ "/Oasis");
