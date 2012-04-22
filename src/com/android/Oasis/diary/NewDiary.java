@@ -1,17 +1,13 @@
 package com.android.Oasis.diary;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import org.apache.http.HttpResponse;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -23,6 +19,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +44,6 @@ import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.SessionStore;
 import com.android.Oasis.life.Life;
-import com.android.Oasis.network.HTTPPost;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 import com.facebook.android.AsyncFacebookRunner;
@@ -157,8 +153,8 @@ public class NewDiary extends Activity {
 		text.setTextSize(15);
 		text.setWidth(320);
 		text.setTextColor(Color.BLACK);
-		//text.setTypeface(Typeface.createFromAsset(getAssets(),
-		//		"fonts/fontw3.ttc"));
+		text.setTypeface(Typeface.createFromAsset(getAssets(),
+				"fonts/fontw3.ttc"));
 
 		ViewTreeObserver vto = text.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {

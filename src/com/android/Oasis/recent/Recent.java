@@ -62,8 +62,8 @@ public class Recent extends Activity {
 		viewPager = (TextView) findViewById(R.id.pager);
 		viewPager.setTextColor(Color.BLACK);
 		viewPager.setTextSize(20);
-		//viewPager.setTypeface(Typeface.createFromAsset(getAssets(),
-		//		"fonts/fontw3.ttc"));
+		viewPager.setTypeface(Typeface.createFromAsset(getAssets(),
+				"fonts/fontw3.ttc"));
 		viewPager.setText(recentstrs[0]);
 		
 		tv_letter = (TextView)findViewById(R.id.tv_letter);

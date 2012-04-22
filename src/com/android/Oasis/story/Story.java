@@ -57,8 +57,8 @@ public class Story extends Activity {
 		viewPager = (TextView) findViewById(R.id.pager);
 		viewPager.setTextColor(Color.BLACK);
 		viewPager.setTextSize(20);
-		//viewPager.setTypeface(Typeface.createFromAsset(getAssets(),
-		//		"fonts/fontw3.ttc"));
+		viewPager.setTypeface(Typeface.createFromAsset(getAssets(),
+				"fonts/fontw3.ttc"));
 		viewPager.setText(storystrs[0]);
 		
 		DisplayMetrics displaymetrics = new DisplayMetrics();
