@@ -34,6 +34,8 @@ public class BrowseDiary extends Activity {
 	private AsyncFacebookRunner mAsyncRunner;
 	private LoginButton mLoginButton;
 	
+	String diaryText = "";
+	
 	Bitmap img = null;
 	
 	/** Called when the activity is first created. */
@@ -86,6 +88,8 @@ public class BrowseDiary extends Activity {
 		boolean isMine = bundle.getBoolean("ismine");
 		Uri path = Uri.parse(bundle.getString("path"));
 		final int id = bundle.getInt("db_id");
+		diaryText = bundle.getString("content");
+		
 		ImageView myImageView = (ImageView)findViewById(R.id.browsediary_img);
 		LinearLayout ll = (LinearLayout)findViewById(R.id.browsediary_ll);
 		
