@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -61,7 +62,7 @@ public class OldDiary extends Activity {
 	private ViewPager viewPager;
 	private Context cxt;
 	private pagerAdapter pageradapter;
-	
+
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
 
@@ -89,7 +90,7 @@ public class OldDiary extends Activity {
 				openContextMenu(arg0);
 			}
 		});
-		
+
 		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
 		btn_story.setOnClickListener(new OnClickListener() {
 			@Override
@@ -101,7 +102,7 @@ public class OldDiary extends Activity {
 				OldDiary.this.finish();
 			}
 		});
-		
+
 		ImageButton btn_recent = (ImageButton) findViewById(R.id.main_btn_recent);
 		btn_recent.setOnClickListener(new OnClickListener() {
 			@Override
@@ -113,7 +114,7 @@ public class OldDiary extends Activity {
 				OldDiary.this.finish();
 			}
 		});
-		
+
 		ImageButton btn_life = (ImageButton) findViewById(R.id.main_btn_life);
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
@@ -213,7 +214,7 @@ public class OldDiary extends Activity {
 
 	void check() {
 		if (pictureUri != null) {
-			//Bundle bundle = new Bundle();
+			// Bundle bundle = new Bundle();
 			String tmp = pictureUri.toString();
 			bundle.putString("uri", tmp);
 			bundle.putInt("plant", PLANT);
@@ -293,19 +294,19 @@ public class OldDiary extends Activity {
 		 * {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *			The containing View in which the page will be shown.
+		 *            The containing View in which the page will be shown.
 		 * @param position
-		 *			The page position to be instantiated.
+		 *            The page position to be instantiated.
 		 * @return Returns an Object representing the new page. This does not
-		 *		 need to be a View, but can be some other container of the
-		 *		 page.
+		 *         need to be a View, but can be some other container of the
+		 *         page.
 		 */
 		@Override
 		public Object instantiateItem(View collection, int position) {
-			
+
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			//int height = displaymetrics.heightPixels;
+			// int height = displaymetrics.heightPixels;
 			int width = displaymetrics.widthPixels;
 
 			ScrollView sv = new ScrollView(cxt);
@@ -325,11 +326,16 @@ public class OldDiary extends Activity {
 			int i;
 			LinearLayout photoropeup = new LinearLayout(cxt);
 			LinearLayout photodateup = new LinearLayout(cxt);
-			//photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
+			// photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 			LinearLayout photoropebottom = new LinearLayout(cxt);
 			LinearLayout photodatebottom = new LinearLayout(cxt);
-			//photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
-			
+			// photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+
+			int padding = 8;
+			if (width > 490) {
+				padding = (width - 480) / 5;
+			}
+
 			for (i = 0; i < 4; i++) {
 				Log.wtf("jizz", "i have big belly!");
 				if (position * 8 + i >= array.size())
@@ -339,7 +345,7 @@ public class OldDiary extends Activity {
 				map = array.get(position * 8 + i);
 
 				final Uri uri = Uri.parse(map.get("path").toString());
-				
+
 				Uri uri_t = Uri.parse(map.get("thumb").toString());
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
@@ -349,29 +355,29 @@ public class OldDiary extends Activity {
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
-				
+
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
-				//img.recycle();
+				// img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
-				myImageView.setMaxWidth(width/4-8);
-				myImageView.setPadding(2, 0, 2, 0);
-				
+				myImageView.setMaxWidth(width / 4 - 10);
+				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
+
 				TextView myTextView = new TextView(cxt);
 				myTextView.setText(map.get("date").toString());
 				myTextView.setTextColor(Color.BLACK);
 				myTextView.setTextSize(13);
-				myTextView.setWidth(width/4-8);
 				myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-				myTextView.setPadding(2, 0, 2, 0);
-				
+				myTextView.setWidth(width / 4 - 10);
+				myTextView.setPadding(padding / 2, 0, padding / 2, 0);
+
 				final int id = Integer.parseInt(map.get("db_id").toString());
-				
-				myImageView.setOnClickListener(new OnClickListener(){
+
+				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						//Bundle bundle = new Bundle();
+						// Bundle bundle = new Bundle();
 						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
 						bundle.putInt("db_id", id);
@@ -380,18 +386,17 @@ public class OldDiary extends Activity {
 						intent.setClass(OldDiary.this, BrowseDiary.class);
 						System.gc();
 						startActivity(intent);
-					}	
+					}
 				});
 				photoropeup.addView(myImageView);
 				photodateup.addView(myTextView);
 			}
-			if(i==4){
+			if (i == 4) {
 				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 				photodateup.setGravity(Gravity.CENTER_HORIZONTAL);
-			}
-			else{
-				photoropeup.setPadding(10, 0, 0, 0);
-				photodateup.setPadding(10, 0, 0, 0);
+			} else {
+				photoropeup.setPadding(padding, 0, padding, 0);
+				photodateup.setPadding(padding, 0, padding, 0);
 			}
 			for (i = 4; i < 8; i++) {
 
@@ -402,9 +407,9 @@ public class OldDiary extends Activity {
 				map = array.get(position * 8 + i);
 
 				final Uri uri = Uri.parse(map.get("path").toString());
-				
+
 				Uri uri_t = Uri.parse(map.get("thumb").toString());
-				
+
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
@@ -415,47 +420,46 @@ public class OldDiary extends Activity {
 				}
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
-				//img.recycle();
+				// img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
-				myImageView.setMaxWidth(width/4-8);
-				myImageView.setPadding(2, 0, 2, 0);
-				
+				myImageView.setMaxWidth(width / 4 - 10);
+				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
+
 				TextView myTextView = new TextView(cxt);
 				myTextView.setText(map.get("date").toString());
 				myTextView.setTextColor(Color.BLACK);
 				myTextView.setTextSize(13);
-				myTextView.setWidth(width/4-8);
 				myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-				myTextView.setPadding(3, 0, 3, 0);
-				
-				myImageView.setOnClickListener(new OnClickListener(){
+				myTextView.setWidth(width / 4 - 10);
+				myTextView.setPadding(padding / 2, 0, padding / 2, 0);
+
+				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						//Bundle bundle = new Bundle();
+						// Bundle bundle = new Bundle();
 						bundle.putBoolean("isMine", true);
 						bundle.putString("path", uri.toString());
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
 						startActivity(intent);
-					}	
+					}
 				});
 				photoropebottom.addView(myImageView);
 				photodatebottom.addView(myTextView);
 			}
-			if(i==8){
+			if (i == 8) {
 				photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
 				photodatebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+			} else {
+				photoropebottom.setPadding(padding, 0, padding, 0);
+				photodatebottom.setPadding(padding, 0, padding, 0);
 			}
-			else{
-				photoropebottom.setPadding(10, 0, 0, 0);
-				photodatebottom.setPadding(10, 0, 0, 0);
-			}
-			//if(photoropeup.getChildCount()<4)
-			//	ll.setGravity(Gravity.LEFT);
-			//if(photoropebottom.getChildCount()<4)
-			//	ll.setGravity(Gravity.LEFT);
+			// if(photoropeup.getChildCount()<4)
+			// ll.setGravity(Gravity.LEFT);
+			// if(photoropebottom.getChildCount()<4)
+			// ll.setGravity(Gravity.LEFT);
 			ll.addView(photoropeup);
 			ll.addView(photodateup);
 			ll.addView(iv2);
@@ -474,12 +478,12 @@ public class OldDiary extends Activity {
 		 * this is done by the time it returns from {@link #finishUpdate()}.
 		 * 
 		 * @param container
-		 *			The containing View from which the page will be removed.
+		 *            The containing View from which the page will be removed.
 		 * @param position
-		 *			The page position to be removed.
+		 *            The page position to be removed.
 		 * @param object
-		 *			The same object that was returned by
-		 *			{@link #instantiateItem(View, int)}.
+		 *            The same object that was returned by
+		 *            {@link #instantiateItem(View, int)}.
 		 */
 		@Override
 		public void destroyItem(View collection, int position, Object view) {
@@ -497,8 +501,8 @@ public class OldDiary extends Activity {
 		 * added or removed from the container as appropriate.
 		 * 
 		 * @param container
-		 *			The containing View which is displaying this adapter's
-		 *			page views.
+		 *            The containing View which is displaying this adapter's
+		 *            page views.
 		 */
 		@Override
 		public void finishUpdate(View arg0) {
@@ -522,12 +526,12 @@ public class OldDiary extends Activity {
 	private void loadFromDb() {
 
 		array.clear();
-		
+
 		int db_id = 0;
 		int plant = 0;
 		String path = "";
 		String date = "";
-		String thumb ="";
+		String thumb = "";
 
 		MySQLite db = new MySQLite(OldDiary.this);
 		Cursor cursor = db.getPlant(PLANT);
@@ -555,7 +559,7 @@ public class OldDiary extends Activity {
 		cursor.close();
 		db.close();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
