@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -52,6 +53,10 @@ public class Recent extends Activity {
 		Resources res = Recent.this.getResources();
 		plantstrs = res.getStringArray(R.array.plantname);
 		
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int height = displaymetrics.heightPixels;
+		
 		recentstrs = res.getStringArray(recentarray[PLANT]);
 
 		viewPager = (TextView) findViewById(R.id.pager);
@@ -74,6 +79,7 @@ public class Recent extends Activity {
 				handler.sendEmptyMessageDelayed(1, 1000);
 			}
 		});
+		img_letter.setPadding(0, (int) (height*0.3-110), 0, 0);
 
 		final ImageButton btn_rain = (ImageButton) findViewById(R.id.recent_btn_rain);
 		final ImageButton btn_worm = (ImageButton) findViewById(R.id.recent_btn_worm);

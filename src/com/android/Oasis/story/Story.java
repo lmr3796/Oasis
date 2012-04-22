@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -60,6 +61,11 @@ public class Story extends Activity {
 		//		"fonts/fontw3.ttc"));
 		viewPager.setText(storystrs[0]);
 		
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		int height = displaymetrics.heightPixels;
+		//int width = displaymetrics.widthPixels;
+		
 		tv_letter = (TextView)findViewById(R.id.tv_letter);
 		tv_letter.setText("您有一封來自" + plantstrs[PLANT] + "的訊息");
 		tv_letter.setTextSize(20);
@@ -73,6 +79,7 @@ public class Story extends Activity {
 				handler.sendEmptyMessageDelayed(1, 1000);
 			}
 		});
+		img_letter.setPadding(0, (int) (height*0.3-110), 0, 0);
 
 		final ImageButton btn_mood = (ImageButton) findViewById(R.id.story_btn_mood);
 		final ImageButton btn_family = (ImageButton) findViewById(R.id.story_btn_family);
