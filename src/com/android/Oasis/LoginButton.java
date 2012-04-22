@@ -143,7 +143,7 @@ public class LoginButton extends ImageButton {
 
 				}
 			});
-
+			Log.e(TAG, "after mFb.authorize()");
 			// mFb.authorize(mActivity, mPermissions,
 			// new LoginDialogListener());
 		}
