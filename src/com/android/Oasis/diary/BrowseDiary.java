@@ -138,11 +138,13 @@ public class BrowseDiary extends Activity {
 	
 	public void sendPost()
 	{
+		Log.e("BrowseDiary:sendPost", "Begin");
 		postToWall();
 		System.gc();
 		Log.e("BrowseDiary:sendPost", "Before finish.");
 		BrowseDiary.this.finish();
 	}
+	
 	
 	private void postToWall() {
 

@@ -100,7 +100,9 @@ public class NewDiary extends Activity {
 			public void onAuthFail(String error) {
 				// TODO Auto-generated method stub
 				
-			}});
+			}
+			
+		});
 		SessionEvents.addLogoutListener(new LogoutListener(){
 
 			@Override
