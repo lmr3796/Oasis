@@ -82,7 +82,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="點選此處開始寫日記" />
+            android:hint="點選此處開始寫日記"
+            android:padding="3dip" />
     </LinearLayout>
 
     <LinearLayout
