@@ -337,7 +337,6 @@ public class OldDiary extends Activity {
 			}
 
 			for (i = 0; i < 4; i++) {
-				Log.wtf("jizz", "i have big belly!");
 				if (position * 8 + i >= array.size())
 					break;
 
@@ -347,6 +346,7 @@ public class OldDiary extends Activity {
 				final Uri uri = Uri.parse(map.get("path").toString());
 
 				Uri uri_t = Uri.parse(map.get("thumb").toString());
+				final String con = (String) map.get("content".toString());
 				Bitmap img = null;
 				ContentResolver vContentResolver = getContentResolver();
 				try {
@@ -381,6 +381,7 @@ public class OldDiary extends Activity {
 						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
 						bundle.putInt("db_id", id);
+						bundle.putString("content", con);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
@@ -560,6 +561,7 @@ public class OldDiary extends Activity {
 			map.put("path", path);
 			map.put("date", date);
 			map.put("thumb", thumb);
+			map.put("content", content);
 			array.add(map);
 
 			cursor.moveToPrevious();

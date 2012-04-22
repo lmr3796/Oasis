@@ -67,6 +67,8 @@ public class NewDiary extends Activity {
 	Bitmap result = null;
 	String finalLoc = "";
 	String finalLocThumb = "";
+	
+	String diaryText = "";
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
@@ -292,6 +294,7 @@ public class NewDiary extends Activity {
 		values.put("DATE", posttime);
 		values.put("THUMB_PATH", finalLocThumb);
 		values.put("CONTENT", text.getText().toString());
+		diaryText = text.getText().toString(); 
 
 		db.insert(mySQLite.TB_NAME, null, values);
 
