@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -136,6 +137,11 @@ public class BrowseDiary extends Activity {
 
 	}
 	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode,
+									Intent data) {
+		mFacebook.authorizeCallback(requestCode, resultCode, data);
+	}
 	public void sendPost()
 	{
 		Log.e("BrowseDiary:sendPost", "Begin");
