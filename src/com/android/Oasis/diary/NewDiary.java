@@ -37,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.android.Oasis.LoginButton;
+import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 import com.android.Oasis.SessionEvents;
@@ -248,11 +249,9 @@ public class NewDiary extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent.putExtras(bundle);
-				intent.setClass(NewDiary.this, Life.class);
+				Uri uri = Uri.parse(NewDiary.this.getResources().getString(R.string.fb_url));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
-				System.gc();
-				NewDiary.this.finish();
 			}
 		});
 

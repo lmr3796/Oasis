@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.Oasis.Main;
 import com.android.Oasis.R;
 import com.android.Oasis.diary.OldDiary;
 import com.android.Oasis.life.Life;
@@ -171,11 +173,9 @@ public class Recent extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent.putExtras(bundle);
-				intent.setClass(Recent.this, Life.class);
+				Uri uri = Uri.parse(Recent.this.getResources().getString(R.string.fb_url));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
-				System.gc();
-				Recent.this.finish();
 			}
 		});
 

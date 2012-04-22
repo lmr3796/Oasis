@@ -3,6 +3,7 @@ package com.android.Oasis;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,8 +81,11 @@ public class Main extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent.putExtras(bundle);
-				intent.setClass(Main.this, Life.class);
+				//intent.putExtras(bundle);
+				//intent.setClass(Main.this, Life.class);
+				//startActivity(intent);
+				Uri uri = Uri.parse(Main.this.getResources().getString(R.string.fb_url));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 		});

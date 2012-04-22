@@ -40,6 +40,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 import com.android.Oasis.life.Life;
@@ -119,11 +120,9 @@ public class OldDiary extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent.putExtras(bundle);
-				intent.setClass(OldDiary.this, Life.class);
+				Uri uri = Uri.parse(OldDiary.this.getResources().getString(R.string.fb_url));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
-				System.gc();
-				OldDiary.this.finish();
 			}
 		});
 

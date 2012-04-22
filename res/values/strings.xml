@@ -3,6 +3,8 @@
 
     <string name="hello">Hello World, OasisActivity!</string>
     <string name="app_name">小綠洲</string>
+    
+    <string name="fb_url">http://m.facebook.com/lmr3796TestingApp</string>
 
     <string-array name="plantname">
         <item>乙女心</item>
