@@ -433,18 +433,24 @@ public class OldDiary extends Activity {
 				myTextView.setWidth(width / 4 - 10);
 				myTextView.setPadding(padding / 2, 0, padding / 2, 0);
 
+				
+				final int id = Integer.parseInt(map.get("db_id").toString());
+
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
 						// Bundle bundle = new Bundle();
-						bundle.putBoolean("isMine", true);
+						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
+						bundle.putInt("db_id", id);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
+						System.gc();
 						startActivity(intent);
 					}
 				});
+				
 				photoropebottom.addView(myImageView);
 				photodatebottom.addView(myTextView);
 			}
