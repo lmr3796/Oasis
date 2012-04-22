@@ -311,6 +311,7 @@ public class OldDiary extends Activity {
 			ScrollView sv = new ScrollView(cxt);
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
+            ll.removeAllViews();
 
 			ImageView iv1 = new ImageView(cxt);
 			ImageView iv2 = new ImageView(cxt);
