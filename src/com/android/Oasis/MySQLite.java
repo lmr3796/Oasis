@@ -27,7 +27,8 @@ public class MySQLite extends SQLiteOpenHelper {
 				+ "PLANT_TYPE INTEGER,"
 				+ "FILE_PATH VARCHAR," 
 				+ "DATE VARCHAR,"
-				+ "THUMB_PATH VARCHAR )");
+				+ "THUMB_PATH VARCHAR,"
+				+ "CONTENT TEXT )");
 
 	}
 

@@ -291,6 +291,7 @@ public class NewDiary extends Activity {
 		values.put("FILE_PATH", finalLoc);
 		values.put("DATE", posttime);
 		values.put("THUMB_PATH", finalLocThumb);
+		values.put("CONTENT", text.getText().toString());
 
 		db.insert(mySQLite.TB_NAME, null, values);
 

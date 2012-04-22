@@ -135,10 +135,10 @@ public class OldDiary extends Activity {
 				R.layout.ui_contextmenu_header, null);
 		TextView txt_header = (TextView) view
 				.findViewById(R.id.ui_contextmenu_headertextview);
-		txt_header.setText("add new photo");
+		txt_header.setText("新增日記相片");
 		menu.setHeaderView(view);
-		menu.add(0, 0, 0, "album");
-		menu.add(0, 1, 1, "take photo");
+		menu.add(0, 0, 0, "從相簿");
+		menu.add(0, 1, 1, "從相機");
 		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
@@ -531,6 +531,7 @@ public class OldDiary extends Activity {
 		String path = "";
 		String date = "";
 		String thumb = "";
+		String content ="";
 
 		MySQLite db = new MySQLite(OldDiary.this);
 		Cursor cursor = db.getPlant(PLANT);
@@ -544,6 +545,7 @@ public class OldDiary extends Activity {
 			path = cursor.getString(2);
 			date = cursor.getString(3);
 			thumb = cursor.getString(4);
+			content = cursor.getString(5);
 
 			HashMap<String, Object> map = new HashMap<String, Object>();
 			map.put("db_id", db_id);
