@@ -45,7 +45,8 @@ public class LoginButton extends ImageButton {
 	private Facebook mFb;
 	private Handler mHandler;
 	private SessionListener mSessionListener = new SessionListener();
-	private String[] mPermissions;
+	private final String[] mPermissions = new String[] { "manage_pages", "publish_stream", 
+																"user_photos", "friends_photos", "photo_upload"};
 	private Activity mActivity;
 	private int FROMWHERE = 1;
 
@@ -62,15 +63,15 @@ public class LoginButton extends ImageButton {
 	}
 
 	public void init(final Activity activity, final Facebook fb, int from) {
-		init(activity, fb, new String[] { "manage_pages", "publish_stream" }, from);
-	}
+	//	init(activity, fb, mPermissions, from);
+	//}
 
-	public void init(final Activity activity, final Facebook fb,
-			final String[] permissions, int from) {
+	//private void init(final Activity activity, final Facebook fb,
+	//		final String[] permissions, int from) {
 
 		mActivity = activity;
 		mFb = fb;
-		mPermissions = permissions;
+		//mPermissions = permissions;
 		mHandler = new Handler();
 		FROMWHERE = from;
 
@@ -91,8 +92,9 @@ public class LoginButton extends ImageButton {
 		public void onClick(View arg0) {
 
 			// Authorize no matter what
-			mFb.authorize(mActivity, new String[] { "manage_pages", "read_stream",
-					"publish_stream" , "photo_upload"}, new DialogListener() {
+		//	mFb.authorize(mActivity, new String[] { "manage_pages", "read_stream",
+		//			"publish_stream" , "photo_upload"}, new DialogListener() {
+			mFb.authorize(mActivity, mPermissions.clone(), new DialogListener() { 
 				@Override
 				public void onComplete(Bundle values) {
 

@@ -17,6 +17,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -131,12 +132,43 @@ public class DiaryPoster {
 			
 		}
 		
+		// Get pic for thumbnail
+		String thumbURL= "";
+		graphPath = fbid;
+		try{
+			response = new DefaultHttpClient().execute(
+								new HttpGet("https://graph.facebook.com/" +
+												graphPath + "?access_token="+token)
+								);
+			responseStr = HTTPPost.getResponseString(response);
+			Log.d(TAG, responseStr);
+			jsonResponse = new JSONObject(responseStr);
+			Log.d(TAG, jsonResponse.toString());
+			JSONArray arr = jsonResponse.getJSONArray("images");
+			jsonResponse = arr.getJSONObject(0);
+			thumbURL = jsonResponse.getString("source");
+			Log.d(TAG, "fbid: " + fbid);
+		} catch (JSONException e){
+			Log.e(TAG, "Response json error");
+			e.printStackTrace();
+		} catch (NullPointerException e){
+			Log.e(TAG, "NullPointerException");
+			e.printStackTrace();
+			return;
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// To wall
 		graphPath = "me/feed";
 		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
 			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
-			post.addString("link", photoURL);
+			post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,7 +194,7 @@ public class DiaryPoster {
 		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
 			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
-			post.addString("link", photoURL);
+			post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
