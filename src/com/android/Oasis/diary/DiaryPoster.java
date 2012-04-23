@@ -132,7 +132,7 @@ public class DiaryPoster {
 		
 		
 		// To fan page
-		graphPath = OASIS_ID+"/feed";
+		graphPath = MY_TESTING_APP_ID+"/feed";
 		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
 			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
