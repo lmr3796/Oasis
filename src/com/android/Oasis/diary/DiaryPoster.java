@@ -1,10 +1,22 @@
 package com.android.Oasis.diary;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -75,6 +87,9 @@ public class DiaryPoster {
 		String responseStr, fbid="", photoURL="";
 		JSONObject jsonResponse = new JSONObject();
 		
+		if(diaryText == null)
+			diaryText = "";
+		
 		// For release
 		timeStamp = "";
 		
@@ -102,8 +117,18 @@ public class DiaryPoster {
 			e.printStackTrace();
 			return;
 		}
+		
 		photoURL = "http://www.facebook.com/photo.php?fbid="+fbid;
 		
+		// Log photo id
+		try{
+			response = new DefaultHttpClient().execute(new HttpGet("http://lmr3796oasis.appspot.com/update?fbid="+fbid));
+		} catch (ClientProtocolException e) {
+			Log.e(TAG, "Client Protocol Exception");
+			e.printStackTrace();
+		} catch (IOException e){
+			
+		}
 		
 		// To wall
 		graphPath = "me/feed";
