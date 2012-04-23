@@ -9,6 +9,10 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -36,14 +40,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
-import com.android.Oasis.life.Life;
+import com.android.Oasis.network.ReadUrl;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 
@@ -52,6 +54,7 @@ public class OldDiary extends Activity {
 	ArrayList<HashMap<String, Object>> array = new ArrayList<HashMap<String, Object>>();
 
 	int PLANT = 0;
+	int TYPE = 0;
 
 	final int TAKE_PICTURE = 12345;
 	final int SELECT_PICTURE = 54321;
@@ -66,6 +69,8 @@ public class OldDiary extends Activity {
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+
+	ArrayList<String> stringArray = new ArrayList<String>();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -82,6 +87,38 @@ public class OldDiary extends Activity {
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
+
+		final ImageButton btn_others = (ImageButton) findViewById(R.id.diary_btn_others);
+		final ImageButton btn_old = (ImageButton) findViewById(R.id.diary_btn_old);
+
+		btn_others.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (TYPE == 0) {
+					loadFromGae();
+					viewPager.setAdapter(pageradapter);
+					btn_others.setImageDrawable(OldDiary.this.getResources()
+							.getDrawable(R.drawable.diary_btn_others_y));
+					btn_old.setImageDrawable(OldDiary.this.getResources()
+							.getDrawable(R.drawable.diary_btn_old));
+					TYPE = 1;
+				}
+			}
+		});
+
+		btn_old.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (TYPE == 1) {
+					viewPager.setAdapter(pageradapter);
+					btn_others.setImageDrawable(OldDiary.this.getResources()
+							.getDrawable(R.drawable.diary_btn_others));
+					btn_old.setImageDrawable(OldDiary.this.getResources()
+							.getDrawable(R.drawable.diary_btn_old_y));
+					TYPE = 0;
+				}
+			}
+		});
 
 		ImageButton btn_new = (ImageButton) findViewById(R.id.diary_btn_new);
 		btn_new.setOnClickListener(new OnClickListener() {
@@ -120,12 +157,38 @@ public class OldDiary extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Uri uri = Uri.parse(OldDiary.this.getResources().getString(R.string.fb_url));
+				Uri uri = Uri.parse(OldDiary.this.getResources().getString(
+						R.string.fb_url));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
 		});
 
+	}
+
+	public void loadFromGae() {
+
+		String res = ReadUrl.process("http://lmr3796oasis.appspot.com/query",
+				"utf-8");
+
+		JSONObject res_object;
+		JSONArray jsonArr;
+		try {
+			res_object = new JSONObject(res);
+			// JSONObject res_obj = res_object.getJSONObject("data");
+			jsonArr = res_object.getJSONArray("data");
+
+			Log.d("DEBUGGG", jsonArr.length() + "");
+
+			for (int i = 0, count = jsonArr.length(); i < count; i++) {
+				String objid = jsonArr.getString(i);
+				stringArray.add(objid);
+				Log.d("DEBUGGG", objid);
+			}
+
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -311,7 +374,7 @@ public class OldDiary extends Activity {
 			ScrollView sv = new ScrollView(cxt);
 			LinearLayout ll = new LinearLayout(cxt);
 			ll.setOrientation(LinearLayout.VERTICAL);
-            ll.removeAllViews();
+			ll.removeAllViews();
 
 			ImageView iv1 = new ImageView(cxt);
 			ImageView iv2 = new ImageView(cxt);
@@ -337,8 +400,13 @@ public class OldDiary extends Activity {
 			}
 
 			for (i = 0; i < 4; i++) {
-				if (position * 8 + i >= array.size())
-					break;
+				//if (TYPE == 0) {
+					if (position * 8 + i >= array.size())
+						break;
+				//} else {
+				//	if (position * 8 + i >= stringArray.size())
+				//		break;
+				//}
 
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map = array.get(position * 8 + i);
@@ -435,7 +503,6 @@ public class OldDiary extends Activity {
 				myTextView.setWidth(width / 4 - 10);
 				myTextView.setPadding(padding / 2, 0, padding / 2, 0);
 
-				
 				final int id = Integer.parseInt(map.get("db_id").toString());
 
 				myImageView.setOnClickListener(new OnClickListener() {
@@ -452,7 +519,7 @@ public class OldDiary extends Activity {
 						startActivity(intent);
 					}
 				});
-				
+
 				photoropebottom.addView(myImageView);
 				photodatebottom.addView(myTextView);
 			}
@@ -539,7 +606,7 @@ public class OldDiary extends Activity {
 		String path = "";
 		String date = "";
 		String thumb = "";
-		String content ="";
+		String content = "";
 
 		MySQLite db = new MySQLite(OldDiary.this);
 		Cursor cursor = db.getPlant(PLANT);

@@ -26,6 +26,7 @@
 	    	android:background="@android:color/transparent"
 	    	android:layout_gravity="center_vertical"/>        
         <ImageButton
+            android:id="@+id/diary_btn_old"
     	    android:adjustViewBounds="true"
 			android:scaleType="fitCenter"
 			android:layout_weight="0.25"
@@ -36,6 +37,7 @@
 	    	android:layout_gravity="center_vertical" />
         
         <ImageButton
+            android:id="@+id/diary_btn_others"
     	    android:adjustViewBounds="true"
 			android:scaleType="fitCenter"
 			android:layout_weight="0.25"
