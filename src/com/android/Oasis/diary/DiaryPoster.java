@@ -123,6 +123,7 @@ public class DiaryPoster {
 		// Log photo id
 		try{
 			response = new DefaultHttpClient().execute(new HttpGet("http://lmr3796oasis.appspot.com/update?fbid="+fbid));
+			Log.d(TAG, "Succeed giving fbid: "+fbid + " to GAE");
 		} catch (ClientProtocolException e) {
 			Log.e(TAG, "Client Protocol Exception");
 			e.printStackTrace();
