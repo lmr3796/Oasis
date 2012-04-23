@@ -98,7 +98,6 @@ public class LoginButton extends ImageButton {
 			mFb.authorize(mActivity, mPermissions.clone(), new DialogListener() { 
 				@Override
 				public void onComplete(Bundle values) {
-
 					String access_token = (String) values.get("access_token");
 					mFb.setAccessToken(access_token);
 					Log.d(TAG, values.toString());

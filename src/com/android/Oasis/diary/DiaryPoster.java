@@ -168,7 +168,7 @@ public class DiaryPoster {
 		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
 			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
-			post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
+			//post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,7 +185,6 @@ public class DiaryPoster {
 		} catch (NullPointerException e){
 			Log.e(TAG, "NullPointerException");
 			e.printStackTrace();
-			return;
 		}
 		
 		
@@ -194,7 +193,7 @@ public class DiaryPoster {
 		post = new HTTPPost("https://graph.facebook.com/" + graphPath + "?access_token="+token);
 		try {
 			post.addString("message",photoURL + "\n\n" + diaryText+"\n"+timeStamp);
-			post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
+			//post.addString("link", (thumbURL != null || !thumbURL.equals(""))? thumbURL :photoURL);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,7 +210,6 @@ public class DiaryPoster {
 		} catch (NullPointerException e){
 			Log.e(TAG, "NullPointerException");
 			e.printStackTrace();
-			return;
 		}
 	
 	}
