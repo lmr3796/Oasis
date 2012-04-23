@@ -46,7 +46,8 @@ public class LoginButton extends ImageButton {
 	private Handler mHandler;
 	private SessionListener mSessionListener = new SessionListener();
 	private final String[] mPermissions = new String[] { "manage_pages", "publish_stream", 
-																"user_photos", "friends_photos", "photo_upload"};
+															"photo_upload", "read_stream",
+															"user_photos", "friends_photos"};
 	private Activity mActivity;
 	private int FROMWHERE = 1;
 
