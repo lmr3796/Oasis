@@ -16,9 +16,6 @@
 
 package com.android.Oasis;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -33,6 +30,7 @@ import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.diary.BrowseDiary;
 import com.android.Oasis.diary.NewDiary;
+import com.android.Oasis.diary.OldDiary;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.Facebook.DialogListener;
@@ -45,9 +43,9 @@ public class LoginButton extends ImageButton {
 	private Facebook mFb;
 	private Handler mHandler;
 	private SessionListener mSessionListener = new SessionListener();
-	private final String[] mPermissions = new String[] { "manage_pages", "publish_stream", 
-															"photo_upload", "read_stream",
-															"user_photos", "friends_photos"};
+	private final String[] mPermissions = new String[] { "manage_pages",
+			"publish_stream", "photo_upload", "read_stream", "user_photos",
+			"friends_photos" };
 	private Activity mActivity;
 	private int FROMWHERE = 1;
 
@@ -64,15 +62,15 @@ public class LoginButton extends ImageButton {
 	}
 
 	public void init(final Activity activity, final Facebook fb, int from) {
-	//	init(activity, fb, mPermissions, from);
-	//}
+		// init(activity, fb, mPermissions, from);
+		// }
 
-	//private void init(final Activity activity, final Facebook fb,
-	//		final String[] permissions, int from) {
+		// private void init(final Activity activity, final Facebook fb,
+		// final String[] permissions, int from) {
 
 		mActivity = activity;
 		mFb = fb;
-		//mPermissions = permissions;
+		// mPermissions = permissions;
 		mHandler = new Handler();
 		FROMWHERE = from;
 
@@ -93,42 +91,62 @@ public class LoginButton extends ImageButton {
 		public void onClick(View arg0) {
 
 			// Authorize no matter what
-		//	mFb.authorize(mActivity, new String[] { "manage_pages", "read_stream",
-		//			"publish_stream" , "photo_upload"}, new DialogListener() {
-			mFb.authorize(mActivity, mPermissions.clone(), new DialogListener() { 
-				@Override
-				public void onComplete(Bundle values) {
-					String access_token = (String) values.get("access_token");
-					mFb.setAccessToken(access_token);
-					Log.d(TAG, values.toString());
-					Log.d(TAG, "access_token = " + access_token);
+			// mFb.authorize(mActivity, new String[] { "manage_pages",
+			// "read_stream",
+			// "publish_stream" , "photo_upload"}, new DialogListener() {
 
-					if (FROMWHERE == 1) {
-						((NewDiary) LoginButton.this.getContext()).sendPost();
-					}
-					else if (FROMWHERE == 2) {
-						((BrowseDiary) LoginButton.this.getContext()).sendPost();
-					}
-
+			if (mFb.isSessionValid()) {
+				if (FROMWHERE == 1) {
+					((NewDiary) LoginButton.this.getContext()).sendPost();
+				} else if (FROMWHERE == 2) {
+					((BrowseDiary) LoginButton.this.getContext()).sendPost();
+				} else if (FROMWHERE == 3) {
+					((OldDiary) LoginButton.this.getContext())
+							.othersBtnOnClick(mFb.getAccessToken());
 				}
+			} else {
+				mFb.authorize(mActivity, mPermissions.clone(),
+						new DialogListener() {
+							@Override
+							public void onComplete(Bundle values) {
+								String access_token = (String) values
+										.get("access_token");
+								mFb.setAccessToken(access_token);
+								Log.d(TAG, values.toString());
+								Log.d(TAG, "access_token = " + access_token);
 
-				@Override
-				public void onFacebookError(FacebookError error) {
-					Log.d(TAG, "FB onFacebookError" + error.toString());
-				}
+								if (FROMWHERE == 1) {
+									((NewDiary) LoginButton.this.getContext())
+											.sendPost();
+								} else if (FROMWHERE == 2) {
+									((BrowseDiary) LoginButton.this
+											.getContext()).sendPost();
+								} else if (FROMWHERE == 3) {
+									((OldDiary) LoginButton.this.getContext())
+											.othersBtnOnClick(access_token);
+								}
 
-				@Override
-				public void onError(DialogError e) {
-					Log.d(TAG, "FB onError" + e.toString());
+							}
 
-				}
+							@Override
+							public void onFacebookError(FacebookError error) {
+								Log.d(TAG,
+										"FB onFacebookError" + error.toString());
+							}
 
-				@Override
-				public void onCancel() {
-					Log.d(TAG, "FB onCancel");
+							@Override
+							public void onError(DialogError e) {
+								Log.d(TAG, "FB onError" + e.toString());
 
-				}
-			});
+							}
+
+							@Override
+							public void onCancel() {
+								Log.d(TAG, "FB onCancel");
+
+							}
+						});
+			}
 		}
 	}
 

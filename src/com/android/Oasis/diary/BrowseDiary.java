@@ -53,34 +53,16 @@ public class BrowseDiary extends Activity {
 	   	
 	   	SessionStore.restore(mFacebook, this);
 		SessionEvents.addAuthListener(new AuthListener(){
-
 			@Override
-			public void onAuthSucceed() {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void onAuthSucceed() {}
 			@Override
-			public void onAuthFail(String error) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void onAuthFail(String error) {}			
 		});
 		SessionEvents.addLogoutListener(new LogoutListener(){
-
 			@Override
-			public void onLogoutBegin() {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void onLogoutBegin() {}
 			@Override
-			public void onLogoutFinish() {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void onLogoutFinish() {}
 		});
 		mLoginButton.init(this, mFacebook, 2);
 		
@@ -114,7 +96,6 @@ public class BrowseDiary extends Activity {
 
 		myImageView.setAdjustViewBounds(true);
 		myImageView.setImageBitmap(img);
-		//img.recycle();
 		
 		LinearLayout ll_mine = (LinearLayout)findViewById(R.id.browsediary_ll_mine);
 		LinearLayout ll_others = (LinearLayout)findViewById(R.id.browsediary_ll_others);

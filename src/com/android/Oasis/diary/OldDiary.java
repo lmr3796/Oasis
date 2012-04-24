@@ -5,7 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,11 +46,18 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.android.Oasis.LoginButton;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
+import com.android.Oasis.SessionEvents;
+import com.android.Oasis.SessionEvents.AuthListener;
+import com.android.Oasis.SessionEvents.LogoutListener;
+import com.android.Oasis.SessionStore;
 import com.android.Oasis.network.ReadUrl;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
+import com.facebook.android.AsyncFacebookRunner;
+import com.facebook.android.Facebook;
 
 public class OldDiary extends Activity {
 
@@ -66,9 +76,17 @@ public class OldDiary extends Activity {
 	private ViewPager viewPager;
 	private Context cxt;
 	private pagerAdapter pageradapter;
+	private pagerAdapter2 pageradapter2;
 
 	Intent intent = new Intent();
 	Bundle bundle = new Bundle();
+
+	public static final String APP_ID = "285141848231182";
+	private Facebook mFacebook;
+	private AsyncFacebookRunner mAsyncRunner;
+	private LoginButton mLoginButton;
+
+	String accessToken = "";
 
 	ArrayList<String> stringArray = new ArrayList<String>();
 
@@ -88,30 +106,52 @@ public class OldDiary extends Activity {
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
 
-		final ImageButton btn_others = (ImageButton) findViewById(R.id.diary_btn_others);
-		final ImageButton btn_old = (ImageButton) findViewById(R.id.diary_btn_old);
+		mLoginButton = (LoginButton) findViewById(R.id.diary_btn_others);
+		mFacebook = new Facebook(APP_ID);
+		mAsyncRunner = new AsyncFacebookRunner(mFacebook);
 
-		btn_others.setOnClickListener(new OnClickListener() {
+		SessionStore.restore(mFacebook, this);
+		SessionEvents.addAuthListener(new AuthListener() {
 			@Override
-			public void onClick(View arg0) {
-				if (TYPE == 0) {
-					loadFromGae();
-					viewPager.setAdapter(pageradapter);
-					btn_others.setImageDrawable(OldDiary.this.getResources()
-							.getDrawable(R.drawable.diary_btn_others_y));
-					btn_old.setImageDrawable(OldDiary.this.getResources()
-							.getDrawable(R.drawable.diary_btn_old));
-					TYPE = 1;
-				}
+			public void onAuthSucceed() {
+			}
+
+			@Override
+			public void onAuthFail(String error) {
 			}
 		});
+		SessionEvents.addLogoutListener(new LogoutListener() {
+			@Override
+			public void onLogoutBegin() {
+			}
+
+			@Override
+			public void onLogoutFinish() {
+			}
+		});
+		mLoginButton.init(this, mFacebook, 3);
+
+		// final ImageButton btn_others = (ImageButton)
+		// findViewById(R.id.diary_btn_others);
+		final ImageButton btn_old = (ImageButton) findViewById(R.id.diary_btn_old);
+
+		/*
+		 * btn_others.setOnClickListener(new OnClickListener() {
+		 * 
+		 * @Override public void onClick(View arg0) { if (TYPE == 0) {
+		 * loadFromGae(); viewPager.setAdapter(pageradapter);
+		 * btn_others.setImageDrawable(OldDiary.this.getResources()
+		 * .getDrawable(R.drawable.diary_btn_others_y));
+		 * btn_old.setImageDrawable(OldDiary.this.getResources()
+		 * .getDrawable(R.drawable.diary_btn_old)); TYPE = 1; } } });
+		 */
 
 		btn_old.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if (TYPE == 1) {
 					viewPager.setAdapter(pageradapter);
-					btn_others.setImageDrawable(OldDiary.this.getResources()
+					mLoginButton.setImageDrawable(OldDiary.this.getResources()
 							.getDrawable(R.drawable.diary_btn_others));
 					btn_old.setImageDrawable(OldDiary.this.getResources()
 							.getDrawable(R.drawable.diary_btn_old_y));
@@ -191,6 +231,52 @@ public class OldDiary extends Activity {
 		}
 	}
 
+	public JSONObject loadFromFb(String imgId) {
+		String res = ReadUrl.process("https://graph.facebook.com/" + imgId
+				+ "?access_token=" + accessToken, "utf-8");
+
+		JSONObject res_object = null;
+		JSONObject res_obj;
+		JSONArray imageArr;
+		String imgUrl = "";
+		Log.d("DEBUGRES", res);
+
+		if (res.toString().equals("false"))
+			return null;
+		if (res.length() < 10)
+			return null;
+		Log.d("LENG", res.length() + "");
+
+		try {
+			res_object = new JSONObject(res);
+			if(res_object.has("error")) return null;
+			// if(res_object.getJSONObject("error")==null) return null;
+			imageArr = res_object.getJSONArray("images");
+			res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+			imgUrl = res_obj.getString("source");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return res_object;
+	}
+
+	public void othersBtnOnClick(String access_token) {
+		accessToken = access_token;
+
+		ImageButton btn_old = (ImageButton) OldDiary.this
+				.findViewById(R.id.diary_btn_old);
+
+		loadFromGae();
+		pageradapter2 = new pagerAdapter2();
+		viewPager.setAdapter(pageradapter2); // loadFromFb in adapter
+		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
+				R.drawable.diary_btn_others_y));
+		btn_old.setImageDrawable(OldDiary.this.getResources().getDrawable(
+				R.drawable.diary_btn_old));
+		TYPE = 1;
+	}
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenuInfo menuInfo) {
@@ -252,9 +338,6 @@ public class OldDiary extends Activity {
 		options.inJustDecodeBounds = false;
 		bmp = BitmapFactory.decodeStream(is, null, options);
 
-		// if (picture.exists()) { // delete old file in cache
-		// picture.delete();
-		// }
 		FileOutputStream fos = new FileOutputStream(picture);
 		bmp.compress(Bitmap.CompressFormat.JPEG, 85, fos);
 		bmp.recycle();
@@ -264,19 +347,10 @@ public class OldDiary extends Activity {
 
 		pictureUri = Uri.fromFile(picture);
 
-		/*
-		 * if (isFromAlbum == false) {
-		 * android.provider.MediaStore.Images.Media.insertImage(
-		 * getContentResolver(), bmp, "", "");
-		 * 
-		 * sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-		 * Uri.parse("file://" + Environment.getExternalStorageDirectory()))); }
-		 */
 	}
 
 	void check() {
 		if (pictureUri != null) {
-			// Bundle bundle = new Bundle();
 			String tmp = pictureUri.toString();
 			bundle.putString("uri", tmp);
 			bundle.putInt("plant", PLANT);
@@ -332,10 +406,11 @@ public class OldDiary extends Activity {
 			}
 			check();
 			break;
-		case 1:
-			// startActivity(intent);
-			break;
+		// case 1:
+		// startActivity(intent);
+		// break;
 		default:
+			mFacebook.authorizeCallback(requestCode, resultCode, data);
 			super.onActivityResult(requestCode, resultCode, data);
 
 		}
@@ -400,13 +475,9 @@ public class OldDiary extends Activity {
 			}
 
 			for (i = 0; i < 4; i++) {
-				//if (TYPE == 0) {
-					if (position * 8 + i >= array.size())
-						break;
-				//} else {
-				//	if (position * 8 + i >= stringArray.size())
-				//		break;
-				//}
+
+				if (position * 8 + i >= array.size())
+					break;
 
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map = array.get(position * 8 + i);
@@ -644,6 +715,255 @@ public class OldDiary extends Activity {
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
+	}
+
+	private class pagerAdapter2 extends PagerAdapter {
+
+		@Override
+		public int getCount() {
+			return (int) Math.ceil((double) stringArray.size() / 8.0);
+		}
+
+		@Override
+		public Object instantiateItem(View collection, int position) {
+
+			DisplayMetrics displaymetrics = new DisplayMetrics();
+			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			int width = displaymetrics.widthPixels;
+
+			ScrollView sv = new ScrollView(cxt);
+			LinearLayout ll = new LinearLayout(cxt);
+			ll.setOrientation(LinearLayout.VERTICAL);
+			ll.removeAllViews();
+
+			ImageView iv1 = new ImageView(cxt);
+			ImageView iv2 = new ImageView(cxt);
+
+			iv1.setImageDrawable(OldDiary.this.getResources().getDrawable(
+					R.drawable.diary_rope_top));
+			iv2.setImageDrawable(OldDiary.this.getResources().getDrawable(
+					R.drawable.diary_rope_bottom));
+
+			ll.addView(iv1);
+
+			int i;
+			int count = 0;
+			LinearLayout photoropeup = new LinearLayout(cxt);
+			LinearLayout photodateup = new LinearLayout(cxt);
+			LinearLayout photoropebottom = new LinearLayout(cxt);
+			LinearLayout photodatebottom = new LinearLayout(cxt);
+
+			int padding = 8;
+			if (width > 490) {
+				padding = (width - 480) / 5;
+			}
+
+			for (i = 0; i < 4; i++) {
+
+				if (position * 8 + i >= stringArray.size())
+					break;
+
+				JSONObject res_object = loadFromFb(stringArray.get(position * 8
+						+ i)); // THIS IS THE GUY!!!
+
+				if (res_object == null)
+					continue;
+
+				JSONArray imageArr;
+				JSONObject res_obj;
+				String imgUrl = "";
+				try {
+					imageArr = res_object.getJSONArray("images");
+					res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+					imgUrl = res_obj.getString("source");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+					continue;
+				}
+
+				URL url;
+				Bitmap img = null;
+				try {
+					url = new URL(imgUrl);
+					HttpURLConnection con = (HttpURLConnection) url
+							.openConnection();
+					InputStream is = con.getInputStream();
+					img = BitmapFactory.decodeStream(is);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					continue;
+				} catch (IOException e) {
+					e.printStackTrace();
+					continue;
+				}
+
+				count++;
+
+				ImageView myImageView = new ImageView(cxt);
+				myImageView.setImageBitmap(img);
+				myImageView.setAdjustViewBounds(true);
+				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
+				myImageView.setMaxWidth(width / 4 - 10);
+				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
+
+				TextView myTextView = new TextView(cxt);
+				try {
+					myTextView.setText(res_obj.getJSONObject("updated_time").toString().substring(0,9));
+					myTextView.setTextColor(Color.BLACK);
+					myTextView.setTextSize(13);
+					myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+					myTextView.setWidth(width / 4 - 10);
+					myTextView.setPadding(padding / 2, 0, padding / 2, 0);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+				myImageView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						bundle.putBoolean("ismine", false);
+						// bundle.putString("path", uri.toString());
+						// bundle.putInt("db_id", id);
+						// bundle.putString("content", con);
+						Intent intent = new Intent();
+						intent.putExtras(bundle);
+						intent.setClass(OldDiary.this, BrowseDiary.class);
+						System.gc();
+						// startActivity(intent);
+					}
+				});
+				photoropeup.addView(myImageView);
+				photodateup.addView(myTextView);
+			}
+			if (count == 4) {
+				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
+				photodateup.setGravity(Gravity.CENTER_HORIZONTAL);
+			} else {
+				photoropeup.setPadding(padding, 0, padding, 0);
+				photodateup.setPadding(padding, 0, padding, 0);
+			}
+			for (i = 4; i < 8; i++) {
+
+				if (position * 8 + i >= stringArray.size())
+					break;
+
+				JSONObject res_object = loadFromFb(stringArray.get(position * 8
+						+ i)); // THIS IS THE GUY!!!
+
+				if (res_object == null)
+					continue;
+
+				JSONArray imageArr;
+				JSONObject res_obj;
+				String imgUrl = "";
+				try {
+					imageArr = res_object.getJSONArray("images");
+					res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+					imgUrl = res_obj.getString("source");
+				} catch (JSONException e1) {
+					e1.printStackTrace();
+					continue;
+				}
+
+				URL url;
+				Bitmap img = null;
+				try {
+					url = new URL(imgUrl);
+					HttpURLConnection con = (HttpURLConnection) url
+							.openConnection();
+					InputStream is = con.getInputStream();
+					img = BitmapFactory.decodeStream(is);
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+					continue;
+				} catch (IOException e) {
+					e.printStackTrace();
+					continue;
+				}
+
+				count++;
+
+				ImageView myImageView = new ImageView(cxt);
+				myImageView.setImageBitmap(img);
+				myImageView.setAdjustViewBounds(true);
+				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
+				myImageView.setMaxWidth(width / 4 - 10);
+				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
+
+				TextView myTextView = new TextView(cxt);
+				try {
+					myTextView.setText(res_obj.getJSONObject("updated_time").toString().substring(0,9));
+					myTextView.setTextColor(Color.BLACK);
+					myTextView.setTextSize(13);
+					myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+					myTextView.setWidth(width / 4 - 10);
+					myTextView.setPadding(padding / 2, 0, padding / 2, 0);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+
+				myImageView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						// Bundle bundle = new Bundle();
+						bundle.putBoolean("ismine", false);
+						// bundle.putString("path", uri.toString());
+						// bundle.putInt("db_id", id);
+						Intent intent = new Intent();
+						intent.putExtras(bundle);
+						intent.setClass(OldDiary.this, BrowseDiary.class);
+						System.gc();
+						// startActivity(intent);
+					}
+				});
+
+				photoropebottom.addView(myImageView);
+				photodatebottom.addView(myTextView);
+			}
+			if (count == 8) {
+				photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+				photodatebottom.setGravity(Gravity.CENTER_HORIZONTAL);
+			} else {
+				photoropebottom.setPadding(padding, 0, padding, 0);
+				photodatebottom.setPadding(padding, 0, padding, 0);
+			}
+			ll.addView(photoropeup);
+			ll.addView(photodateup);
+			ll.addView(iv2);
+			ll.addView(photoropebottom);
+			ll.addView(photodatebottom);
+			sv.addView(ll);
+			((ViewPager) collection).addView(sv, 0);
+			return sv;
+		}
+
+		@Override
+		public void destroyItem(View collection, int position, Object view) {
+			((ViewPager) collection).removeView((ScrollView) view);
+		}
+
+		@Override
+		public boolean isViewFromObject(View view, Object object) {
+			return view == ((ScrollView) object);
+		}
+
+		@Override
+		public void finishUpdate(View arg0) {
+		}
+
+		@Override
+		public void restoreState(Parcelable arg0, ClassLoader arg1) {
+		}
+
+		@Override
+		public Parcelable saveState() {
+			return null;
+		}
+
+		@Override
+		public void startUpdate(View arg0) {
+		}
+
 	}
 
 }
