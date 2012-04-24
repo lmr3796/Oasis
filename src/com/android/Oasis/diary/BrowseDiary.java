@@ -1,6 +1,11 @@
 package com.android.Oasis.diary;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -29,79 +34,102 @@ import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.Facebook;
 
 public class BrowseDiary extends Activity {
-	
+
 	public static final String APP_ID = "285141848231182";
 	private Facebook mFacebook;
 	private AsyncFacebookRunner mAsyncRunner;
 	private LoginButton mLoginButton;
-	
+
 	String diaryText = "";
-	
+	int id = 0;
+
 	Bitmap img = null;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.browsediary);
-		
+
 		mLoginButton = (LoginButton) findViewById(R.id.login);
 		mLoginButton.setImageResource(R.drawable.diary_btn_share);
-		
+
 		mFacebook = new Facebook(APP_ID);
-	   	mAsyncRunner = new AsyncFacebookRunner(mFacebook);
-	   	
-	   	SessionStore.restore(mFacebook, this);
-		SessionEvents.addAuthListener(new AuthListener(){
+		mAsyncRunner = new AsyncFacebookRunner(mFacebook);
+
+		SessionStore.restore(mFacebook, this);
+		SessionEvents.addAuthListener(new AuthListener() {
 			@Override
-			public void onAuthSucceed() {}
+			public void onAuthSucceed() {
+			}
+
 			@Override
-			public void onAuthFail(String error) {}			
+			public void onAuthFail(String error) {
+			}
 		});
-		SessionEvents.addLogoutListener(new LogoutListener(){
+		SessionEvents.addLogoutListener(new LogoutListener() {
 			@Override
-			public void onLogoutBegin() {}
+			public void onLogoutBegin() {
+			}
+
 			@Override
-			public void onLogoutFinish() {}
+			public void onLogoutFinish() {
+			}
 		});
 		mLoginButton.init(this, mFacebook, 2);
-		
+
+		ImageView myImageView = (ImageView) findViewById(R.id.browsediary_img);
+		LinearLayout ll = (LinearLayout) findViewById(R.id.browsediary_ll);
+		ContentResolver vContentResolver = getContentResolver();
+
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		boolean isMine = bundle.getBoolean("ismine");
-		Uri path = Uri.parse(bundle.getString("path"));
-		final int id = bundle.getInt("db_id");
-		diaryText = bundle.getString("content");
 		
-		ImageView myImageView = (ImageView)findViewById(R.id.browsediary_img);
-		LinearLayout ll = (LinearLayout)findViewById(R.id.browsediary_ll);
-		
-		ll.setOnClickListener(new OnClickListener(){
 
-			@Override
-			public void onClick(View v) {
-				BrowseDiary.this.finish();
-				System.gc();
+		if (isMine) {
+			Uri path = Uri.parse(bundle.getString("path"));
+			id = bundle.getInt("db_id");
+			diaryText = bundle.getString("content");
+			try {
+				img = BitmapFactory.decodeStream(vContentResolver
+						.openInputStream(path));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
 			}
-			
-		});
-		
-		ContentResolver vContentResolver = getContentResolver();
-		try {
-			img = BitmapFactory.decodeStream(vContentResolver
-					.openInputStream(path));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		}
+		else{
+			URL url;
+			try {
+				url = new URL(bundle.getString("path"));
+				HttpURLConnection con = (HttpURLConnection) url
+						.openConnection();
+				InputStream is = con.getInputStream();
+				img = BitmapFactory.decodeStream(is);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		myImageView.setAdjustViewBounds(true);
 		myImageView.setImageBitmap(img);
+
 		
-		LinearLayout ll_mine = (LinearLayout)findViewById(R.id.browsediary_ll_mine);
-		LinearLayout ll_others = (LinearLayout)findViewById(R.id.browsediary_ll_others);
+		LinearLayout ll_mine = (LinearLayout) findViewById(R.id.browsediary_ll_mine);
+		LinearLayout ll_others = (LinearLayout) findViewById(R.id.browsediary_ll_others);
+
+		if (isMine == true) {
+			ll_mine.setVisibility(View.VISIBLE);
+			ll_others.setVisibility(View.GONE);
+		} else {
+			ll_mine.setVisibility(View.GONE);
+			ll_others.setVisibility(View.VISIBLE);
+		}
 		
-		ImageButton btn_delete = (ImageButton)findViewById(R.id.diary_btn_delete);
-		btn_delete.setOnClickListener(new OnClickListener(){
+		ImageButton btn_delete = (ImageButton) findViewById(R.id.diary_btn_delete);
+		btn_delete.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				MySQLite db = new MySQLite(BrowseDiary.this);
@@ -110,31 +138,28 @@ public class BrowseDiary extends Activity {
 				BrowseDiary.this.finish();
 			}
 		});
-		
-		if(isMine==true){
-			ll_mine.setVisibility(View.VISIBLE);
-			ll_others.setVisibility(View.GONE);
-		}
-		else{
-			ll_mine.setVisibility(View.GONE);
-			ll_others.setVisibility(View.VISIBLE);
-		}
+
+		ll.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				BrowseDiary.this.finish();
+				System.gc();
+			}
+		});
 
 	}
-	
+
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode,
-									Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mFacebook.authorizeCallback(requestCode, resultCode, data);
 	}
-	public void sendPost()
-	{
+
+	public void sendPost() {
 		postToWall();
 		System.gc();
 		BrowseDiary.this.finish();
 	}
-	
-	
+
 	private void postToWall() {
 
 		final Handler handler = new Handler() {
@@ -144,12 +169,13 @@ public class BrowseDiary extends Activity {
 		};
 		Thread thread = new Thread() {
 			public void run() {
-				new DiaryPoster("BrowseDiary", mFacebook).publishToWall(img, diaryText);
+				new DiaryPoster("BrowseDiary", mFacebook).publishToWall(img,
+						diaryText);
 				handler.sendEmptyMessage(0);
 			}
 		};
 		thread.start();
 
 	}
-	
+
 }

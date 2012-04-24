@@ -103,6 +103,7 @@ public class OldDiary extends Activity {
 		loadFromDb();
 
 		pageradapter = new pagerAdapter();
+		pageradapter2 = new pagerAdapter2();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
 
@@ -268,7 +269,6 @@ public class OldDiary extends Activity {
 				.findViewById(R.id.diary_btn_old);
 
 		loadFromGae();
-		pageradapter2 = new pagerAdapter2();
 		viewPager.setAdapter(pageradapter2); // loadFromFb in adapter
 		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
 				R.drawable.diary_btn_others_y));
@@ -713,8 +713,12 @@ public class OldDiary extends Activity {
 		super.onResume();
 		loadFromDb();
 		pageradapter = new pagerAdapter();
+		pageradapter2 = new pagerAdapter2();
 		viewPager = (ViewPager) findViewById(R.id.pager);
-		viewPager.setAdapter(pageradapter);
+		if(TYPE==0)
+			viewPager.setAdapter(pageradapter);
+		else
+			viewPager.setAdapter(pageradapter2);
 	}
 
 	private class pagerAdapter2 extends PagerAdapter {
@@ -783,6 +787,8 @@ public class OldDiary extends Activity {
 
 				URL url;
 				Bitmap img = null;
+				final String bundelurl = imgUrl;
+				
 				try {
 					url = new URL(imgUrl);
 					HttpURLConnection con = (HttpURLConnection) url
@@ -822,14 +828,12 @@ public class OldDiary extends Activity {
 					@Override
 					public void onClick(View v) {
 						bundle.putBoolean("ismine", false);
-						// bundle.putString("path", uri.toString());
-						// bundle.putInt("db_id", id);
-						// bundle.putString("content", con);
+						bundle.putString("path", bundelurl);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
 						System.gc();
-						// startActivity(intent);
+						startActivity(intent);
 					}
 				});
 				photoropeup.addView(myImageView);
@@ -856,6 +860,7 @@ public class OldDiary extends Activity {
 				JSONArray imageArr;
 				JSONObject res_obj;
 				String imgUrl = "";
+				
 				try {
 					imageArr = res_object.getJSONArray("images");
 					res_obj = imageArr.getJSONObject(imageArr.length() / 2);
@@ -867,6 +872,7 @@ public class OldDiary extends Activity {
 
 				URL url;
 				Bitmap img = null;
+				final String bundelurl = imgUrl;
 				try {
 					url = new URL(imgUrl);
 					HttpURLConnection con = (HttpURLConnection) url
@@ -905,15 +911,13 @@ public class OldDiary extends Activity {
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// Bundle bundle = new Bundle();
 						bundle.putBoolean("ismine", false);
-						// bundle.putString("path", uri.toString());
-						// bundle.putInt("db_id", id);
+						bundle.putString("path", bundelurl);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
 						System.gc();
-						// startActivity(intent);
+						startActivity(intent);
 					}
 				});
 
