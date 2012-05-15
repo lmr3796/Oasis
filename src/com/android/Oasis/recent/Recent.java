@@ -184,7 +184,6 @@ public class Recent extends Activity {
 				startActivity(intent);
 			}
 		});
-		Log.e("lmr3796", defaultRecentString());
 	}
 	private String defaultRecentString(){
 		String recent;
