@@ -1,7 +1,14 @@
 package com.android.Oasis.recent;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,16 +17,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.Oasis.Main;
 import com.android.Oasis.R;
 import com.android.Oasis.diary.OldDiary;
-import com.android.Oasis.life.Life;
 import com.android.Oasis.story.Story;
 
 public class Recent extends Activity {
@@ -178,7 +184,31 @@ public class Recent extends Activity {
 				startActivity(intent);
 			}
 		});
-
+		Log.e("lmr3796", defaultRecentString());
+	}
+	private String defaultRecentString(){
+		String recent;
+		HttpClient hc = new DefaultHttpClient(); 
+		HttpGet get = new HttpGet(this.getString(R.string.recentURL));
+		try {
+			SharedPreferences settings = this.getSharedPreferences(this.getString(R.string.app_name), 0);
+			HttpResponse rp = hc.execute(get);
+			if(rp.getStatusLine().getStatusCode() != 200)
+				throw new Exception();
+			recent = EntityUtils.toString(hc.execute(get).getEntity());
+			settings.edit().putString("cache", recent);
+			return recent;
+		} catch (Exception e) {
+			return defaultRecentStringFromCache();
+		}		
+	}
+	private String defaultRecentStringFromCache(){
+		SharedPreferences settings = this.getSharedPreferences(this.getString(R.string.app_name), 0);
+		String cacheString = settings.getString("cache", "");
+		if(!cacheString.equals("")){
+			return cacheString;
+		}
+		return this.getString(R.string.recent);
 	}
 	
 	private Handler handler = new Handler() {
