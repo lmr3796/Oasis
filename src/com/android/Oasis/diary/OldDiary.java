@@ -17,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +28,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -61,6 +64,8 @@ import com.facebook.android.Facebook;
 
 public class OldDiary extends Activity {
 
+	ProgressDialog pd;
+	
 	ArrayList<HashMap<String, Object>> array = new ArrayList<HashMap<String, Object>>();
 
 	int PLANT = 0;
@@ -255,20 +260,49 @@ public class OldDiary extends Activity {
 	}
 
 	public void othersBtnOnClick(String access_token) {
+		TYPE = 1;
 		accessToken = access_token;
-
 		ImageButton btn_old = (ImageButton) OldDiary.this
 				.findViewById(R.id.diary_btn_old);
-
-		//objectArray.clear();
-		loadFromGae();
-		viewPager.setAdapter(pageradapter2); // loadFromFb in adapter
-		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
-				R.drawable.diary_btn_others_y));
 		btn_old.setImageDrawable(OldDiary.this.getResources().getDrawable(
 				R.drawable.diary_btn_old));
-		TYPE = 1;
+
+		
+		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
+				R.drawable.diary_btn_others_y));
+		
+		pd = new ProgressDialog(this);
+		pd.setMessage("Now Loading...");
+		Thread my2ndThread = new Thread() {
+			public void run() {
+				Message msg = new Message();
+				msg.what = 765;
+				pddh.sendMessage(msg);
+
+				loadFromGae();
+				
+				Message mmsg = new Message();
+				mmsg.what = -765;
+				pddh.sendMessage(mmsg);
+			}
+		};
+		my2ndThread.start();
+		
+		//viewPager.setAdapter(pageradapter2);
+		
 	}
+	
+	final Handler pddh = new Handler() {
+		public void handleMessage(Message msg) {
+			if (msg.what == 765)
+				pd.show();
+			else if (msg.what == -765) {
+				pd.cancel();
+				viewPager.setAdapter(pageradapter2);
+			}
+			super.handleMessage(msg);
+		}
+	};
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
