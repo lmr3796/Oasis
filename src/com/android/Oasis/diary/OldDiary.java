@@ -250,7 +250,7 @@ public class OldDiary extends Activity {
 			if(res_object.has("error")) return null;
 			// if(res_object.getJSONObject("error")==null) return null;
 			imageArr = res_object.getJSONArray("images");
-			res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+			res_obj = imageArr.getJSONObject(0);
 			imgUrl = res_obj.getString("source");
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -792,7 +792,7 @@ public class OldDiary extends Activity {
 				String imgUrl = "";
 				try {
 					imageArr = res_object.getJSONArray("images");
-					res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+					res_obj = imageArr.getJSONObject(0);
 					imgUrl = res_obj.getString("source");
 				} catch (JSONException e1) {
 					e1.printStackTrace();
@@ -865,7 +865,7 @@ public class OldDiary extends Activity {
 				
 				try {
 					imageArr = res_object.getJSONArray("images");
-					res_obj = imageArr.getJSONObject(imageArr.length() / 2);
+					res_obj = imageArr.getJSONObject(0);
 					imgUrl = res_obj.getString("source");
 				} catch (JSONException e1) {
 					e1.printStackTrace();
