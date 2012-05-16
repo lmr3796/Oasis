@@ -12,6 +12,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -130,6 +131,8 @@ public class BrowseDiary extends Activity {
 			ll_others.setVisibility(View.VISIBLE);
 			TextView tv_name = (TextView)findViewById(R.id.diary_tv_username);
 			tv_name.setText(userName);
+			tv_name.setTypeface(Typeface.createFromAsset(getAssets(),
+					"fonts/fontw3.ttc"));
 			tv_name.setOnClickListener(new OnClickListener(){
 
 				@Override

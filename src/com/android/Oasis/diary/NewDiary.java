@@ -315,6 +315,7 @@ public class NewDiary extends Activity {
 		File dir = new File(Environment.getExternalStorageDirectory()
 				+ "/Oasis");
 		dir.mkdirs();
+		
 		String currentTimeStr = String.valueOf(System.currentTimeMillis());
 		File picture = new File(dir, currentTimeStr + ".png"); // new file
 		try {
@@ -340,6 +341,14 @@ public class NewDiary extends Activity {
 			os.close();
 			finalLocThumb = Uri.fromFile(picture2).toString();
 		} catch (IOException e) {
+		}
+		
+		File noMedia = new File(dir, ".nomedia");
+		if (!noMedia.exists()) {
+			try {
+				noMedia.createNewFile();
+			} catch (IOException ioe) {
+			}
 		}
 
 		System.gc();
