@@ -789,9 +789,17 @@ public class OldDiary extends Activity {
 
 				JSONArray imageArr;
 				JSONObject res_obj;
+				JSONObject obj_from;
+				
+				final String userName;
+				final String userId;
+				
 				String imgUrl = "";
 				try {
 					imageArr = res_object.getJSONArray("images");
+					obj_from = res_object.getJSONObject("from");
+					userName = obj_from.getString("name");
+					userId = obj_from.getString("id");
 					res_obj = imageArr.getJSONObject(0);
 					imgUrl = res_obj.getString("source");
 				} catch (JSONException e1) {
@@ -831,6 +839,8 @@ public class OldDiary extends Activity {
 					public void onClick(View v) {
 						bundle.putBoolean("ismine", false);
 						bundle.putString("path", bundelurl);
+						bundle.putString("username", userName);
+						bundle.putString("userid", userId);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);
@@ -861,10 +871,18 @@ public class OldDiary extends Activity {
 
 				JSONArray imageArr;
 				JSONObject res_obj;
+				JSONObject obj_from;
+				
+				final String userName;
+				final String userId;
+				
 				String imgUrl = "";
 				
 				try {
 					imageArr = res_object.getJSONArray("images");
+					obj_from = res_object.getJSONObject("from");
+					userName = obj_from.getString("name");
+					userId = obj_from.getString("id");
 					res_obj = imageArr.getJSONObject(0);
 					imgUrl = res_obj.getString("source");
 				} catch (JSONException e1) {
@@ -903,6 +921,8 @@ public class OldDiary extends Activity {
 					public void onClick(View v) {
 						bundle.putBoolean("ismine", false);
 						bundle.putString("path", bundelurl);
+						bundle.putString("username", userName);
+						bundle.putString("userid", userId);
 						Intent intent = new Intent();
 						intent.putExtras(bundle);
 						intent.setClass(OldDiary.this, BrowseDiary.class);

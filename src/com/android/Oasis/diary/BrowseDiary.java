@@ -21,8 +21,10 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.Oasis.LoginButton;
+import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 import com.android.Oasis.SessionEvents;
@@ -84,7 +86,8 @@ public class BrowseDiary extends Activity {
 		Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		boolean isMine = bundle.getBoolean("ismine");
-		
+		String userName = bundle.getString("username");
+		final String userId = bundle.getString("userid");
 
 		if (isMine) {
 			Uri path = Uri.parse(bundle.getString("path"));
@@ -125,6 +128,18 @@ public class BrowseDiary extends Activity {
 		} else {
 			ll_mine.setVisibility(View.GONE);
 			ll_others.setVisibility(View.VISIBLE);
+			TextView tv_name = (TextView)findViewById(R.id.diary_tv_username);
+			tv_name.setText(userName);
+			tv_name.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v) {
+					Uri uri = Uri.parse("http://www.facebook.com/"+userId);
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(intent);
+				}
+				
+			});
 		}
 		
 		ImageButton btn_delete = (ImageButton) findViewById(R.id.diary_btn_delete);
