@@ -262,7 +262,9 @@ public class Recent extends Activity {
 			HttpResponse rp = hc.execute(get);
 			if(rp.getStatusLine().getStatusCode() != 200)
 				throw new Exception();
-			recent = EntityUtils.toString(hc.execute(get).getEntity());
+			recent = EntityUtils.toString(hc.execute(get).getEntity(), "UTF-8");
+			Log.e("lmr3796", "幹");
+			Log.e("lmr3796", recent);
 			settings.edit().putString("cache", recent);
 			return recent;
 		} catch (Exception e) {
