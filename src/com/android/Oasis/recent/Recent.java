@@ -21,8 +21,6 @@ import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -37,7 +35,6 @@ import com.android.Oasis.story.Story;
 
 public class Recent extends Activity {
 
-	//TextView viewPager;
 	TextView tv_recent;
 	TextView tv_letter;
 	ImageView img_letter;
@@ -65,15 +62,6 @@ public class Recent extends Activity {
 	String[] leafStrs;
 	String[] sickStrs;
 	
-	//String[] recentstrs;
-	/*
-	private int[] recentarray = {
-			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
-			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
-			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,
-			R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0,R.array.recent0
-	};*/
-	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,19 +86,11 @@ public class Recent extends Activity {
 		bugStrs = res.getStringArray(R.array.bug);
 		leafStrs = res.getStringArray(R.array.leaf);
 		sickStrs = res.getStringArray(R.array.sick);
-		//recentstrs = res.getStringArray(recentarray[PLANT]);
 		
 		pageradapter = new pagerAdapter();
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		viewPager.setAdapter(pageradapter);
 
-		//viewPager = (TextView) findViewById(R.id.pager);
-		//viewPager.setTextColor(Color.BLACK);
-		//viewPager.setTextSize(20);
-		//viewPager.setTypeface(Typeface.createFromAsset(getAssets(),
-		//		"fonts/fontw3.ttc"));
-		//viewPager.setText(recentstrs[0]);
-		
 		tv_recent = (TextView)findViewById(R.id.tv_recent);
 		tv_recent.setText(defaultRecentString());
 		tv_recent.setTextSize(20);
@@ -137,7 +117,6 @@ public class Recent extends Activity {
 		final ImageButton btn_worm = (ImageButton) findViewById(R.id.recent_btn_worm);
 		final ImageButton btn_leaf = (ImageButton) findViewById(R.id.recent_btn_leaf);
 		final ImageButton btn_sick = (ImageButton) findViewById(R.id.recent_btn_sick);
-		//btn_rain.setImageDrawable(Recent.this.getResources().getDrawable(R.drawable.recent_btn_rain_y));
 		
 		btn_rain.setOnClickListener(new OnClickListener() {
 			@Override
@@ -152,7 +131,6 @@ public class Recent extends Activity {
 				}
 				pageType = RAIN;
 				viewPager.setAdapter(pageradapter);
-				//viewPager.setText(recentstrs[0]);
 			}
 		});
 
@@ -169,7 +147,6 @@ public class Recent extends Activity {
 				}
 				pageType = BUG;
 				viewPager.setAdapter(pageradapter);
-				//viewPager.setText(recentstrs[1]);
 			}
 		});
 		
@@ -186,7 +163,6 @@ public class Recent extends Activity {
 				}
 				pageType = LEAF;
 				viewPager.setAdapter(pageradapter);
-				//viewPager.setText(recentstrs[2]);
 			}
 		});
 		
@@ -203,7 +179,6 @@ public class Recent extends Activity {
 				}
 				pageType = SICK;
 				viewPager.setAdapter(pageradapter);
-				//viewPager.setText(recentstrs[3]);
 			}
 		});
 		
@@ -263,8 +238,6 @@ public class Recent extends Activity {
 			if(rp.getStatusLine().getStatusCode() != 200)
 				throw new Exception();
 			recent = EntityUtils.toString(hc.execute(get).getEntity(), "UTF-8");
-			Log.e("lmr3796", "幹");
-			Log.e("lmr3796", recent);
 			settings.edit().putString("cache", recent);
 			return recent;
 		} catch (Exception e) {
@@ -284,7 +257,6 @@ public class Recent extends Activity {
 
 		@Override
 		public int getCount() {
-			// return NUM_VIEWS;
 			if(pageType==RAIN) return rainStrs.length;
 			else if(pageType==BUG) return bugStrs.length;
 			else if(pageType==LEAF) return leafStrs.length;

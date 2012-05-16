@@ -37,14 +37,12 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 
 import com.android.Oasis.LoginButton;
-import com.android.Oasis.Main;
 import com.android.Oasis.MySQLite;
 import com.android.Oasis.R;
 import com.android.Oasis.SessionEvents;
 import com.android.Oasis.SessionEvents.AuthListener;
 import com.android.Oasis.SessionEvents.LogoutListener;
 import com.android.Oasis.SessionStore;
-import com.android.Oasis.life.Life;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 import com.facebook.android.AsyncFacebookRunner;
@@ -93,34 +91,20 @@ public class NewDiary extends Activity {
 		SessionEvents.addAuthListener(new AuthListener(){
 
 			@Override
-			public void onAuthSucceed() {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void onAuthSucceed() {}
 			@Override
-			public void onAuthFail(String error) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void onAuthFail(String error) {}
 			
 		});
 		SessionEvents.addLogoutListener(new LogoutListener(){
 
 			@Override
-			public void onLogoutBegin() {
-				// TODO Auto-generated method stub
-				
-			}
-
+			public void onLogoutBegin() {}
 			@Override
-			public void onLogoutFinish() {
-				// TODO Auto-generated method stub
-				
-			}});
+			public void onLogoutFinish() {}
+		});
 		mLoginButton.init(this, mFacebook, 1);
 
-		// Bundle bundle;
 		bundle = this.getIntent().getExtras();
 		uri = Uri.parse(bundle.getString("uri"));
 		PLANT = bundle.getInt("plant");
@@ -172,8 +156,7 @@ public class NewDiary extends Activity {
 		});
 
 		finalImg = finalBitmap;
-		// finalBitmap.recycle();
-
+		
 		ImageButton btn_save = (ImageButton) findViewById(R.id.diary_btn_save);
 		btn_save.setOnClickListener(new OnClickListener() {
 			@Override
@@ -186,32 +169,10 @@ public class NewDiary extends Activity {
 
 				combineImages(finalImg, bitmap);
 				saveToDb();
-				// bitmap.recycle();
-				// finalImg.recycle();
 				System.gc();
 				NewDiary.this.finish();
 			}
 		});
-
-		/*
-		ImageButton btn_post = (ImageButton) findViewById(R.id.diary_btn_post);
-		btn_post.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Bitmap bitmap;
-				if (text.getText().toString().equals(""))
-					bitmap = null;
-				else
-					bitmap = text.getDrawingCache();
-
-				combineImages(finalImg, bitmap);
-				saveToDb();
-				postToWall();
-				System.gc();
-				NewDiary.this.finish();
-			}
-		});
-		*/
 
 		ImageButton btn_story = (ImageButton) findViewById(R.id.main_btn_story);
 		btn_story.setOnClickListener(new OnClickListener() {
@@ -351,7 +312,6 @@ public class NewDiary extends Activity {
 
 		resizePhoto.recycle();
 		img = result;
-		// File cacheDir = getCacheDir(); // get cache dir
 		File dir = new File(Environment.getExternalStorageDirectory()
 				+ "/Oasis");
 		dir.mkdirs();
@@ -381,18 +341,6 @@ public class NewDiary extends Activity {
 			finalLocThumb = Uri.fromFile(picture2).toString();
 		} catch (IOException e) {
 		}
-
-		// android.provider.MediaStore.Images.Media.insertImage(
-		// getContentResolver(), result, "", "");
-
-		// Log.d("DEBUG", finalLoc);
-
-		// sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-		// Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-
-		// bmp.recycle();
-		// img.recycle();
-		// result.recycle();
 
 		System.gc();
 

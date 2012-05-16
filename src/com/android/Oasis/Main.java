@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.android.Oasis.diary.OldDiary;
-import com.android.Oasis.life.Life;
 import com.android.Oasis.recent.Recent;
 import com.android.Oasis.story.Story;
 
@@ -81,9 +80,6 @@ public class Main extends Activity {
 		btn_life.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//intent.putExtras(bundle);
-				//intent.setClass(Main.this, Life.class);
-				//startActivity(intent);
 				Uri uri = Uri.parse(Main.this.getResources().getString(R.string.fb_url));
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
@@ -102,7 +98,6 @@ public class Main extends Activity {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> arg0) {
-			// TODO Auto-generated method stub
 		}
 
 	};
@@ -141,10 +136,6 @@ public class Main extends Activity {
 			} else {
 				imageView = (ImageView) convertView;
 			}
-			//if(position==0)
-			//	imageView.setImageResource(Main.this.getResources().getIdentifier("gallery_selector_" + position, "drawable", getPackageName()));
-			//else
-			//	imageView.setImageResource(R.drawable.gallery_selector_0);
 			imageView.setImageResource(mThumbIds[position]);
 			return imageView;
 		}

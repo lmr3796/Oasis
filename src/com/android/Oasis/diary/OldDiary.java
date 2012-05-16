@@ -132,20 +132,7 @@ public class OldDiary extends Activity {
 		});
 		mLoginButton.init(this, mFacebook, 3);
 
-		// final ImageButton btn_others = (ImageButton)
-		// findViewById(R.id.diary_btn_others);
 		final ImageButton btn_old = (ImageButton) findViewById(R.id.diary_btn_old);
-
-		/*
-		 * btn_others.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override public void onClick(View arg0) { if (TYPE == 0) {
-		 * loadFromGae(); viewPager.setAdapter(pageradapter);
-		 * btn_others.setImageDrawable(OldDiary.this.getResources()
-		 * .getDrawable(R.drawable.diary_btn_others_y));
-		 * btn_old.setImageDrawable(OldDiary.this.getResources()
-		 * .getDrawable(R.drawable.diary_btn_old)); TYPE = 1; } } });
-		 */
 
 		btn_old.setOnClickListener(new OnClickListener() {
 			@Override
@@ -420,7 +407,6 @@ public class OldDiary extends Activity {
 
 		@Override
 		public int getCount() {
-			// return NUM_VIEWS;
 			return (int) Math.ceil((double) array.size() / 8.0);
 		}
 
@@ -443,7 +429,6 @@ public class OldDiary extends Activity {
 
 			DisplayMetrics displaymetrics = new DisplayMetrics();
 			getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-			// int height = displaymetrics.heightPixels;
 			int width = displaymetrics.widthPixels;
 
 			ScrollView sv = new ScrollView(cxt);
@@ -464,11 +449,9 @@ public class OldDiary extends Activity {
 			int i;
 			LinearLayout photoropeup = new LinearLayout(cxt);
 			LinearLayout photodateup = new LinearLayout(cxt);
-			// photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
 			LinearLayout photoropebottom = new LinearLayout(cxt);
 			LinearLayout photodatebottom = new LinearLayout(cxt);
-			// photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
-
+			
 			int padding = 8;
 			if (width > 490) {
 				padding = (width - 480) / 5;
@@ -560,7 +543,6 @@ public class OldDiary extends Activity {
 				}
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
-				// img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width / 4 - 10);
@@ -601,10 +583,6 @@ public class OldDiary extends Activity {
 				photoropebottom.setPadding(padding, 0, padding, 0);
 				photodatebottom.setPadding(padding, 0, padding, 0);
 			}
-			// if(photoropeup.getChildCount()<4)
-			// ll.setGravity(Gravity.LEFT);
-			// if(photoropebottom.getChildCount()<4)
-			// ll.setGravity(Gravity.LEFT);
 			ll.addView(photoropeup);
 			ll.addView(photodateup);
 			ll.addView(iv2);
@@ -612,8 +590,7 @@ public class OldDiary extends Activity {
 			ll.addView(photodatebottom);
 			sv.addView(ll);
 			((ViewPager) collection).addView(sv, 0);
-			// ((ViewPager) collection).addView(ll, 0);
-
+			
 			return sv;
 		}
 
@@ -683,7 +660,6 @@ public class OldDiary extends Activity {
 		Cursor cursor = db.getPlant(PLANT);
 		int rows_num = cursor.getCount();
 
-		// cursor.moveToFirst();
 		cursor.moveToLast();
 		for (int i = 0; i < rows_num; i++) {
 			db_id = cursor.getInt(0);
