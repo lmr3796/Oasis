@@ -137,7 +137,10 @@ public class LoginButton extends ImageButton {
 							@Override
 							public void onError(DialogError e) {
 								Log.d(TAG, "FB onError" + e.toString());
-
+								Dialog_Enable_NetConn dialog = new Dialog_Enable_NetConn(
+										LoginButton.this.mActivity, "連線失敗，請檢查網路連線");
+								dialog.show();
+								
 							}
 
 							@Override
