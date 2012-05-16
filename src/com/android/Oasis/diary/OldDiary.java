@@ -90,6 +90,7 @@ public class OldDiary extends Activity {
 
 	ArrayList<String> stringArray = new ArrayList<String>();
 	ArrayList<JSONObject> objectArray = new ArrayList<JSONObject>();
+	String checkLastModify = "LASTPHOTOSID";
 
 	/** Called when the activity is first created. */
 	@Override
@@ -205,7 +206,12 @@ public class OldDiary extends Activity {
 		try {
 			res_object = new JSONObject(res);
 			jsonArr = res_object.getJSONArray("data");
+			
+			if(jsonArr.getString(0).equals(checkLastModify)) return;
+			else objectArray.clear();
 
+			checkLastModify = jsonArr.getString(0);
+			
 			for (int i = 0, count = jsonArr.length(); i < count; i++) {
 				String objid = jsonArr.getString(i);
 				stringArray.add(objid);
@@ -254,7 +260,7 @@ public class OldDiary extends Activity {
 		ImageButton btn_old = (ImageButton) OldDiary.this
 				.findViewById(R.id.diary_btn_old);
 
-		objectArray.clear();
+		//objectArray.clear();
 		loadFromGae();
 		viewPager.setAdapter(pageradapter2); // loadFromFb in adapter
 		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
