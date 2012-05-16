@@ -203,15 +203,11 @@ public class OldDiary extends Activity {
 		JSONArray jsonArr;
 		try {
 			res_object = new JSONObject(res);
-			// JSONObject res_obj = res_object.getJSONObject("data");
 			jsonArr = res_object.getJSONArray("data");
-
-			Log.d("DEBUGGG", jsonArr.length() + "");
 
 			for (int i = 0, count = jsonArr.length(); i < count; i++) {
 				String objid = jsonArr.getString(i);
 				stringArray.add(objid);
-				Log.d("DEBUGGG", objid);
 			}
 
 		} catch (JSONException e) {
@@ -227,14 +223,12 @@ public class OldDiary extends Activity {
 		JSONObject res_obj;
 		JSONArray imageArr;
 		String imgUrl = "";
-		Log.d("DEBUGRES", res);
-
+		
 		if (res.toString().equals("false"))
 			return null;
 		if (res.length() < 10)
 			return null;
-		Log.d("LENG", res.length() + "");
-
+		
 		try {
 			res_object = new JSONObject(res);
 			if(res_object.has("error")) return null;
@@ -499,7 +493,6 @@ public class OldDiary extends Activity {
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// Bundle bundle = new Bundle();
 						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
 						bundle.putInt("db_id", id);
@@ -561,7 +554,6 @@ public class OldDiary extends Activity {
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						// Bundle bundle = new Bundle();
 						bundle.putBoolean("ismine", true);
 						bundle.putString("path", uri.toString());
 						bundle.putInt("db_id", id);
@@ -788,6 +780,7 @@ public class OldDiary extends Activity {
 				myImageView.setMaxWidth(width / 4 - 10);
 				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
 
+				/*
 				TextView myTextView = new TextView(cxt);
 				try {
 					myTextView.setText(res_obj.getJSONObject("updated_time").toString().substring(0,9));
@@ -799,6 +792,7 @@ public class OldDiary extends Activity {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
+				*/
 				
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
@@ -813,7 +807,7 @@ public class OldDiary extends Activity {
 					}
 				});
 				photoropeup.addView(myImageView);
-				photodateup.addView(myTextView);
+				//photodateup.addView(myTextView);
 			}
 			if (count == 4) {
 				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
