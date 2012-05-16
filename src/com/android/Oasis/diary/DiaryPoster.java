@@ -106,7 +106,7 @@ public class DiaryPoster {
 		}
 		response = post.send();
 		responseStr = HTTPPost.getResponseString(response);
-		Log.e(from,"1:"+ responseStr);
+		Log.d(from,"1:"+ responseStr);
 		try {
 			jsonResponse = new JSONObject(responseStr);
 			fbid = jsonResponse.getString("id");
@@ -175,7 +175,7 @@ public class DiaryPoster {
 		}
 		response = post.send();
 		responseStr = HTTPPost.getResponseString(response);
-		Log.e(from,"2:"+ responseStr);
+		Log.d(from,"2:"+ responseStr);
 		try {
 			jsonResponse = new JSONObject(responseStr);
 			fbid = jsonResponse.getString("id");
@@ -200,7 +200,7 @@ public class DiaryPoster {
 		}
 		response = post.send();
 		responseStr = HTTPPost.getResponseString(response);
-		Log.e(from,"3:"+ responseStr);
+		Log.d(from,"3:"+ responseStr);
 		try{
 			jsonResponse = new JSONObject(responseStr);
 			fbid = jsonResponse.getString("id");
