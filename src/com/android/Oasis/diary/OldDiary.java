@@ -89,6 +89,7 @@ public class OldDiary extends Activity {
 	String accessToken = "";
 
 	ArrayList<String> stringArray = new ArrayList<String>();
+	ArrayList<JSONObject> objectArray = new ArrayList<JSONObject>();
 
 	/** Called when the activity is first created. */
 	@Override
@@ -194,7 +195,7 @@ public class OldDiary extends Activity {
 
 	}
 
-	public void loadFromGae() {
+	public void loadFromGae() { //objectArray
 
 		String res = ReadUrl.process("http://lmr3796oasis.appspot.com/query",
 				"utf-8");
@@ -208,6 +209,10 @@ public class OldDiary extends Activity {
 			for (int i = 0, count = jsonArr.length(); i < count; i++) {
 				String objid = jsonArr.getString(i);
 				stringArray.add(objid);
+				
+				JSONObject obj = loadFromFb(objid);
+				if (obj == null) continue;
+				else objectArray.add(obj);
 			}
 
 		} catch (JSONException e) {
@@ -249,6 +254,7 @@ public class OldDiary extends Activity {
 		ImageButton btn_old = (ImageButton) OldDiary.this
 				.findViewById(R.id.diary_btn_old);
 
+		objectArray.clear();
 		loadFromGae();
 		viewPager.setAdapter(pageradapter2); // loadFromFb in adapter
 		mLoginButton.setImageDrawable(OldDiary.this.getResources().getDrawable(
@@ -474,7 +480,6 @@ public class OldDiary extends Activity {
 
 				ImageView myImageView = new ImageView(cxt);
 				myImageView.setImageBitmap(img);
-				// img.recycle();
 				myImageView.setAdjustViewBounds(true);
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width / 4 - 10);
@@ -693,7 +698,7 @@ public class OldDiary extends Activity {
 
 		@Override
 		public int getCount() {
-			return (int) Math.ceil((double) stringArray.size() / 8.0);
+			return (int) Math.ceil((double) objectArray.size() / 8.0);
 		}
 
 		@Override
@@ -732,14 +737,15 @@ public class OldDiary extends Activity {
 
 			for (i = 0; i < 4; i++) {
 
-				if (position * 8 + i >= stringArray.size())
+				if (position * 8 + i >= objectArray.size())
 					break;
 
-				JSONObject res_object = loadFromFb(stringArray.get(position * 8
-						+ i)); // THIS IS THE GUY!!!
+				JSONObject res_object = objectArray.get(position*8+i); 
+						//loadFromFb(stringArray.get(position * 8
+						//+ i)); // THIS IS THE GUY!!!
 
-				if (res_object == null)
-					continue;
+				//if (res_object == null)
+				//	continue;
 
 				JSONArray imageArr;
 				JSONObject res_obj;
@@ -780,20 +786,6 @@ public class OldDiary extends Activity {
 				myImageView.setMaxWidth(width / 4 - 10);
 				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
 
-				/*
-				TextView myTextView = new TextView(cxt);
-				try {
-					myTextView.setText(res_obj.getJSONObject("updated_time").toString().substring(0,9));
-					myTextView.setTextColor(Color.BLACK);
-					myTextView.setTextSize(13);
-					myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-					myTextView.setWidth(width / 4 - 10);
-					myTextView.setPadding(padding / 2, 0, padding / 2, 0);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				*/
-				
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -807,7 +799,6 @@ public class OldDiary extends Activity {
 					}
 				});
 				photoropeup.addView(myImageView);
-				//photodateup.addView(myTextView);
 			}
 			if (count == 4) {
 				photoropeup.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -818,14 +809,15 @@ public class OldDiary extends Activity {
 			}
 			for (i = 4; i < 8; i++) {
 
-				if (position * 8 + i >= stringArray.size())
+				if (position * 8 + i >= objectArray.size())
 					break;
 
-				JSONObject res_object = loadFromFb(stringArray.get(position * 8
-						+ i)); // THIS IS THE GUY!!!
+				JSONObject res_object = objectArray.get(position*8+i); 
+						//loadFromFb(stringArray.get(position * 8
+						//+ i)); // THIS IS THE GUY!!!
 
-				if (res_object == null)
-					continue;
+				//if (res_object == null)
+				//	continue;
 
 				JSONArray imageArr;
 				JSONObject res_obj;
@@ -865,18 +857,6 @@ public class OldDiary extends Activity {
 				myImageView.setScaleType(ScaleType.CENTER_INSIDE);
 				myImageView.setMaxWidth(width / 4 - 10);
 				myImageView.setPadding(padding / 2, 0, padding / 2, 0);
-
-				TextView myTextView = new TextView(cxt);
-				try {
-					myTextView.setText(res_obj.getJSONObject("updated_time").toString().substring(0,9));
-					myTextView.setTextColor(Color.BLACK);
-					myTextView.setTextSize(13);
-					myTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-					myTextView.setWidth(width / 4 - 10);
-					myTextView.setPadding(padding / 2, 0, padding / 2, 0);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
 
 				myImageView.setOnClickListener(new OnClickListener() {
 					@Override
@@ -892,7 +872,6 @@ public class OldDiary extends Activity {
 				});
 
 				photoropebottom.addView(myImageView);
-				photodatebottom.addView(myTextView);
 			}
 			if (count == 8) {
 				photoropebottom.setGravity(Gravity.CENTER_HORIZONTAL);
